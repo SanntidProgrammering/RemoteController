@@ -10,5 +10,18 @@ package remotecontroller;
  * @author mgrib
  */
 public class Controller {
+    private GUI gui;
+    private UDPClient client;
+    private Protocol protocol;
+    // private String odroid Mac Adress
+    // private String ip address
+    //
     
+    public Controller(){
+        gui = new GUI();
+        gui.setVisible(true);
+        client = new UDPClient("158.38.199.18");
+        
+    }
 }
+
