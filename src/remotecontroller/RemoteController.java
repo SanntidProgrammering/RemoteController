@@ -14,8 +14,10 @@ public class RemoteController {
     /**
      * @param args the command line arguments
      */
+    private static Controller controller;
     public static void main(String[] args) {
         // TODO code application logic here
+        controller = new Controller();
     }
     
 }
