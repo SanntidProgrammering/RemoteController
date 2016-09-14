@@ -6,22 +6,24 @@
 package remotecontroller;
 
 import java.awt.GraphicsEnvironment;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 /**
  *
- * @author mgrib
+ * @author Magnus Gribbestad
  */
-public class GUI extends javax.swing.JFrame {
+public class GUI extends javax.swing.JFrame implements KeyListener {
 
-    /**
-     * Creates new form GUI
-     */
+ 
     public GUI() {
         initComponents();
-         GraphicsEnvironment env = 
-                GraphicsEnvironment.getLocalGraphicsEnvironment();
-        this.setMaximizedBounds(env.getMaximumWindowBounds());
-        this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
+        
+        
+        // GraphicsEnvironment env = 
+        //        GraphicsEnvironment.getLocalGraphicsEnvironment();
+        //this.setMaximizedBounds(env.getMaximumWindowBounds());
+        //this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
     }
 
     /**
@@ -38,14 +40,30 @@ public class GUI extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         rightPanel = new javax.swing.JPanel();
         rightLowPanel = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
+        rightButton = new javax.swing.JButton();
+        leftButton = new javax.swing.JButton();
+        revButton = new javax.swing.JButton();
+        fwdButton = new javax.swing.JButton();
+        leftServoButton = new javax.swing.JButton();
+        rightServoButton = new javax.swing.JButton();
         rightCenPanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        setupPanel = new javax.swing.JPanel();
+        startUpButton = new javax.swing.JButton();
+        sensLabel = new javax.swing.JLabel();
+        sensSlider = new javax.swing.JSlider();
+        sensPercentLabel = new javax.swing.JLabel();
+        modeToggleButton = new javax.swing.JToggleButton();
+        debuggerButton = new javax.swing.JButton();
+        modeLabel = new javax.swing.JLabel();
         rightTopPanel = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        inputPanel = new javax.swing.JPanel();
+        xNameLabel = new javax.swing.JLabel();
+        yNameLabel = new javax.swing.JLabel();
+        distanceNameLabel = new javax.swing.JLabel();
+        xCoordLabel = new javax.swing.JLabel();
+        yCoordLabel = new javax.swing.JLabel();
+        distanceLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -55,11 +73,11 @@ public class GUI extends javax.swing.JFrame {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 605, Short.MAX_VALUE)
+            .addGap(0, 675, Short.MAX_VALUE)
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 499, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -79,17 +97,105 @@ public class GUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controls:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        controlPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Controls:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        rightButton.setText("Right");
+        rightButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rightButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                rightButtonKeyReleased(evt);
+            }
+        });
+
+        leftButton.setText("Left");
+        leftButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                leftButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                leftButtonKeyReleased(evt);
+            }
+        });
+
+        revButton.setText("Rev");
+        revButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                revButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                revButtonKeyReleased(evt);
+            }
+        });
+
+        fwdButton.setText("Fwd");
+        fwdButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                fwdButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                fwdButtonKeyReleased(evt);
+            }
+        });
+
+        leftServoButton.setText("Left Servo");
+        leftServoButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                leftServoButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                leftServoButtonKeyReleased(evt);
+            }
+        });
+
+        rightServoButton.setText("Right Servo");
+        rightServoButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rightServoButtonKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                rightServoButtonKeyReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(controlPanelLayout.createSequentialGroup()
+                        .addComponent(leftButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(fwdButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(controlPanelLayout.createSequentialGroup()
+                                .addComponent(revButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rightButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(controlPanelLayout.createSequentialGroup()
+                        .addComponent(leftServoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(rightServoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, controlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(leftServoButton)
+                    .addComponent(rightServoButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(fwdButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rightButton)
+                    .addComponent(leftButton)
+                    .addComponent(revButton))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout rightLowPanelLayout = new javax.swing.GroupLayout(rightLowPanel);
@@ -98,28 +204,75 @@ public class GUI extends javax.swing.JFrame {
             rightLowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightLowPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(controlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         rightLowPanelLayout.setVerticalGroup(
             rightLowPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightLowPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(controlPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Setup:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        setupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Setup:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        startUpButton.setText("Start system");
+
+        sensLabel.setText("Sensitivity:");
+
+        sensPercentLabel.setText("100%");
+
+        modeToggleButton.setText("Auto/Manual");
+
+        debuggerButton.setText("Debugger");
+
+        modeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        modeLabel.setText("Manual");
+
+        javax.swing.GroupLayout setupPanelLayout = new javax.swing.GroupLayout(setupPanel);
+        setupPanel.setLayout(setupPanelLayout);
+        setupPanelLayout.setHorizontalGroup(
+            setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setupPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(startUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setupPanelLayout.createSequentialGroup()
+                        .addComponent(sensLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sensSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(sensPercentLabel))
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addComponent(debuggerButton)))
+                .addContainerGap())
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        setupPanelLayout.setVerticalGroup(
+            setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(setupPanelLayout.createSequentialGroup()
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(sensPercentLabel)
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(startUpButton)
+                        .addGap(15, 15, 15)
+                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(sensLabel)
+                            .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modeToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(debuggerButton))
+                    .addComponent(modeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout rightCenPanelLayout = new javax.swing.GroupLayout(rightCenPanel);
@@ -128,52 +281,62 @@ public class GUI extends javax.swing.JFrame {
             rightCenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightCenPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(setupPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         rightCenPanelLayout.setVerticalGroup(
             rightCenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightCenPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(setupPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Inputs:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
+        inputPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Inputs:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel1.setText("X-coordinate:");
+        xNameLabel.setText("X-coordinate:");
 
-        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel2.setText("Y-coordinate:");
+        yNameLabel.setText("Y-coordinate:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 20)); // NOI18N
-        jLabel3.setText("Distance:");
+        distanceNameLabel.setText("Distance:");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
+        xCoordLabel.setText("56,000052565");
+
+        yCoordLabel.setText("34,788864323");
+
+        distanceLabel.setText("12,32434344");
+
+        javax.swing.GroupLayout inputPanelLayout = new javax.swing.GroupLayout(inputPanel);
+        inputPanel.setLayout(inputPanelLayout);
+        inputPanelLayout.setHorizontalGroup(
+            inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(inputPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(167, 167, 167))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addContainerGap())))
+                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(xNameLabel)
+                    .addComponent(distanceNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yNameLabel))
+                .addGap(48, 48, 48)
+                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(distanceLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(yCoordLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(xCoordLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+        inputPanelLayout.setVerticalGroup(
+            inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(inputPanelLayout.createSequentialGroup()
+                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(xNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(xCoordLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 26, Short.MAX_VALUE)
+                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(yNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(yCoordLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                .addGroup(inputPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(distanceNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(distanceLabel))
                 .addContainerGap())
         );
 
@@ -183,14 +346,14 @@ public class GUI extends javax.swing.JFrame {
             rightTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightTopPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         rightTopPanelLayout.setVerticalGroup(
             rightTopPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightTopPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(inputPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -207,9 +370,9 @@ public class GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
                 .addComponent(rightTopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rightCenPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(rightCenPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rightLowPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(rightLowPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
@@ -218,8 +381,8 @@ public class GUI extends javax.swing.JFrame {
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addComponent(leftPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(rightPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,6 +404,57 @@ public class GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fwdButtonKeyPressed
+
+    private void fwdButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_fwdButtonKeyReleased
+
+    private void leftButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_leftButtonKeyPressed
+
+    private void leftButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_leftButtonKeyReleased
+
+    private void revButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_revButtonKeyPressed
+
+    private void revButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_revButtonKeyReleased
+
+    private void rightButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightButtonKeyPressed
+
+    private void rightButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightButtonKeyReleased
+
+    private void leftServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_leftServoButtonKeyPressed
+
+    private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_leftServoButtonKeyReleased
+
+    private void rightServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightServoButtonKeyPressed
+
+    private void rightServoButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightServoButtonKeyReleased
+
+   
+    
+    
     /**
      * @param args the command line arguments
      */
@@ -277,18 +491,49 @@ public class GUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
+    private javax.swing.JPanel controlPanel;
+    private javax.swing.JButton debuggerButton;
+    private javax.swing.JLabel distanceLabel;
+    private javax.swing.JLabel distanceNameLabel;
+    private javax.swing.JButton fwdButton;
+    private javax.swing.JPanel inputPanel;
     private javax.swing.JPanel jPanel4;
+    private javax.swing.JButton leftButton;
     private javax.swing.JPanel leftPanel;
+    private javax.swing.JButton leftServoButton;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel modeLabel;
+    private javax.swing.JToggleButton modeToggleButton;
+    private javax.swing.JButton revButton;
+    private javax.swing.JButton rightButton;
     private javax.swing.JPanel rightCenPanel;
     private javax.swing.JPanel rightLowPanel;
     private javax.swing.JPanel rightPanel;
+    private javax.swing.JButton rightServoButton;
     private javax.swing.JPanel rightTopPanel;
+    private javax.swing.JLabel sensLabel;
+    private javax.swing.JLabel sensPercentLabel;
+    private javax.swing.JSlider sensSlider;
+    private javax.swing.JPanel setupPanel;
+    private javax.swing.JButton startUpButton;
+    private javax.swing.JLabel xCoordLabel;
+    private javax.swing.JLabel xNameLabel;
+    private javax.swing.JLabel yCoordLabel;
+    private javax.swing.JLabel yNameLabel;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
