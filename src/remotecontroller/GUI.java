@@ -5,6 +5,7 @@
  */
 package remotecontroller;
 
+import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -18,6 +19,10 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
  
     public GUI() {
         initComponents();
+        this.setup();
+        addKeyListener(this);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
         
         
         // GraphicsEnvironment env = 
@@ -405,51 +410,51 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     }// </editor-fold>//GEN-END:initComponents
 
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
-        // TODO add your handling code here:
+        this.fwdButton.setBackground(Color.green);
     }//GEN-LAST:event_fwdButtonKeyPressed
 
     private void fwdButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyReleased
-        // TODO add your handling code here:
+        this.fwdButton.setBackground(null);
     }//GEN-LAST:event_fwdButtonKeyReleased
 
     private void leftButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyPressed
-        // TODO add your handling code here:
+        this.leftButton.setBackground(Color.green);
     }//GEN-LAST:event_leftButtonKeyPressed
 
     private void leftButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyReleased
-        // TODO add your handling code here:
+        this.leftButton.setBackground(null);
     }//GEN-LAST:event_leftButtonKeyReleased
 
     private void revButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyPressed
-        // TODO add your handling code here:
+        this.revButton.setBackground(Color.green);
     }//GEN-LAST:event_revButtonKeyPressed
 
     private void revButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyReleased
-        // TODO add your handling code here:
+        this.revButton.setBackground(null);
     }//GEN-LAST:event_revButtonKeyReleased
 
     private void rightButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyPressed
-        // TODO add your handling code here:
+        this.rightButton.setBackground(Color.green);
     }//GEN-LAST:event_rightButtonKeyPressed
 
     private void rightButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyReleased
-        // TODO add your handling code here:
+        this.rightButton.setBackground(null);
     }//GEN-LAST:event_rightButtonKeyReleased
 
     private void leftServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyPressed
-        // TODO add your handling code here:
+        this.leftServoButton.setBackground(Color.green);
     }//GEN-LAST:event_leftServoButtonKeyPressed
 
     private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyReleased
-        // TODO add your handling code here:
+        this.leftServoButton.setBackground(null);
     }//GEN-LAST:event_leftServoButtonKeyReleased
 
     private void rightServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyPressed
-        // TODO add your handling code here:
+        this.rightServoButton.setBackground(Color.green);
     }//GEN-LAST:event_rightServoButtonKeyPressed
 
     private void rightServoButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyReleased
-        // TODO add your handling code here:
+        this.rightServoButton.setBackground(null);
     }//GEN-LAST:event_rightServoButtonKeyReleased
 
    
@@ -524,16 +529,69 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int code = e.getKeyCode();
+
+            if (code == KeyEvent.VK_DOWN) {
+       
+                this.revButtonKeyPressed(e);
+             
+            }
+            if (code == KeyEvent.VK_UP) {
+    
+                this.fwdButtonKeyPressed(e);
+     
+            }
+            if (code == KeyEvent.VK_LEFT) {
+                this.leftButtonKeyPressed(e);
+    
+            }
+            if (code == KeyEvent.VK_RIGHT) {
+                this.rightButtonKeyPressed(e);
+
+            }
+            if (code == KeyEvent.VK_A) {
+                this.leftServoButtonKeyPressed(e);
+ 
+            }
+            if (code == KeyEvent.VK_Z) {
+                this.rightServoButtonKeyPressed(e);
+
+            }
+
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+         int code = e.getKeyCode();
+
+            if (code == KeyEvent.VK_DOWN) {
+                this.revButtonKeyReleased(e);
+            }
+            if (code == KeyEvent.VK_UP) {
+                this.fwdButtonKeyReleased(e);
+            }
+            if (code == KeyEvent.VK_LEFT) {
+                this.leftButtonKeyReleased(e);
+            }
+            if (code == KeyEvent.VK_RIGHT) {
+                this.rightButtonKeyReleased(e);
+            }
+            if (code == KeyEvent.VK_A) {
+                this.leftServoButtonKeyReleased(e);
+            }
+            if (code == KeyEvent.VK_Z) {
+                this.rightServoButtonKeyReleased(e);
+            }
+    }
+    
+    public void setup(){
+        this.sensSlider.setMinimum(0);
+        this.sensSlider.setMaximum(255);
+        
     }
 }
