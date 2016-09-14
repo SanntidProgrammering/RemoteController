@@ -5,6 +5,8 @@
  */
 package remotecontroller;
 
+import java.util.Arrays;
+
 /**
  *
  * @author mgrib
@@ -78,6 +80,28 @@ public class Datahandler {
 
     public boolean getThreadStatus() {
         return startThreads;
+    }
+    
+    public void setRequestBit(){
+        sendData[3] = this.setBit(sendData[3], 7);
+    }
+    public void releaseRequestBit(){
+        sendData[3] = this.releaseBit(sendData[3], 7);
+    }
+    
+    public int hashCodeSendData(){
+        return Arrays.hashCode(sendData);
+    }
+    
+    public int hashCodeReceiveData(){
+        return Arrays.hashCode(receivedData);
+    }
+    
+    private byte setBit(byte b, int bit){
+        return b |= 1 << bit;
+    }
+    private byte releaseBit(byte b, int bit){
+        return b &= ~(1 << bit);
     }
 
 }
