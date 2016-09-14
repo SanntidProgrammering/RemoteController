@@ -37,18 +37,24 @@
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
-                      <Component id="leftButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="leftButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+                          <Component id="leftServoButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="attackButton" min="-2" max="-2" attributes="0"/>
                           <Component id="fwdButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
                               <Component id="revButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="-2" attributes="0"/>
                               <Component id="rightButton" linkSize="1" min="-2" max="-2" attributes="0"/>
                           </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="86" max="-2" attributes="0"/>
+                              <Component id="rightServoButton" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
-                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                   </Group>
               </Group>
           </Group>
@@ -70,7 +76,10 @@
                   </Group>
               </Group>
               <EmptySpace pref="44" max="32767" attributes="0"/>
-              <Component id="attackButton" min="-2" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="leftServoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="rightServoButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
               <EmptySpace min="-2" pref="30" max="-2" attributes="0"/>
               <Component id="fwdButton" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
@@ -117,12 +126,12 @@
         <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="revButtonKeyPressed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="attackButton">
+    <Component class="javax.swing.JButton" name="leftServoButton">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Attack"/>
+        <Property name="text" type="java.lang.String" value="Left"/>
       </Properties>
       <Events>
-        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="attackButtonKeyPressed"/>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="leftServoButtonKeyPressed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="startButton">
@@ -139,6 +148,14 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JSlider" name="sensSlider">
+    </Component>
+    <Component class="javax.swing.JButton" name="rightServoButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Right"/>
+      </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="rightServoButtonKeyPressed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

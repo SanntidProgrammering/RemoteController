@@ -20,10 +20,11 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
     public TempGUI() {
         initComponents();
         this.setController(controller);
+
     }
     
     public void setController(Controller controller){
-        this.controller = controller;
+        this.controller = controller;      
     }
 
     /**
@@ -39,10 +40,11 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
         rightButton = new javax.swing.JButton();
         leftButton = new javax.swing.JButton();
         revButton = new javax.swing.JButton();
-        attackButton = new javax.swing.JButton();
+        leftServoButton = new javax.swing.JButton();
         startButton = new javax.swing.JButton();
         manuelToggle = new javax.swing.JToggleButton();
         sensSlider = new javax.swing.JSlider();
+        rightServoButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -74,10 +76,10 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
             }
         });
 
-        attackButton.setText("Attack");
-        attackButton.addKeyListener(new java.awt.event.KeyAdapter() {
+        leftServoButton.setText("Left");
+        leftServoButton.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyPressed(java.awt.event.KeyEvent evt) {
-                attackButtonKeyPressed(evt);
+                leftServoButtonKeyPressed(evt);
             }
         });
 
@@ -89,6 +91,13 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
         });
 
         manuelToggle.setText("Manuel/Auto");
+
+        rightServoButton.setText("Right");
+        rightServoButton.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                rightServoButtonKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,16 +115,20 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(leftButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(leftButton)
+                            .addComponent(leftServoButton))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(attackButton)
                             .addComponent(fwdButton)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(revButton)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(rightButton)))
-                        .addGap(37, 37, 37))))
+                                .addComponent(rightButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(rightServoButton)))
+                        .addGap(21, 21, 21))))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {fwdButton, leftButton, revButton, rightButton});
@@ -133,7 +146,9 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
                         .addGap(35, 35, 35)
                         .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 44, Short.MAX_VALUE)
-                .addComponent(attackButton)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(leftServoButton)
+                    .addComponent(rightServoButton))
                 .addGap(30, 30, 30)
                 .addComponent(fwdButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -149,27 +164,36 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
 
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
         this.fwdButton.setBackground(Color.green);
+        this.controller.setFwd(true);
     }//GEN-LAST:event_fwdButtonKeyPressed
 
     private void leftButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyPressed
         this.leftButton.setBackground(Color.green);
+        this.controller.setLeft(true);
     }//GEN-LAST:event_leftButtonKeyPressed
 
     private void revButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyPressed
         this.revButton.setBackground(Color.green);
+        this.controller.setRev(true);
     }//GEN-LAST:event_revButtonKeyPressed
 
     private void rightButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyPressed
         this.rightButton.setBackground(Color.green);
+        this.controller.setRight(true);
     }//GEN-LAST:event_rightButtonKeyPressed
 
-    private void attackButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_attackButtonKeyPressed
-        this.attackButton.setBackground(Color.green);
-    }//GEN-LAST:event_attackButtonKeyPressed
+    private void leftServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyPressed
+        this.leftServoButton.setBackground(Color.green);
+        this.controller.setLeftServo(true);
+    }//GEN-LAST:event_leftServoButtonKeyPressed
 
     private void startButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_startButtonKeyPressed
         // TODO add your handling code here:
     }//GEN-LAST:event_startButtonKeyPressed
+
+    private void rightServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rightServoButtonKeyPressed
 
     /**
      * @param args the command line arguments
@@ -207,12 +231,13 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton attackButton;
     private javax.swing.JButton fwdButton;
     private javax.swing.JButton leftButton;
+    private javax.swing.JButton leftServoButton;
     private javax.swing.JToggleButton manuelToggle;
     private javax.swing.JButton revButton;
     private javax.swing.JButton rightButton;
+    private javax.swing.JButton rightServoButton;
     private javax.swing.JSlider sensSlider;
     private javax.swing.JButton startButton;
     // End of variables declaration//GEN-END:variables
@@ -243,7 +268,7 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
 
             }
             if (code == KeyEvent.VK_Z) {
-                this.attackButtonKeyPressed(e);
+                this.leftServoButtonKeyPressed(e);
             }
     }
 
