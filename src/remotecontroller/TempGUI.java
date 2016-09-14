@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
  */
 public class TempGUI extends javax.swing.JFrame implements KeyListener{
 
-    Controller controller;
+    GUIController controller;
     
     public TempGUI() {
         initComponents();
@@ -23,7 +23,7 @@ public class TempGUI extends javax.swing.JFrame implements KeyListener{
 
     }
     
-    public void setController(Controller controller){
+    public void setController(GUIController controller){
         this.controller = controller;      
     }
 

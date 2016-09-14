@@ -5,9 +5,6 @@
  */
 package remotecontroller;
 
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-
 /**
  *
  * @author mgrib
@@ -36,46 +33,51 @@ Byte 4: Distance sensor
 Byte 5: reserved
 
 
-*/
+ */
 public class Datahandler {
+
     private byte[] receivedData;
     private byte[] sendData;
-    
+
     private boolean startThreads;
 
-    
-    public Datahandler(){
+    public Datahandler() {
         this.receivedData = new byte[6];
         this.sendData = new byte[6];
     }
 
-
-    public void setReceivedData(byte[] receivedData) {
-        this.receivedData = receivedData;
-    }
-    public synchronized byte[] getValues(String id){
-        byte[] returnArray = null;
-        
-        if(id.equals("GUI")){
-           returnArray = this.receivedData;           
+    public void setReceivedData(byte[] receivedData) throws IllegalArgumentException {
+        if (receivedData.length != this.receivedData.length) {
+            throw new IllegalArgumentException("wrong byte array passed to setReceivedData");
+        } else {
+            this.receivedData = receivedData;
         }
-        else if(id.equals("UDP")){
-           returnArray = this.sendData;
+    }
+
+    public synchronized byte[] getValues(String id) {
+        byte[] returnArray = null;
+
+        if (id.equals("GUI")) {
+            returnArray = this.receivedData;
+        } else if (id.equals("UDP")) {
+            returnArray = this.sendData;
         }
         notifyAll();
         return returnArray;
     }
-    public synchronized void setValues(String id, byte[] newByteArray){
-        
-        if(id.equals("GUI")){
-           this.sendData = newByteArray;            
-        }
-        else if(id.equals("UDP")){
+
+    public synchronized void setValues(String id, byte[] newByteArray) {
+
+        if (id.equals("GUI")) {
+            this.sendData = newByteArray;
+        } else if (id.equals("UDP")) {
             this.receivedData = newByteArray;
         }
         notifyAll();
     }
 
-    
-    
+    public boolean getThreadStatus() {
+        return startThreads;
+    }
+
 }

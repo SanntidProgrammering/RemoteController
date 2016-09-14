@@ -5,27 +5,18 @@
  */
 package remotecontroller;
 
-import java.nio.ByteBuffer;
 
 /**
  *
  * @author mgrib
+ * 
+ * this class should work as a interface from the GUI to the data layer.
  */
-public class Controller {
-
-    private Datahandler dataHandler;
-    // private String odroid Mac Adress
-    // private String ip address
-    //
-    private Datahandler datahandler;
-    private Byte[] sendingArray;
+public class GUIController {
+   
     
-    
-    public Controller(){
-        //client = new UDPClient("158.38.199.18");
-        this.dataHandler = new Datahandler();
-        
-        
+    public GUIController(){
+      
     }
     public void setFwd(boolean value){ 
         System.out.println("Set FWD");
