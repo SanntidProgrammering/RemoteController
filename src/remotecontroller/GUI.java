@@ -15,9 +15,10 @@ import java.awt.event.KeyListener;
  * @author Magnus Gribbestad
  */
 public class GUI extends javax.swing.JFrame implements KeyListener {
-
+    private int sens;
  
     public GUI() {
+        this.sens = 150;
         initComponents();
         this.setup();
         addKeyListener(this);
@@ -226,11 +227,22 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
         sensLabel.setText("Sensitivity:");
 
+        sensSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sensSliderStateChanged(evt);
+            }
+        });
+
         sensPercentLabel.setText("100%");
 
         modeToggleButton.setText("Auto/Manual");
 
         debuggerButton.setText("Debugger");
+        debuggerButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                debuggerButtonMouseClicked(evt);
+            }
+        });
 
         modeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         modeLabel.setText("Manual");
@@ -457,6 +469,18 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         this.rightServoButton.setBackground(null);
     }//GEN-LAST:event_rightServoButtonKeyReleased
 
+    private void sensSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sensSliderStateChanged
+        this.sens = this.sensSlider.getValue();
+        this.sensPercentLabel.setText(""+this.sens+"%");
+        
+    }//GEN-LAST:event_sensSliderStateChanged
+
+    private void debuggerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_debuggerButtonMouseClicked
+        System.out.println("que?");
+        throw new UnsupportedOperationException("Not supported yet.");
+        
+    }//GEN-LAST:event_debuggerButtonMouseClicked
+
    
     
     
@@ -591,7 +615,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     
     public void setup(){
         this.sensSlider.setMinimum(0);
-        this.sensSlider.setMaximum(255);
-        
+        this.sensSlider.setMaximum(100); 
+        this.sensSlider.setValue(this.sens);
     }
 }

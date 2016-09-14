@@ -364,6 +364,9 @@
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JSlider" name="sensSlider">
+                      <Events>
+                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sensSliderStateChanged"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="sensPercentLabel">
                       <Properties>
@@ -379,6 +382,9 @@
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Debugger"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="debuggerButtonMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="modeLabel">
                       <Properties>
