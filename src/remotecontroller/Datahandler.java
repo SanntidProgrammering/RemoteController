@@ -40,6 +40,8 @@ Byte 5: reserved
 public class Datahandler {
     private byte[] receivedData;
     private byte[] sendData;
+    
+    private boolean startThreads;
 
     
     public Datahandler(){
