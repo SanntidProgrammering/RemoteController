@@ -16,9 +16,11 @@ import java.awt.event.KeyListener;
  */
 public class GUI extends javax.swing.JFrame implements KeyListener {
     private int sens;
+    private boolean autoMode;
+    private boolean systemOn;
  
     public GUI() {
-        this.sens = 150;
+        this.sens = 50;
         initComponents();
         this.setup();
         addKeyListener(this);
@@ -55,13 +57,14 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         rightServoButton = new javax.swing.JButton();
         rightCenPanel = new javax.swing.JPanel();
         setupPanel = new javax.swing.JPanel();
-        startUpButton = new javax.swing.JButton();
         sensLabel = new javax.swing.JLabel();
         sensSlider = new javax.swing.JSlider();
         sensPercentLabel = new javax.swing.JLabel();
         modeToggleButton = new javax.swing.JToggleButton();
         debuggerButton = new javax.swing.JButton();
         modeLabel = new javax.swing.JLabel();
+        modeLabel1 = new javax.swing.JLabel();
+        startToggle = new javax.swing.JToggleButton();
         rightTopPanel = new javax.swing.JPanel();
         inputPanel = new javax.swing.JPanel();
         xNameLabel = new javax.swing.JLabel();
@@ -223,8 +226,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
         setupPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Setup:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
-        startUpButton.setText("Start system");
-
         sensLabel.setText("Sensitivity:");
 
         sensSlider.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -235,7 +236,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
         sensPercentLabel.setText("100%");
 
-        modeToggleButton.setText("Auto/Manual");
+        modeToggleButton.setText("Auto mode");
+        modeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                modeToggleButtonStateChanged(evt);
+            }
+        });
 
         debuggerButton.setText("Debugger");
         debuggerButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -245,7 +251,17 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         });
 
         modeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        modeLabel.setText("Manual");
+        modeLabel.setText("Current:");
+
+        modeLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        modeLabel1.setText(" ");
+
+        startToggle.setText("Start system");
+        startToggle.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                startToggleStateChanged(evt);
+            }
+        });
 
         javax.swing.GroupLayout setupPanelLayout = new javax.swing.GroupLayout(setupPanel);
         setupPanel.setLayout(setupPanelLayout);
@@ -254,9 +270,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
             .addGroup(setupPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addComponent(startUpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setupPanelLayout.createSequentialGroup()
                         .addComponent(sensLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -266,30 +279,38 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
                     .addGroup(setupPanelLayout.createSequentialGroup()
                         .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(modeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addComponent(debuggerButton)))
+                        .addComponent(debuggerButton))
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         setupPanelLayout.setVerticalGroup(
             setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(setupPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(startToggle, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(sensPercentLabel)
-                    .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addComponent(startUpButton)
-                        .addGap(15, 15, 15)
-                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(sensLabel)
-                            .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(sensLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(modeToggleButton, javax.swing.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(debuggerButton))
-                    .addComponent(modeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(modeToggleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(debuggerButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addContainerGap())
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(modeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
 
         javax.swing.GroupLayout rightCenPanelLayout = new javax.swing.GroupLayout(rightCenPanel);
@@ -481,6 +502,27 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         
     }//GEN-LAST:event_debuggerButtonMouseClicked
 
+    private void modeToggleButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_modeToggleButtonStateChanged
+        if(this.modeToggleButton.isSelected()){
+            this.autoMode = true;
+            this.modeLabel1.setText("Auto Mode");
+        }
+        else{
+            this.autoMode = false;
+            this.modeLabel1.setText("Manual Mode");
+        }
+        
+    }//GEN-LAST:event_modeToggleButtonStateChanged
+
+    private void startToggleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_startToggleStateChanged
+        if(this.startToggle.isSelected()){
+            this.systemOn = true;
+        }
+        else{
+            this.systemOn = false;
+        }
+    }//GEN-LAST:event_startToggleStateChanged
+
    
     
     
@@ -532,6 +574,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private javax.swing.JButton leftServoButton;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JLabel modeLabel;
+    private javax.swing.JLabel modeLabel1;
     private javax.swing.JToggleButton modeToggleButton;
     private javax.swing.JButton revButton;
     private javax.swing.JButton rightButton;
@@ -544,7 +587,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private javax.swing.JLabel sensPercentLabel;
     private javax.swing.JSlider sensSlider;
     private javax.swing.JPanel setupPanel;
-    private javax.swing.JButton startUpButton;
+    private javax.swing.JToggleButton startToggle;
     private javax.swing.JLabel xCoordLabel;
     private javax.swing.JLabel xNameLabel;
     private javax.swing.JLabel yCoordLabel;
@@ -562,28 +605,34 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
             if (code == KeyEvent.VK_DOWN) {
        
-                this.revButtonKeyPressed(e);
+                //this.revButtonKeyPressed(e);
+                this.revButton.setBackground(Color.green);
              
             }
             if (code == KeyEvent.VK_UP) {
     
-                this.fwdButtonKeyPressed(e);
+                //this.fwdButtonKeyPressed(e);
+                this.fwdButton.setBackground(Color.green);
      
             }
             if (code == KeyEvent.VK_LEFT) {
-                this.leftButtonKeyPressed(e);
+                //this.leftButtonKeyPressed(e);
+                this.leftButton.setBackground(Color.green);
     
             }
             if (code == KeyEvent.VK_RIGHT) {
-                this.rightButtonKeyPressed(e);
+                //this.rightButtonKeyPressed(e);
+                this.rightButton.setBackground(Color.green);
 
             }
             if (code == KeyEvent.VK_A) {
-                this.leftServoButtonKeyPressed(e);
+                //this.leftServoButtonKeyPressed(e);
+                this.leftServoButton.setBackground(Color.green);
  
             }
             if (code == KeyEvent.VK_Z) {
-                this.rightServoButtonKeyPressed(e);
+                //this.rightServoButtonKeyPressed(e);
+                this.rightServoButton.setBackground(Color.green);
 
             }
 
@@ -594,22 +643,28 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
          int code = e.getKeyCode();
 
             if (code == KeyEvent.VK_DOWN) {
-                this.revButtonKeyReleased(e);
+                //this.revButtonKeyReleased(e);
+                this.revButton.setBackground(null);
             }
             if (code == KeyEvent.VK_UP) {
-                this.fwdButtonKeyReleased(e);
+                //this.fwdButtonKeyReleased(e);
+                this.fwdButton.setBackground(null);
             }
             if (code == KeyEvent.VK_LEFT) {
-                this.leftButtonKeyReleased(e);
+                //this.leftButtonKeyReleased(e);
+                this.leftButton.setBackground(null);
             }
             if (code == KeyEvent.VK_RIGHT) {
-                this.rightButtonKeyReleased(e);
+                //this.rightButtonKeyReleased(e);
+                this.rightButton.setBackground(null);
             }
             if (code == KeyEvent.VK_A) {
-                this.leftServoButtonKeyReleased(e);
+                //this.leftServoButtonKeyReleased(e);
+                this.leftServoButton.setBackground(null);
             }
             if (code == KeyEvent.VK_Z) {
-                this.rightServoButtonKeyReleased(e);
+                //this.rightServoButtonKeyReleased(e);
+                this.rightServoButton.setBackground(null);
             }
     }
     
@@ -617,5 +672,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         this.sensSlider.setMinimum(0);
         this.sensSlider.setMaximum(100); 
         this.sensSlider.setValue(this.sens);
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
     }
 }
