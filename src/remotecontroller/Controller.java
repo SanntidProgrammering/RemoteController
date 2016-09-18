@@ -10,7 +10,28 @@ import java.nio.ByteBuffer;
 /**
  *
  * @author mgrib
- */
+
+Byte 0-x: [bit 0, bit 1, bit 2, bit 3, bit 4, bit 5, bit 6, bit 7]
+* 
+Bit 1 = ON/Active
+bit 2 = Off/Not active
+Byte 0:[stopp, fwd, rev, left, right, bit 5, bit 6, bit 7]
+Byte 1:[left motor speed]
+Byte 2:[right motor speed]
+Byte 3:[left servo,right servo, auto/manual, start program,...,request feedback]
+Byte 4:[sensitivity]
+Byte 5:[reservert]
+Receiving protocol:
+* 
+Byte 0: Pixy x value lowbyte
+Byte 1: Pixy x value highbyte
+Byte 2: Pixy y value lowbyte
+Byte 3: Pixy y value highbyte
+Byte 4: Distance sensor
+Byte 5: reserved
+
+*/ 
+
 public class Controller {
 
     private Datahandler dataHandler;
@@ -28,7 +49,7 @@ public class Controller {
         
     }
     public void setFwd(boolean value){ 
-        System.out.println("Set FWD");
+       
     }
     public void setLeft(boolean value){  
         System.out.println("Set LEFT");
@@ -51,6 +72,7 @@ public class Controller {
     public void setAuto(boolean value){    
         System.out.println("Set AUTO");
     }
+    
     
     
 }
