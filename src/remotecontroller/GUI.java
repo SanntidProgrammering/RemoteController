@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import org.opencv.core.Core;
 
 /**
  *
@@ -18,11 +19,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private int sens;
     private boolean autoMode;
     private boolean systemOn;
+    private DaemonThread myThread;
  
     public GUI() {
         this.sens = 50;
         initComponents();
         this.setup();
+        //this.cameraSetup();
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -46,6 +49,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         mainPanel = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
+        cameraPanel = new javax.swing.JPanel();
         rightPanel = new javax.swing.JPanel();
         rightLowPanel = new javax.swing.JPanel();
         controlPanel = new javax.swing.JPanel();
@@ -78,15 +82,32 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Video stream:", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION));
 
+        javax.swing.GroupLayout cameraPanelLayout = new javax.swing.GroupLayout(cameraPanel);
+        cameraPanel.setLayout(cameraPanelLayout);
+        cameraPanelLayout.setHorizontalGroup(
+            cameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 645, Short.MAX_VALUE)
+        );
+        cameraPanelLayout.setVerticalGroup(
+            cameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 675, Short.MAX_VALUE)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cameraPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cameraPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout leftPanelLayout = new javax.swing.GroupLayout(leftPanel);
@@ -517,12 +538,20 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private void startToggleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_startToggleStateChanged
         if(this.startToggle.isSelected()){
             this.systemOn = true;
+            this.cameraSetup();
         }
         else{
             this.systemOn = false;
         }
+        
     }//GEN-LAST:event_startToggleStateChanged
-
+    private void cameraSetup(){
+        myThread = new DaemonThread(cameraPanel);
+        Thread t = new Thread(myThread);
+        t.setDaemon(true);
+        myThread.runnable = true;
+        t.start();
+    }
    
     
     
@@ -530,6 +559,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -562,6 +592,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel cameraPanel;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JButton debuggerButton;
     private javax.swing.JLabel distanceLabel;
