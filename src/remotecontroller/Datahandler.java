@@ -40,6 +40,8 @@ public class Datahandler {
 
     private byte[] receivedData;
     private byte[] sendData;
+    private boolean dataReceiveAvaliavle = false;
+    private boolean dataSendAvailable = false;
 
     private boolean startThreads;
 
@@ -48,34 +50,44 @@ public class Datahandler {
         this.sendData = new byte[6];
     }
 
-    public void setReceivedData(byte[] receivedData) throws IllegalArgumentException {
-        if (receivedData.length != this.receivedData.length) {
-            throw new IllegalArgumentException("wrong byte array passed to setReceivedData");
-        } else {
-            this.receivedData = receivedData;
-        }
-    }
-
     public synchronized byte[] getValues(String id) {
         byte[] returnArray = null;
 
         if (id.equals("GUI")) {
+            if(this.getDataReceiveAvaliable()){
             returnArray = this.receivedData;
+            }
         } else if (id.equals("UDP")) {
+            if(this.getDataSendAvailable()){
             returnArray = this.sendData;
+            }
         }
         notifyAll();
         return returnArray;
     }
-
+   
     public synchronized void setValues(String id, byte[] newByteArray) {
 
         if (id.equals("GUI")) {
+            if(!this.getDataSendAvailable()){
             this.sendData = newByteArray;
+            dataSendAvailable = true;
+            }
         } else if (id.equals("UDP")) {
+            if(!this.getDataReceiveAvaliable()){
             this.receivedData = newByteArray;
+            dataReceiveAvaliavle = true;
+            }
         }
         notifyAll();
+    }
+    
+    public boolean getDataSendAvailable(){
+        return dataSendAvailable;
+    }
+    
+    public boolean getDataReceiveAvaliable(){
+        return dataReceiveAvaliavle;
     }
 
     public boolean getThreadStatus() {
@@ -88,6 +100,7 @@ public class Datahandler {
     public void releaseRequestBit(){
         sendData[3] = this.releaseBit(sendData[3], 7);
     }
+    
     
     public int hashCodeSendData(){
         return Arrays.hashCode(sendData);

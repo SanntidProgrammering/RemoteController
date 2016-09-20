@@ -5,6 +5,8 @@
  */
 package remotecontroller;
 
+import java.util.concurrent.Semaphore;
+
 /**
  *
  * @author lars-harald
@@ -12,9 +14,11 @@ package remotecontroller;
  * this class starts the system
  */
 public class Main {
-    private Datahandler datahandler;
     
     public static void main(String[] args){
-        
+        Datahandler datahandler = new Datahandler();
+        Semaphore semaphore = new Semaphore(0);
+        GUIController guiController = new GUIController(semaphore);
+
     }
 }
