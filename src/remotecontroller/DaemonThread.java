@@ -37,6 +37,16 @@ class DaemonThread implements Runnable
     webSource =new VideoCapture(0);         
     }
     
+    public void realseSource(){
+        webSource.release();
+    }
+    public void connectCam(){
+        webSource.grab();
+    }
+    public void setRunnable(boolean value){
+        this.runnable = value;
+    }
+    
     @Override
     public  void run()
     {
@@ -67,7 +77,7 @@ class DaemonThread implements Runnable
 			 }
 			 catch(Exception ex)
                          {
-			    System.out.println("Error");
+			    //System.out.println("Error");
                          }
                 }
             }

@@ -66,8 +66,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         sensPercentLabel = new javax.swing.JLabel();
         modeToggleButton = new javax.swing.JToggleButton();
         debuggerButton = new javax.swing.JButton();
-        modeLabel = new javax.swing.JLabel();
-        modeLabel1 = new javax.swing.JLabel();
         startToggle = new javax.swing.JToggleButton();
         rightTopPanel = new javax.swing.JPanel();
         inputPanel = new javax.swing.JPanel();
@@ -271,12 +269,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
             }
         });
 
-        modeLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        modeLabel.setText("Current:");
-
-        modeLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        modeLabel1.setText(" ");
-
         startToggle.setText("Start system");
         startToggle.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -294,16 +286,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setupPanelLayout.createSequentialGroup()
                         .addComponent(sensLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sensSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(sensSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sensPercentLabel))
                     .addGroup(setupPanelLayout.createSequentialGroup()
                         .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(modeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(debuggerButton))
                     .addGroup(setupPanelLayout.createSequentialGroup()
                         .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -322,16 +310,10 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
                         .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(sensLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(modeToggleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(debuggerButton, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addContainerGap())
-                    .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addComponent(modeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(modeLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modeToggleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(debuggerButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(17, 17, 17))
         );
 
         javax.swing.GroupLayout rightCenPanelLayout = new javax.swing.GroupLayout(rightCenPanel);
@@ -526,11 +508,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private void modeToggleButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_modeToggleButtonStateChanged
         if(this.modeToggleButton.isSelected()){
             this.autoMode = true;
-            this.modeLabel1.setText("Auto Mode");
+            //this.modeLabel1.setText("Auto Mode");
+            this.modeToggleButton.setText("Man mode");
         }
         else{
             this.autoMode = false;
-            this.modeLabel1.setText("Manual Mode");
+            this.modeToggleButton.setText("Auto mode");
+            //this.modeLabel1.setText("Manual Mode");
         }
         
     }//GEN-LAST:event_modeToggleButtonStateChanged
@@ -538,20 +522,17 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private void startToggleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_startToggleStateChanged
         if(this.startToggle.isSelected()){
             this.systemOn = true;
+            this.startToggle.setText("Stop system");
             this.cameraSetup();
         }
         else{
             this.systemOn = false;
+            this.startToggle.setText("Start system");
+            this.stopCamera();
         }
         
     }//GEN-LAST:event_startToggleStateChanged
-    private void cameraSetup(){
-        myThread = new DaemonThread(cameraPanel);
-        Thread t = new Thread(myThread);
-        t.setDaemon(true);
-        myThread.runnable = true;
-        t.start();
-    }
+
    
     
     
@@ -604,8 +585,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private javax.swing.JPanel leftPanel;
     private javax.swing.JButton leftServoButton;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JLabel modeLabel;
-    private javax.swing.JLabel modeLabel1;
     private javax.swing.JToggleButton modeToggleButton;
     private javax.swing.JButton revButton;
     private javax.swing.JButton rightButton;
@@ -703,7 +682,33 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         this.sensSlider.setMinimum(0);
         this.sensSlider.setMaximum(100); 
         this.sensSlider.setValue(this.sens);
+        this.sensPercentLabel.setText(""+this.sens+"%");
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
+        fwdButton.setFocusable(false);
+        revButton.setFocusable(false);
+        leftButton.setFocusable(false);
+        rightButton.setFocusable(false);
+        leftServoButton.setFocusable(false);
+        rightServoButton.setFocusable(false);
+        startToggle.setFocusable(false);
+        debuggerButton.setFocusable(false);
+        modeToggleButton.setFocusable(false);
+        sensSlider.setFocusable(false);
     }
+        private void cameraSetup(){
+        myThread = new DaemonThread(cameraPanel);
+        Thread t = new Thread(myThread);
+        t.setDaemon(true);
+        myThread.runnable = true;
+        t.start();
+    }
+        private void stopCamera(){
+           if(myThread != null){
+              myThread.realseSource();
+              //myThread.runnable = false;
+              myThread.setRunnable(false);
+           }
+            
+        }
 }
