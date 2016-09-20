@@ -7,6 +7,7 @@ package remotecontroller;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  *
@@ -34,46 +35,74 @@ Byte 2: Pixy y value lowbyte
 Byte 3: Pixy y value highbyte
 Byte 4: Distance sensor
 Byte 5: reserved
-
-
 */
+
 public class Datahandler {
+
     private byte[] receivedData;
     private byte[] sendData;
 
-    
-    public Datahandler(){
+    private boolean startThreads;
+
+    public Datahandler() {
         this.receivedData = new byte[6];
         this.sendData = new byte[6];
     }
 
-
-    public void setReceivedData(byte[] receivedData) {
-        this.receivedData = receivedData;
-    }
-    public synchronized byte[] getValues(String id){
-        byte[] returnArray = null;
-        
-        if(id.equals("GUI")){
-           returnArray = this.receivedData;           
+    public void setReceivedData(byte[] receivedData) throws IllegalArgumentException {
+        if (receivedData.length != this.receivedData.length) {
+            throw new IllegalArgumentException("wrong byte array passed to setReceivedData");
+        } else {
+            this.receivedData = receivedData;
         }
-        else if(id.equals("UDP")){
-           returnArray = this.sendData;
+    }
+
+    public synchronized byte[] getValues(String id) {
+        byte[] returnArray = null;
+
+        if (id.equals("GUI")) {
+            returnArray = this.receivedData;
+        } else if (id.equals("UDP")) {
+            returnArray = this.sendData;
         }
         notifyAll();
         return returnArray;
     }
-    public synchronized void setValues(String id, byte[] newByteArray){
-        
-        if(id.equals("GUI")){
-           this.sendData = newByteArray;            
-        }
-        else if(id.equals("UDP")){
+
+    public synchronized void setValues(String id, byte[] newByteArray) {
+
+        if (id.equals("GUI")) {
+            this.sendData = newByteArray;
+        } else if (id.equals("UDP")) {
             this.receivedData = newByteArray;
         }
         notifyAll();
     }
 
+    public boolean getThreadStatus() {
+        return startThreads;
+    }
     
+    public void setRequestBit(){
+        sendData[3] = this.setBit(sendData[3], 7);
+    }
+    public void releaseRequestBit(){
+        sendData[3] = this.releaseBit(sendData[3], 7);
+    }
     
+    public int hashCodeSendData(){
+        return Arrays.hashCode(sendData);
+    }
+    
+    public int hashCodeReceiveData(){
+        return Arrays.hashCode(receivedData);
+    }
+    
+    private byte setBit(byte b, int bit){
+        return b |= 1 << bit;
+    }
+    private byte releaseBit(byte b, int bit){
+        return b &= ~(1 << bit);
+    }
+
 }
