@@ -104,5 +104,30 @@ public class Datahandler {
     private byte releaseBit(byte b, int bit){
         return b &= ~(1 << bit);
     }
+    
+    public void setBit(int b, int bit)
+    {
+        byte tempByte;        
+        tempByte = this.sendData[b];        
+        tempByte = (byte) (tempByte | (1 << bit));        
+        this.sendData[b] = tempByte;
+    }
+    
+    public void unSetBit(int b, int bit)
+    {
+        byte tempByte;        
+        tempByte = this.sendData[b];        
+        tempByte = (byte) ((byte) tempByte & ~(1 << bit));        
+        this.sendData[b] = tempByte;
+    }
+    
+    public byte getBit(int b, int bit)
+    {
+        byte tempByte;
+        
+        tempByte = this.sendData[b];
+        
+        return (byte) ((tempByte >> bit) & 1);
+    }
 
 }

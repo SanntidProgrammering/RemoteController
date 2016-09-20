@@ -49,7 +49,7 @@ public class Controller {
         
     }
     public void setFwd(boolean value){ 
-       
+       this.dataHandler.setBit(1, 1);
     }
     public void setLeft(boolean value){  
         System.out.println("Set LEFT");
