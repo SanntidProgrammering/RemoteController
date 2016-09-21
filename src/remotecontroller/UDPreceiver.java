@@ -7,19 +7,25 @@ package remotecontroller;
 
 import java.io.IOException;
 import java.net.*;
+import java.util.concurrent.Semaphore;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 /**
  *
  * @author lars-harald
  */
 public class UDPreceiver implements Runnable {
-    Datahandler handler;
-    DatagramSocket receiveSocket;
-    int port;
-    Thread t;
+    private Semaphore semaphore;
+    private Datahandler handler;
+    private DatagramSocket receiveSocket;
+    private int port;
+    private Thread t;
+    private boolean available;
     
-    public UDPreceiver(Datahandler handler, int port){
+    public UDPreceiver(Datahandler handler, int port, Semaphore semaphore){
         this.handler = handler;
         this.port = port;
+        this.semaphore = semaphore;
     }
     
     public void start(){
@@ -36,9 +42,15 @@ public class UDPreceiver implements Runnable {
             while(handler.getThreadStatus()){
                 receiveSocket.receive(receivePacket);
                 try {
-                    handler.setReceivedData(receivePacket.getData());
+                    semaphore.acquire();
+                    if(!handler.getDataReceiveAvaliable())
+                    handler.setValues("RECEIVE",receivePacket.getData());
                 } catch (IllegalArgumentException e) {
                     System.out.println(e.getMessage());
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(UDPreceiver.class.getName()).log(Level.SEVERE, null, ex);
+                } finally {
+                    semaphore.release();
                 }
             }
             

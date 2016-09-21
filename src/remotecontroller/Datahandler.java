@@ -6,6 +6,8 @@
 package remotecontroller;
 
 import java.util.Arrays;
+import java.util.Observable;
+
 
 /**
  *
@@ -36,7 +38,7 @@ Byte 5: reserved
 
 
  */
-public class Datahandler {
+public class Datahandler extends Observable{
 
     private byte[] receivedData;
     private byte[] sendData;
@@ -50,36 +52,44 @@ public class Datahandler {
         this.sendData = new byte[6];
     }
 
-    public synchronized byte[] getValues(String id) {
+    public byte[] getValues(String id) {
         byte[] returnArray = null;
 
-        if (id.equals("GUI")) {
+        if (id.equals("RECEIVE")) {
+            // check if new value is available
             if(this.getDataReceiveAvaliable()){
             returnArray = this.receivedData;
+            // reset the new value available flag
+            this.dataReceiveAvaliavle = false;
             }
-        } else if (id.equals("UDP")) {
+        } else if (id.equals("SEND")) {
+            // check if new value is available
             if(this.getDataSendAvailable()){
             returnArray = this.sendData;
+            // reset the new value available flag
+            this.dataSendAvailable = false;
             }
         }
-        notifyAll();
         return returnArray;
     }
    
-    public synchronized void setValues(String id, byte[] newByteArray) {
+    public void setValues(String id, byte[] newByteArray) {
 
-        if (id.equals("GUI")) {
+        if (id.equals("SEND")) {
+            // check if the old value has been handled first
             if(!this.getDataSendAvailable()){
             this.sendData = newByteArray;
+            // set new value available flag
             dataSendAvailable = true;
             }
-        } else if (id.equals("UDP")) {
+        } else if (id.equals("RECEIVE")) {
+            // che                 ck if the old value has been handled first
             if(!this.getDataReceiveAvaliable()){
             this.receivedData = newByteArray;
+            // set new value available flag
             dataReceiveAvaliavle = true;
             }
         }
-        notifyAll();
     }
     
     public boolean getDataSendAvailable(){

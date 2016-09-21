@@ -5,8 +5,6 @@
  */
 package remotecontroller;
 
-import java.util.concurrent.Semaphore;
-
 
 /**
  *
@@ -15,10 +13,8 @@ import java.util.concurrent.Semaphore;
  * this class should work as a interface from the GUI to the data layer.
  */
 public class GUIController {
-   Semaphore semaphore;
     
-    public GUIController(Semaphore semaphore){
-      this.semaphore = semaphore;
+    public GUIController(){
     }
     public void setFwd(boolean value){ 
         System.out.println("Set FWD");

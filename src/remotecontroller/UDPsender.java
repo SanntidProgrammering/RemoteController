@@ -46,6 +46,7 @@ public class UDPsender implements Runnable {
     
     public void run(){
         
+        this.connect();
         while(datahandler.getThreadStatus()){
             try {
                 // semaphore should block until GUI sets new data and 
@@ -58,7 +59,9 @@ public class UDPsender implements Runnable {
             }
             
         }
+        clientSocket.close();
     }
+    
     /*
     * connect method
     */
@@ -75,7 +78,6 @@ public class UDPsender implements Runnable {
     * send byte[] packet to socket 
     */
     public void send(InetAddress ipAddress, byte[] data, int port){
-        this.connect();
          try {
             DatagramPacket packet = new DatagramPacket(data, 
                                         data.length, 
@@ -84,9 +86,7 @@ public class UDPsender implements Runnable {
             clientSocket.send(packet);
         } catch (IOException ex) {
             Logger.getLogger(UDPsender.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-             clientSocket.close();
-         }
+        } 
     }
     
     
