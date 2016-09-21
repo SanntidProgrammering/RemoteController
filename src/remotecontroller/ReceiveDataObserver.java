@@ -11,9 +11,10 @@ import java.util.Observable;
  *
  * @author lars-harald
  */
-public class ReceiveDataObserver extends Observable {
+public class ReceiveDataObserver extends Observable implements DataInterface{
     
     private byte[] receiveData = new byte[6];
+    private boolean threadStatus;
     
     public ReceiveDataObserver(){
         super();
@@ -30,5 +31,9 @@ public class ReceiveDataObserver extends Observable {
     
     public byte[] getData(){
         return this.receiveData;
+    }
+    
+    public boolean getThreadStatus(){
+        return this.threadStatus;
     }
 }
