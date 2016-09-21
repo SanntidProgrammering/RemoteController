@@ -50,7 +50,12 @@ public class GuiController {
     }
     public void setFwd(boolean value){ 
        //this.dataHandler.setBit(1, 1);
+       if(value){
         System.out.println("Set FWD");
+       }
+       else{
+           System.out.println("Not FWD");
+       }
     }
     public void setLeft(boolean value){  
         System.out.println("Set LEFT");
