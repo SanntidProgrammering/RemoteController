@@ -40,55 +40,24 @@ Byte 5: reserved
  */
 public class Datahandler implements DataInterface {
 
-    private byte[] receivedData;
-    private byte[] sendData;
+    private byte[] data;
     private boolean dataReceiveAvaliavle = false;
     private boolean dataSendAvailable = false;
 
     private boolean startThreads;
 
     public Datahandler() {
-        this.receivedData = new byte[6];
-        this.sendData = new byte[6];
+        this.data = new byte[6];
     }
 
     public byte[] getData() {
-        byte[] returnArray = null;
-        String id = null; //////////////////////////////////////////////// skal vekk
-        if (id.equals("RECEIVE")) {
-            // check if new value is available
-            if(this.getDataReceiveAvaliable()){
-            returnArray = this.receivedData;
-            // reset the new value available flag
-            this.dataReceiveAvaliavle = false;
-            }
-        } else if (id.equals("SEND")) {
-            // check if new value is available
-            if(this.getDataSendAvailable()){
-            returnArray = this.sendData;
-            // reset the new value available flag
-            this.dataSendAvailable = false;
-            }
-        }
-        return returnArray;
+        return this.data;
     }
    
-    public void setData(byte[] newByteArray) {
-        String id = null; //////////////////////////////////////////////// skal vekk
-        if (id.equals("SEND")) {
-            // check if the old value has been handled first
-            if(!this.getDataSendAvailable()){
-            this.sendData = newByteArray;
-            // set new value available flag
-            dataSendAvailable = true;
-            }
-        } else if (id.equals("RECEIVE")) {
-            // che                 ck if the old value has been handled first
-            if(!this.getDataReceiveAvaliable()){
-            this.receivedData = newByteArray;
-            // set new value available flag
-            dataReceiveAvaliavle = true;
-            }
+   public void setData(byte[] data){
+        // check if the array is of the same length and the requestcode has changed
+        if(data.length == this.data.length && data[5] != this.data[5]) {
+            this.data = data;
         }
     }
     
@@ -104,25 +73,22 @@ public class Datahandler implements DataInterface {
         return startThreads;
     }
     
+    public void setThreadStatus(boolean state){
+       this.startThreads = state;
+   }
+    
     public void setRequestBit(){
-        sendData[3] = this.setBit(sendData[3], 7);
+        data[3] = this.setBit(data[3], 7);
     }
+    
     public void releaseRequestBit(){
-        sendData[3] = this.releaseBit(sendData[3], 7);
-    }
-    
-    
-    public int hashCodeSendData(){
-        return Arrays.hashCode(sendData);
-    }
-    
-    public int hashCodeReceiveData(){
-        return Arrays.hashCode(receivedData);
+        data[3] = this.releaseBit(data[3], 7);
     }
     
     private byte setBit(byte b, int bit){
         return b |= 1 << bit;
     }
+    
     private byte releaseBit(byte b, int bit){
         return b &= ~(1 << bit);
     }

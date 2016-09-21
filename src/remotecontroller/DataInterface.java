@@ -17,4 +17,6 @@ public interface DataInterface {
     
     boolean getThreadStatus();
     
+    void setThreadStatus(boolean state);
+    
 }

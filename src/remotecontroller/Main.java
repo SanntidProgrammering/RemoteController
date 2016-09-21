@@ -14,14 +14,23 @@ package remotecontroller;
  */
 public class Main {
     
-    UDPreceiver udpReceiver;
-    ReceiveDataObserver;
+    static final String IPADDRESS = "192.168.0.10";
+    static final int RECEIVEPORT = 5000;
+    static final int SENDPORT = 5001;
+    
+
     
     public static void main(String[] args){
+        UDPreceiver udpReceiver;
+        ReceiveDataObservable receiveDataObserver;
         
-        
+        receiveDataObserver = new ReceiveDataObservable();
+        udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
+        udpReceiver.start();
         
         
         
     }
+    
+
 }
