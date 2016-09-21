@@ -32,7 +32,7 @@ Byte 5: reserved
 
 */ 
 
-public class Controller {
+public class GuiController {
 
     private Datahandler dataHandler;
     // private String odroid Mac Adress
@@ -42,14 +42,15 @@ public class Controller {
     private Byte[] sendingArray;
     
     
-    public Controller(){
+    public GuiController(){
         //client = new UDPClient("158.38.199.18");
         this.dataHandler = new Datahandler();
         
         
     }
     public void setFwd(boolean value){ 
-       this.dataHandler.setBit(1, 1);
+       //this.dataHandler.setBit(1, 1);
+        System.out.println("Set FWD");
     }
     public void setLeft(boolean value){  
         System.out.println("Set LEFT");
@@ -71,6 +72,9 @@ public class Controller {
     }
     public void setAuto(boolean value){    
         System.out.println("Set AUTO");
+    }
+    public void setSens(int sens){
+        System.out.println("New sens = " + sens);
     }
     
     

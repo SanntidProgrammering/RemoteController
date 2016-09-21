@@ -334,12 +334,10 @@
                                       <Component id="sensPercentLabel" min="-2" max="-2" attributes="0"/>
                                   </Group>
                                   <Group type="102" attributes="0">
-                                      <Component id="modeToggleButton" min="-2" pref="150" max="-2" attributes="0"/>
-                                      <EmptySpace max="32767" attributes="0"/>
-                                      <Component id="debuggerButton" min="-2" max="-2" attributes="0"/>
-                                  </Group>
-                                  <Group type="102" alignment="0" attributes="0">
-                                      <Component id="startToggle" min="-2" pref="150" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="modeToggleButton" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Component id="startToggle" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                      </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
@@ -361,10 +359,7 @@
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="modeToggleButton" alignment="1" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Component id="debuggerButton" alignment="1" min="-2" max="-2" attributes="0"/>
-                              </Group>
+                              <Component id="modeToggleButton" min="-2" pref="50" max="-2" attributes="0"/>
                               <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -392,14 +387,6 @@
                       </Properties>
                       <Events>
                         <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="modeToggleButtonStateChanged"/>
-                      </Events>
-                    </Component>
-                    <Component class="javax.swing.JButton" name="debuggerButton">
-                      <Properties>
-                        <Property name="text" type="java.lang.String" value="Debugger"/>
-                      </Properties>
-                      <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="debuggerButtonMouseClicked"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JToggleButton" name="startToggle">

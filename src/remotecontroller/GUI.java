@@ -20,12 +20,15 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private boolean autoMode;
     private boolean systemOn;
     private DaemonThread myThread;
+    private GuiController controller;
+    private boolean fwd,left,rev,right,leftServo,rightServo;
  
     public GUI() {
-        this.sens = 50;
+        this.controller = new GuiController();
         initComponents();
+        this.sens = 50;
         this.setup();
-        //this.cameraSetup();
+        
         addKeyListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -65,7 +68,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         sensSlider = new javax.swing.JSlider();
         sensPercentLabel = new javax.swing.JLabel();
         modeToggleButton = new javax.swing.JToggleButton();
-        debuggerButton = new javax.swing.JButton();
         startToggle = new javax.swing.JToggleButton();
         rightTopPanel = new javax.swing.JPanel();
         inputPanel = new javax.swing.JPanel();
@@ -262,13 +264,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
             }
         });
 
-        debuggerButton.setText("Debugger");
-        debuggerButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                debuggerButtonMouseClicked(evt);
-            }
-        });
-
         startToggle.setText("Start system");
         startToggle.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
@@ -290,11 +285,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sensPercentLabel))
                     .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(debuggerButton))
-                    .addGroup(setupPanelLayout.createSequentialGroup()
-                        .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -310,9 +303,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
                         .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(sensLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(modeToggleButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(debuggerButton, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17))
         );
 
@@ -447,63 +438,94 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
         this.fwdButton.setBackground(Color.green);
+        if(!this.fwd){
+        this.controller.setFwd(true);
+        this.fwd = true;
+        }
     }//GEN-LAST:event_fwdButtonKeyPressed
 
     private void fwdButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyReleased
         this.fwdButton.setBackground(null);
+        this.controller.setFwd(false);
+        this.fwd = false;
     }//GEN-LAST:event_fwdButtonKeyReleased
 
     private void leftButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyPressed
         this.leftButton.setBackground(Color.green);
+        if(!this.left){
+        this.controller.setLeft(true);
+        this.left = true;
+        }
     }//GEN-LAST:event_leftButtonKeyPressed
 
     private void leftButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyReleased
         this.leftButton.setBackground(null);
+        this.controller.setLeft(false);
+        this.left = false;
     }//GEN-LAST:event_leftButtonKeyReleased
 
     private void revButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyPressed
         this.revButton.setBackground(Color.green);
+        if(!this.rev){
+        this.controller.setRev(true);
+        this.rev = true;
+        }
     }//GEN-LAST:event_revButtonKeyPressed
 
     private void revButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyReleased
         this.revButton.setBackground(null);
+        this.controller.setRev(false);
+        this.rev = false;
     }//GEN-LAST:event_revButtonKeyReleased
 
     private void rightButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyPressed
         this.rightButton.setBackground(Color.green);
+        if(!this.right){
+        this.controller.setRight(true);
+        this.right = true;
+        }
     }//GEN-LAST:event_rightButtonKeyPressed
 
     private void rightButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyReleased
         this.rightButton.setBackground(null);
+        this.controller.setRight(false);
+        this.right = false;
     }//GEN-LAST:event_rightButtonKeyReleased
 
     private void leftServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyPressed
         this.leftServoButton.setBackground(Color.green);
+        if(!this.leftServo){
+        this.controller.setLeftServo(true);
+        this.leftServo = true;
+        }
     }//GEN-LAST:event_leftServoButtonKeyPressed
 
     private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftServoButtonKeyReleased
         this.leftServoButton.setBackground(null);
+        this.controller.setLeftServo(false);
+        this.leftServo = false;
     }//GEN-LAST:event_leftServoButtonKeyReleased
 
     private void rightServoButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyPressed
         this.rightServoButton.setBackground(Color.green);
+        if(!this.rightServo){
+        this.controller.setRightServo(true);
+        this.rightServo = true;
+        }
     }//GEN-LAST:event_rightServoButtonKeyPressed
 
     private void rightServoButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightServoButtonKeyReleased
         this.rightServoButton.setBackground(null);
+        this.controller.setRightServo(false);
+        this.rightServo = false;
     }//GEN-LAST:event_rightServoButtonKeyReleased
 
     private void sensSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sensSliderStateChanged
         this.sens = this.sensSlider.getValue();
+        this.controller.setSens(this.sens);
         this.sensPercentLabel.setText(""+this.sens+"%");
         
     }//GEN-LAST:event_sensSliderStateChanged
-
-    private void debuggerButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_debuggerButtonMouseClicked
-        System.out.println("que?");
-        throw new UnsupportedOperationException("Not supported yet.");
-        
-    }//GEN-LAST:event_debuggerButtonMouseClicked
 
     private void modeToggleButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_modeToggleButtonStateChanged
         if(this.modeToggleButton.isSelected()){
@@ -575,7 +597,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cameraPanel;
     private javax.swing.JPanel controlPanel;
-    private javax.swing.JButton debuggerButton;
     private javax.swing.JLabel distanceLabel;
     private javax.swing.JLabel distanceNameLabel;
     private javax.swing.JButton fwdButton;
@@ -615,34 +636,29 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
             if (code == KeyEvent.VK_DOWN) {
        
-                //this.revButtonKeyPressed(e);
-                this.revButton.setBackground(Color.green);
+                this.revButtonKeyPressed(e);
              
             }
             if (code == KeyEvent.VK_UP) {
     
-                //this.fwdButtonKeyPressed(e);
-                this.fwdButton.setBackground(Color.green);
+                this.fwdButtonKeyPressed(e);
      
             }
             if (code == KeyEvent.VK_LEFT) {
-                //this.leftButtonKeyPressed(e);
-                this.leftButton.setBackground(Color.green);
+                this.leftButtonKeyPressed(e);
     
             }
             if (code == KeyEvent.VK_RIGHT) {
-                //this.rightButtonKeyPressed(e);
-                this.rightButton.setBackground(Color.green);
+                this.rightButtonKeyPressed(e);
 
             }
             if (code == KeyEvent.VK_A) {
-                //this.leftServoButtonKeyPressed(e);
-                this.leftServoButton.setBackground(Color.green);
+                this.leftServoButtonKeyPressed(e);
+
  
             }
             if (code == KeyEvent.VK_Z) {
-                //this.rightServoButtonKeyPressed(e);
-                this.rightServoButton.setBackground(Color.green);
+                this.rightServoButtonKeyPressed(e);
 
             }
 
@@ -653,28 +669,28 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
          int code = e.getKeyCode();
 
             if (code == KeyEvent.VK_DOWN) {
-                //this.revButtonKeyReleased(e);
-                this.revButton.setBackground(null);
+                this.revButtonKeyReleased(e);
+                //this.revButton.setBackground(null);
             }
             if (code == KeyEvent.VK_UP) {
-                //this.fwdButtonKeyReleased(e);
-                this.fwdButton.setBackground(null);
+                this.fwdButtonKeyReleased(e);
+                //this.fwdButton.setBackground(null);
             }
             if (code == KeyEvent.VK_LEFT) {
-                //this.leftButtonKeyReleased(e);
-                this.leftButton.setBackground(null);
+                this.leftButtonKeyReleased(e);
+                //this.leftButton.setBackground(null);
             }
             if (code == KeyEvent.VK_RIGHT) {
-                //this.rightButtonKeyReleased(e);
-                this.rightButton.setBackground(null);
+                this.rightButtonKeyReleased(e);
+                //this.rightButton.setBackground(null);
             }
             if (code == KeyEvent.VK_A) {
-                //this.leftServoButtonKeyReleased(e);
-                this.leftServoButton.setBackground(null);
+                this.leftServoButtonKeyReleased(e);
+                //this.leftServoButton.setBackground(null);
             }
             if (code == KeyEvent.VK_Z) {
-                //this.rightServoButtonKeyReleased(e);
-                this.rightServoButton.setBackground(null);
+                this.rightServoButtonKeyReleased(e);
+                //this.rightServoButton.setBackground(null);
             }
     }
     
@@ -692,7 +708,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         leftServoButton.setFocusable(false);
         rightServoButton.setFocusable(false);
         startToggle.setFocusable(false);
-        debuggerButton.setFocusable(false);
+        //debuggerButton.setFocusable(false);
         modeToggleButton.setFocusable(false);
         sensSlider.setFocusable(false);
     }

@@ -14,12 +14,12 @@ public class RemoteController {
     /**
      * @param args the command line arguments
      */
-    private static Controller controller;
+    private static GuiController controller;
     private static GUI gui;
     
     public static void main(String[] args) {
         // TODO code application logic here
-        controller = new Controller();
+        controller = new GuiController();
         gui = new GUI();
         //gui.setController(controller);
         gui.setVisible(true);
