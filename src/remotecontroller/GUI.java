@@ -20,11 +20,11 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private boolean autoMode;
     private boolean systemOn;
     private DaemonThread myThread;
-    private GuiController controller;
+    private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
  
     public GUI() {
-        this.controller = new GuiController();
+        this.controller = new GUIController();
         initComponents();
         this.sens = 50;
         this.setup();
