@@ -38,7 +38,7 @@ Byte 5: reserved
 
 
  */
-public class Datahandler extends Observable{
+public class Datahandler implements DataInterface {
 
     private byte[] receivedData;
     private byte[] sendData;
@@ -52,9 +52,9 @@ public class Datahandler extends Observable{
         this.sendData = new byte[6];
     }
 
-    public byte[] getValues(String id) {
+    public byte[] getData() {
         byte[] returnArray = null;
-
+        String id = null; //////////////////////////////////////////////// skal vekk
         if (id.equals("RECEIVE")) {
             // check if new value is available
             if(this.getDataReceiveAvaliable()){
@@ -73,8 +73,8 @@ public class Datahandler extends Observable{
         return returnArray;
     }
    
-    public void setValues(String id, byte[] newByteArray) {
-
+    public void setData(byte[] newByteArray) {
+        String id = null; //////////////////////////////////////////////// skal vekk
         if (id.equals("SEND")) {
             // check if the old value has been handled first
             if(!this.getDataSendAvailable()){

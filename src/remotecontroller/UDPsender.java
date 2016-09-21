@@ -51,7 +51,7 @@ public class UDPsender implements Runnable {
             try {
                 // semaphore should block until GUI sets new data and 
                 semaphore.acquire();
-                this.send(this.IPAddress, datahandler.getValues("UDP"),this.port);
+                this.send(this.IPAddress, datahandler.getData("UDP"),this.port);
             } catch (InterruptedException ex) {
                 Logger.getLogger(UDPsender.class.getName()).log(Level.SEVERE, null, ex);
             } finally {

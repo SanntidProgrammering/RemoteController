@@ -5,23 +5,16 @@
  */
 package remotecontroller;
 
-
 /**
  *
  * @author lars-harald
- * 
- * this class starts the system
  */
-public class Main {
+public interface DataInterface {
     
-    UDPreceiver udpReceiver;
-    ReceiveDataObserver;
+    void setData(byte[] data);
     
-    public static void main(String[] args){
-        
-        
-        
-        
-        
-    }
+    byte[] getData();
+    
+    boolean getThreadStatus();
+    
 }
