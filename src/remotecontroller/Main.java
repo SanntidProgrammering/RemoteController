@@ -5,7 +5,6 @@
  */
 package remotecontroller;
 
-import java.util.concurrent.Semaphore;
 
 /**
  *
@@ -16,9 +15,5 @@ import java.util.concurrent.Semaphore;
 public class Main {
     
     public static void main(String[] args){
-        Datahandler datahandler = new Datahandler();
-        Semaphore semaphore = new Semaphore(0);
-        GUIController guiController = new GUIController(semaphore);
-
     }
 }
