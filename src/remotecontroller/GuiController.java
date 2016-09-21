@@ -34,17 +34,16 @@ Byte 5: reserved
 
 public class GuiController {
 
-    private Datahandler dataHandler;
+  
     // private String odroid Mac Adress
     // private String ip address
     //
-    private Datahandler datahandler;
+ 
     private Byte[] sendingArray;
     
     
     public GuiController(){
         //client = new UDPClient("158.38.199.18");
-        this.dataHandler = new Datahandler();
         
         
     }
