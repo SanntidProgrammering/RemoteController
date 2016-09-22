@@ -10,6 +10,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import org.opencv.core.Core;
+import java.util.Timer;
 
 /**
  *
@@ -24,7 +25,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private boolean fwd,left,rev,right,leftServo,rightServo;
  
     public GUI() {
+        Timer fTimer = new Timer();
         this.controller = new GUIController();
+        fTimer.scheduleAtFixedRate(controller, 0, 2000);
         initComponents();
         this.sens = 50;
         this.setup();

@@ -6,6 +6,7 @@
 package remotecontroller;
 
 import java.nio.ByteBuffer;
+import java.util.TimerTask;
 
 /**
  *
@@ -32,23 +33,18 @@ Byte 5: reserved
 
 */ 
 
-public class GUIController {
-
-  
-    // private String odroid Mac Adress
-    // private String ip address
-    //
- 
-    private Byte[] sendingArray;
+public class GUIController extends TimerTask {
     
     
     public GUIController(){
-        //client = new UDPClient("158.38.199.18");
-        
         
     }
+    @Override
+    public void run(){
+        System.out.println("Request data");
+    }
+    
     public void setFwd(boolean value){ 
-       //this.dataHandler.setBit(1, 1);
        if(value){
         System.out.println("Set FWD");
        }
