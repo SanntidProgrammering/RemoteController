@@ -335,8 +335,22 @@
                                   </Group>
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="modeToggleButton" min="-2" pref="150" max="-2" attributes="0"/>
-                                          <Component id="startToggle" alignment="0" min="-2" pref="150" max="-2" attributes="0"/>
+                                          <Group type="102" attributes="0">
+                                              <Component id="startToggle" min="-2" pref="150" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="radioSysOn" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="radioSysOff" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
+                                          <Group type="102" alignment="0" attributes="0">
+                                              <Component id="modeToggleButton" min="-2" pref="150" max="-2" attributes="0"/>
+                                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                                              <Group type="103" groupAlignment="0" attributes="0">
+                                                  <Component id="radioAuto" min="-2" max="-2" attributes="0"/>
+                                                  <Component id="radioMan" min="-2" max="-2" attributes="0"/>
+                                              </Group>
+                                          </Group>
                                       </Group>
                                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                   </Group>
@@ -349,8 +363,15 @@
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" alignment="0" attributes="0">
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="startToggle" pref="50" max="32767" attributes="0"/>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="startToggle" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Group type="102" attributes="0">
+                                      <Component id="radioSysOn" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="radioSysOff" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="0" pref="9" max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Component id="sensPercentLabel" min="-2" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
@@ -359,8 +380,15 @@
                                   </Group>
                               </Group>
                               <EmptySpace max="-2" attributes="0"/>
-                              <Component id="modeToggleButton" min="-2" pref="50" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" attributes="0">
+                                  <Component id="modeToggleButton" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Group type="102" alignment="0" attributes="0">
+                                      <Component id="radioAuto" min="-2" max="-2" attributes="0"/>
+                                      <EmptySpace max="-2" attributes="0"/>
+                                      <Component id="radioMan" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                              </Group>
+                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -373,6 +401,7 @@
                     </Component>
                     <Component class="javax.swing.JSlider" name="sensSlider">
                       <Events>
+                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sensSliderStateChanged"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sensSliderMouseReleased"/>
                       </Events>
                     </Component>
@@ -396,6 +425,26 @@
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseClicked"/>
                       </Events>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="radioAuto">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Auto mode"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="radioMan">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="Manual mode"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="radioSysOn">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="System on"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JRadioButton" name="radioSysOff">
+                      <Properties>
+                        <Property name="text" type="java.lang.String" value="System off"/>
+                      </Properties>
                     </Component>
                   </SubComponents>
                 </Container>

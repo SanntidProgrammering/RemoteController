@@ -72,6 +72,10 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         sensPercentLabel = new javax.swing.JLabel();
         modeToggleButton = new javax.swing.JToggleButton();
         startToggle = new javax.swing.JToggleButton();
+        radioAuto = new javax.swing.JRadioButton();
+        radioMan = new javax.swing.JRadioButton();
+        radioSysOn = new javax.swing.JRadioButton();
+        radioSysOff = new javax.swing.JRadioButton();
         rightTopPanel = new javax.swing.JPanel();
         inputPanel = new javax.swing.JPanel();
         xNameLabel = new javax.swing.JLabel();
@@ -252,6 +256,11 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
 
         sensLabel.setText("Sensitivity:");
 
+        sensSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                sensSliderStateChanged(evt);
+            }
+        });
         sensSlider.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 sensSliderMouseReleased(evt);
@@ -274,6 +283,14 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
             }
         });
 
+        radioAuto.setText("Auto mode");
+
+        radioMan.setText("Manual mode");
+
+        radioSysOn.setText("System on");
+
+        radioSysOff.setText("System off");
+
         javax.swing.GroupLayout setupPanelLayout = new javax.swing.GroupLayout(setupPanel);
         setupPanel.setLayout(setupPanelLayout);
         setupPanelLayout.setHorizontalGroup(
@@ -289,8 +306,18 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
                         .addComponent(sensPercentLabel))
                     .addGroup(setupPanelLayout.createSequentialGroup()
                         .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(setupPanelLayout.createSequentialGroup()
+                                .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(radioSysOn)
+                                    .addComponent(radioSysOff)))
+                            .addGroup(setupPanelLayout.createSequentialGroup()
+                                .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(radioAuto)
+                                    .addComponent(radioMan))))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -298,16 +325,26 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
             setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(setupPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(startToggle, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(startToggle, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(radioSysOn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radioSysOff)))
+                .addGap(0, 9, Short.MAX_VALUE)
                 .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(sensPercentLabel)
                     .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(sensSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(sensLabel)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(radioAuto)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(radioMan)))
+                .addGap(8, 8, 8))
         );
 
         javax.swing.GroupLayout rightCenPanelLayout = new javax.swing.GroupLayout(rightCenPanel);
@@ -532,11 +569,15 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         if(this.startToggle.isSelected()){
             this.controller.setStart(true);
             this.startToggle.setText("Stop system");
+            this.radioSysOn.setSelected(true);
+            this.radioSysOff.setSelected(false);
             this.cameraSetup();
         }
         else{
             this.controller.setStart(false);
             this.startToggle.setText("Start system");
+            this.radioSysOn.setSelected(false);
+            this.radioSysOff.setSelected(true);
             this.stopCamera();
         }
     }//GEN-LAST:event_startToggleMouseClicked
@@ -545,10 +586,14 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         if(this.modeToggleButton.isSelected()){
             this.controller.setAuto(true);
             this.modeToggleButton.setText("Man mode");
+            this.radioAuto.setSelected(true);
+            this.radioMan.setSelected(false);
         }
         else{
             this.controller.setAuto(false);
             this.modeToggleButton.setText("Auto mode");
+            this.radioAuto.setSelected(false);
+            this.radioMan.setSelected(true);
 
         }
     }//GEN-LAST:event_modeToggleButtonMouseClicked
@@ -558,6 +603,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         this.controller.setSens(this.sens);
         this.sensPercentLabel.setText(""+this.sens+"%");
     }//GEN-LAST:event_sensSliderMouseReleased
+
+    private void sensSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sensSliderStateChanged
+        //this.sens = this.sensSlider.getValue();
+        //this.controller.setSens(this.sens);
+        //this.sensPercentLabel.setText(""+this.sens+"%");
+
+    }//GEN-LAST:event_sensSliderStateChanged
 
    
     
@@ -611,6 +663,10 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     private javax.swing.JButton leftServoButton;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JToggleButton modeToggleButton;
+    private javax.swing.JRadioButton radioAuto;
+    private javax.swing.JRadioButton radioMan;
+    private javax.swing.JRadioButton radioSysOff;
+    private javax.swing.JRadioButton radioSysOn;
     private javax.swing.JButton revButton;
     private javax.swing.JButton rightButton;
     private javax.swing.JPanel rightCenPanel;
@@ -714,6 +770,8 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         startToggle.setFocusable(false);
         modeToggleButton.setFocusable(false);
         sensSlider.setFocusable(false);
+        this.radioMan.setSelected(true);
+        this.radioSysOff.setSelected(true);
     }
         private void cameraSetup(){
         myThread = new DaemonThread(cameraPanel);
