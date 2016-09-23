@@ -12,11 +12,6 @@ package remotecontroller;
 public interface DataInterface {
     
     void setData(byte[] data);
-    
-    byte[] getData();
-    
-    boolean getThreadStatus();
-    
-    void setThreadStatus(boolean state);
+       
     
 }

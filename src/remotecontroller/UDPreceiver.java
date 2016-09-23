@@ -7,26 +7,23 @@ package remotecontroller;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 /**
  *
  * @author lars-harald
  */
 public class UDPreceiver implements Runnable {
-    private ReceiveDataObservable handler;
+    private ReceiveDataObservable observer;
     private DatagramSocket receiveSocket;
     private int port;
     private Thread t;
 
     
-    public UDPreceiver(DataInterface handler, int port){
-        if(handler instanceof ReceiveDataObservable){
-        this.handler = (ReceiveDataObservable) handler;
+    public UDPreceiver(DataInterface dataInterface, int port){
+        if(dataInterface instanceof ReceiveDataObservable){
+        this.observer = (ReceiveDataObservable) dataInterface;
         }
         this.port = port;
-
     }
     
     public void start(){
@@ -35,14 +32,14 @@ public class UDPreceiver implements Runnable {
     }
     
     public void run() {
-        if(handler != null) {
+        if(observer != null) {
             try {
                 receiveSocket = new DatagramSocket(port);
                 DatagramPacket receivePacket = new DatagramPacket(new byte[6],6);
                 
-                while(handler.getThreadStatus()){
+                while(observer.isThreadStatus()){
                     receiveSocket.receive(receivePacket);
-                    handler.setData(receivePacket.getData());
+                    observer.setData(receivePacket.getData());
                 }
             } catch (IOException e) {
                 System.out.println(e);

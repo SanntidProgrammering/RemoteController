@@ -25,6 +25,7 @@ public class Main {
         ReceiveDataObservable receiveDataObserver;
         
         receiveDataObserver = new ReceiveDataObservable();
+        receiveDataObserver.setThreadStatus(true);
         udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
         udpReceiver.start();
         

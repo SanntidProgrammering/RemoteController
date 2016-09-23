@@ -8,7 +8,6 @@ package remotecontroller;
 import java.util.Arrays;
 import java.util.Observable;
 
-
 /**
  *
  * @author mgrib
@@ -38,7 +37,7 @@ Byte 5: reserved
 
 
  */
-public class Datahandler implements DataInterface {
+public class Datahandler {
 
     private byte[] data;
     private boolean dataReceiveAvaliavle = false;
@@ -53,43 +52,43 @@ public class Datahandler implements DataInterface {
     public byte[] getData() {
         return this.data;
     }
-   
-   public void setData(byte[] data){
+
+    public void setData(byte[] data) {
         // check if the array is of the same length and the requestcode has changed
-        if(data.length == this.data.length && data[5] != this.data[5]) {
+        if (data.length == this.data.length && data[5] != this.data[5]) {
             this.data = data;
         }
     }
-    
-    public boolean getDataSendAvailable(){
+
+    public boolean getDataSendAvailable() {
         return dataSendAvailable;
     }
-    
-    public boolean getDataReceiveAvaliable(){
+
+    public boolean getDataReceiveAvaliable() {
         return dataReceiveAvaliavle;
     }
 
     public boolean getThreadStatus() {
         return startThreads;
     }
-    
-    public void setThreadStatus(boolean state){
-       this.startThreads = state;
-   }
-    
-    public void setRequestBit(){
+
+    public void setThreadStatus(boolean state) {
+        this.startThreads = state;
+    }
+
+    public void setRequestBit() {
         data[3] = this.setBit(data[3], 7);
     }
-    
-    public void releaseRequestBit(){
+
+    public void releaseRequestBit() {
         data[3] = this.releaseBit(data[3], 7);
     }
-    
-    private byte setBit(byte b, int bit){
+
+    private byte setBit(byte b, int bit) {
         return b |= 1 << bit;
     }
-    
-    private byte releaseBit(byte b, int bit){
+
+    private byte releaseBit(byte b, int bit) {
         return b &= ~(1 << bit);
     }
 

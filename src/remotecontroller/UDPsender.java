@@ -19,7 +19,6 @@ import java.util.logging.Logger;
 public class UDPsender {
     //  ip address 158.38.199.18
     private DatagramSocket clientSocket;
-    private int port;
     /*
     * create new UDP Client
     */
@@ -28,9 +27,9 @@ public class UDPsender {
     }
     
     /*
-    * connect method
+    * init method
     */
-    private void connect(){
+    private void init(){
         try {
             clientSocket = new DatagramSocket();
         }  catch (SocketException ex) {
@@ -43,7 +42,7 @@ public class UDPsender {
     * send byte[] packet to socket 
     */
     public void send(String ipAddress, byte[] data, int port){
-        this.connect();
+        this.init();
          try {
             
             DatagramPacket packet = new DatagramPacket(data, 
