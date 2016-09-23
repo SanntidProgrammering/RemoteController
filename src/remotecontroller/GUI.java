@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Observer;
 import org.opencv.core.Core;
 import java.util.Timer;
 
@@ -16,13 +17,12 @@ import java.util.Timer;
  *
  * @author Magnus Gribbestad
  */
-public class GUI extends javax.swing.JFrame implements KeyListener {
-    private int sens;
-    private boolean autoMode;
-    private boolean systemOn;
+public class GUI extends javax.swing.JFrame implements KeyListener { // implement Observer
+
     private DaemonThread myThread;
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
+    private int sens;
  
     public GUI() {
         Timer fTimer = new Timer();
@@ -252,25 +252,25 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
         sensLabel.setText("Sensitivity:");
 
-        sensSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sensSliderStateChanged(evt);
+        sensSlider.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                sensSliderMouseReleased(evt);
             }
         });
 
         sensPercentLabel.setText("100%");
 
         modeToggleButton.setText("Auto mode");
-        modeToggleButton.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                modeToggleButtonStateChanged(evt);
+        modeToggleButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                modeToggleButtonMouseClicked(evt);
             }
         });
 
         startToggle.setText("Start system");
-        startToggle.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                startToggleStateChanged(evt);
+        startToggle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                startToggleMouseClicked(evt);
             }
         });
 
@@ -438,7 +438,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+//    @Override
+//    private void update(){
+//        
+//    }
+    
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
         this.fwdButton.setBackground(Color.green);
         if(!this.fwd){
@@ -523,40 +528,36 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         this.rightServo = false;
     }//GEN-LAST:event_rightServoButtonKeyReleased
 
-    private void sensSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sensSliderStateChanged
-        this.sens = this.sensSlider.getValue();
-        this.controller.setSens(this.sens);
-        this.sensPercentLabel.setText(""+this.sens+"%");
-        
-    }//GEN-LAST:event_sensSliderStateChanged
-
-    private void modeToggleButtonStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_modeToggleButtonStateChanged
-        if(this.modeToggleButton.isSelected()){
-            this.autoMode = true;
-            //this.modeLabel1.setText("Auto Mode");
-            this.modeToggleButton.setText("Man mode");
-        }
-        else{
-            this.autoMode = false;
-            this.modeToggleButton.setText("Auto mode");
-            //this.modeLabel1.setText("Manual Mode");
-        }
-        
-    }//GEN-LAST:event_modeToggleButtonStateChanged
-
-    private void startToggleStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_startToggleStateChanged
+    private void startToggleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseClicked
         if(this.startToggle.isSelected()){
-            this.systemOn = true;
+            this.controller.setStart(true);
             this.startToggle.setText("Stop system");
             this.cameraSetup();
         }
         else{
-            this.systemOn = false;
+            this.controller.setStart(false);
             this.startToggle.setText("Start system");
             this.stopCamera();
         }
-        
-    }//GEN-LAST:event_startToggleStateChanged
+    }//GEN-LAST:event_startToggleMouseClicked
+
+    private void modeToggleButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseClicked
+        if(this.modeToggleButton.isSelected()){
+            this.controller.setAuto(true);
+            this.modeToggleButton.setText("Man mode");
+        }
+        else{
+            this.controller.setAuto(false);
+            this.modeToggleButton.setText("Auto mode");
+
+        }
+    }//GEN-LAST:event_modeToggleButtonMouseClicked
+
+    private void sensSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sensSliderMouseReleased
+        this.sens = this.sensSlider.getValue();
+        this.controller.setSens(this.sens);
+        this.sensPercentLabel.setText(""+this.sens+"%");
+    }//GEN-LAST:event_sensSliderMouseReleased
 
    
     
@@ -711,7 +712,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
         leftServoButton.setFocusable(false);
         rightServoButton.setFocusable(false);
         startToggle.setFocusable(false);
-        //debuggerButton.setFocusable(false);
         modeToggleButton.setFocusable(false);
         sensSlider.setFocusable(false);
     }

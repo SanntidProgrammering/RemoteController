@@ -68,10 +68,21 @@ public class GUIController extends TimerTask {
         System.out.println("Set RIGHT SERVO");
     }
     public void setStart(boolean value){  
-        System.out.println("Set START");
+        if (value){
+            System.out.println("START SYSTEM");
+        }
+        else if(!value){
+            System.out.println("STOP SYSTEM");
+        }
     }
-    public void setAuto(boolean value){    
-        System.out.println("Set AUTO");
+    public void setAuto(boolean value){
+        if (value){
+            System.out.println("AUTO MODE ON");
+        }
+        else if(!value){
+            System.out.println("MANUAL MODE ON");
+        }
+      
     }
     public void setSens(int sens){
         System.out.println("New sens = " + sens);

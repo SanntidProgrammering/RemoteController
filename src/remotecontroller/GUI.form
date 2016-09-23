@@ -373,7 +373,7 @@
                     </Component>
                     <Component class="javax.swing.JSlider" name="sensSlider">
                       <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sensSliderStateChanged"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sensSliderMouseReleased"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="sensPercentLabel">
@@ -386,7 +386,7 @@
                         <Property name="text" type="java.lang.String" value="Auto mode"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="modeToggleButtonStateChanged"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="modeToggleButtonMouseClicked"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JToggleButton" name="startToggle">
@@ -394,7 +394,7 @@
                         <Property name="text" type="java.lang.String" value="Start system"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="startToggleStateChanged"/>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseClicked"/>
                       </Events>
                     </Component>
                   </SubComponents>
