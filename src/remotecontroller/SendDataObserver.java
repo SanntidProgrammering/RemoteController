@@ -24,6 +24,7 @@ public class SendDataObserver implements Observer, DataInterface {
     private Observable ob; //////////////////////*************************** endres til subklasse!!!!!!!!!!
     private byte[] data;
     private boolean threadStatus;
+    private boolean dataChanged;
 
     public SendDataObserver(Observable ob) {
         this.data = new byte[6];
@@ -31,18 +32,27 @@ public class SendDataObserver implements Observer, DataInterface {
 
     }
 
+    @Override
     public void update(Observable obs, Object obj) {
         if (obs == this.ob) {
             byte[] b = this.deserializeData(obj);
+            this.setData(b);
+            if (dataChanged) {
+                this.sendDataToSocket(this.getData());
+            } else {
+                System.out.println("could not set data and send in update, senddataobserver");
+            }
+            
         }
     }
 
+    @Override
     public void setData(byte[] data) {
 
         if (data != null) {
             if (data.length == this.data.length) {
                 this.data = data;
-                this.sendDataToSocket(this.getData());
+                dataChanged = true;
             }
         }
     }
@@ -71,8 +81,9 @@ public class SendDataObserver implements Observer, DataInterface {
             return null;
         }
     }
-    
+
     private void sendDataToSocket(byte[] data) {
         new UDPsender().send(Main.IPADDRESS, data, Main.SENDPORT);
+        dataChanged = false;
     }
 }

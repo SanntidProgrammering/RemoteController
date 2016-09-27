@@ -21,13 +21,20 @@ public class Main {
 
     
     public static void main(String[] args){
+        Datahandler datahandler = new Datahandler();
+        datahandler.setThreadStatus(true);
+        
         UDPreceiver udpReceiver;
         ReceiveDataObservable receiveDataObserver;
         
-        receiveDataObserver = new ReceiveDataObservable();
-        receiveDataObserver.setThreadStatus(true);
+        // create the subject  of receiving data to GUI
+        receiveDataObserver = new ReceiveDataObservable(datahandler);
+        // create the UDP thread, puts data into subject
         udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
         udpReceiver.start();
+        
+        GUIController guiController = new GUIController();
+        
         
         
         
