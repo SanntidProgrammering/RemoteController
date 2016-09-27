@@ -33,8 +33,7 @@ public class SendDataFromGui implements Runnable {
 
         while (datahandler.shouldThreadRun()) {
             this.checkSendDataAvailable(); // should block until data send available
-            this.sendDataToSocket(datahandler.getDataFromGui());
-            Main.enumStateEvent = SendEventState.FALSE;
+            this.sendDataToSocket(datahandler.getDataFromGui()); // getDataFromGui sets Event to false again
         }
     }
 

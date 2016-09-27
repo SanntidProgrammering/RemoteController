@@ -129,91 +129,114 @@ public class Datahandler {
     //****************************************************************
     //************** FROM GUI METHODS*********************************
     public byte[] getDataFromGui() {
+        Main.enumStateEvent = SendEventState.FALSE;
         return this.dataFromGui;
+
     }
 
     public void stopAUV() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 0);
+        this.fireStateChanged();
     }
 
     public void releaseStopAUV() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 0);
+        this.fireStateChanged();
     }
 
     public void goFwd() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 1);
+        this.fireStateChanged();
     }
 
     public void releaseGoFwd() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 1);
+        this.fireStateChanged();
     }
 
     public void goRew() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 2);
+        this.fireStateChanged();
     }
 
     public void releaseGoRew() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 2);
+        this.fireStateChanged();
     }
 
     public void goLeft() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 3);
+        this.fireStateChanged();
     }
 
     public void releaseGoLeft() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 3);
+        this.fireStateChanged();
     }
 
     public void goRight() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 4);
+        this.fireStateChanged();
     }
 
     public void releaseGoRight() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
+        this.fireStateChanged();
     }
 
     public void setLeftMotorSpeed(byte speed) {
         dataFromGui[1] = speed;
+        this.fireStateChanged();
     }
 
     public void setRightMotorSpeed(byte speed) {
         dataFromGui[2] = speed;
+        this.fireStateChanged();
     }
 
     public void setLeftServo() {
         dataFromGui[3] = this.setBit(dataFromGui[0], 0);
+        this.fireStateChanged();
     }
 
     public void resetLeftServo() {
         dataFromGui[3] = this.releaseBit(dataFromGui[0], 0);
+        this.fireStateChanged();
     }
 
     public void setRightServo() {
         dataFromGui[3] = this.setBit(dataFromGui[0], 1);
+        this.fireStateChanged();
     }
 
     public void resetRightServo() {
         dataFromGui[3] = this.releaseBit(dataFromGui[0], 1);
+        this.fireStateChanged();
     }
 
     public void AUVmanualMode() {
         dataFromGui[3] = this.releaseBit(dataFromGui[0], 2);
+        this.fireStateChanged();
     }
 
     public void AUVautoMode() {
         dataFromGui[3] = this.setBit(dataFromGui[0], 2);
+        this.fireStateChanged();
     }
 
     public void enableAUV() {
         dataFromGui[3] = this.setBit(dataFromGui[0], 3);
+        this.fireStateChanged();
     }
 
     public void disableAUV() {
         dataFromGui[3] = this.releaseBit(dataFromGui[0], 3);
+        this.fireStateChanged();
     }
 
     public void setSensitivity(byte sensetivity) {
         dataFromGui[4] = sensetivity;
+        this.fireStateChanged();
     }
 
     public byte getSensitivity() {
@@ -226,16 +249,13 @@ public class Datahandler {
 
     public void incrementRequestCode() {
         dataFromGui[5]++;
+        this.fireStateChanged();
     }
-    
-    public synchronized void fireStateChanged(){
+
+    public synchronized void fireStateChanged() {
         Main.enumStateEvent = SendEventState.TRUE;
         notifyAll();
-        
-        
+
     }
-    
-    
+
 }
-
-
