@@ -17,6 +17,7 @@ public class Main {
     static final String IPADDRESS = "192.168.0.10";
     static final int RECEIVEPORT = 5000;
     static final int SENDPORT = 5001;
+    static SendEventState enumStateEvent;
     
 
     
@@ -34,6 +35,10 @@ public class Main {
         udpReceiver.start();
         
         GUIController guiController = new GUIController();
+        
+        SendDataFromGui sendDataFromGui = new SendDataFromGui(datahandler);
+        sendDataFromGui.start();
+        
         
         
         

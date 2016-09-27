@@ -67,7 +67,7 @@ public class Datahandler {
 
     //*****************************************************************
     //********************** THREAD STATUS METHODS*********************
-    public boolean isThreadStatus() {
+    public boolean shouldThreadRun() {
         return threadStatus;
     }
 
@@ -77,14 +77,7 @@ public class Datahandler {
 
     //*****************************************************************
     //*************** FROM ARDUINO METHODS*****************************
-    public synchronized byte[] getDataFromArduino() {
-        this.dataFromArduinoAvaliable = false;
-        notifyAll();
-        return this.dataFromArduino;
-
-    }
-
-    public synchronized void handleDataFromArduino(byte[] data) {
+    public void handleDataFromArduino(byte[] data) {
         // check if the array is of the same length and the requestcode has changed
         if (data.length == this.dataFromArduino.length && data[5] != this.getRequestCodeFromArduino()) {
             this.dataFromArduino = data;
@@ -95,7 +88,6 @@ public class Datahandler {
             this.dataFromArduinoAvaliable = true;
 
         }
-        notifyAll();
     }
 
     public boolean isDataFromArduinoAvailable() {
@@ -235,20 +227,15 @@ public class Datahandler {
     public void incrementRequestCode() {
         dataFromGui[5]++;
     }
+    
+    public synchronized void fireStateChanged(){
+        Main.enumStateEvent = SendEventState.TRUE;
+        notifyAll();
+        
+        
+    }
+    
+    
 }
 
 
-/*
-Sending protocol:
-Byte 0-x: [bit 0, bit 1, bit 2, bit 3, bit 4, bit 5, bit 6, bit 7]
-
-Bit 1 = ON/Active
-bit 2 = Off/Not active
-
-Byte 0:[stopp, fwd, rev, left, right, bit 5, bit 6, bit 7]
-Byte 1:[left motor speed]
-Byte 2:[right motor speed]
-Byte 3:[left servo,right servo, auto/manual, start program,...,request feedback]
-Byte 4:[sensitivity]
-Byte 5:[reservert]
- */

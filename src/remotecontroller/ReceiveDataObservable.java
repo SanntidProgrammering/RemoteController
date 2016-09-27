@@ -36,4 +36,8 @@ public class ReceiveDataObservable extends Observable implements DataInterface {
             super.notifyObservers();
         }
     }
+    
+    public boolean shouldChildOfThisRun(){
+        return datahandler.shouldThreadRun();
+    }
 }
