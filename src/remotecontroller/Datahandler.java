@@ -48,7 +48,6 @@ public class Datahandler {
     private int pixyYvalue;
     private int distanceSensor;
     private byte requestCodeFromArduino;
-
     private boolean enableAUV;
 
     public Datahandler() {
@@ -80,6 +79,7 @@ public class Datahandler {
     //*************** FROM ARDUINO METHODS*****************************
     public synchronized byte[] getDataFromArduino() {
         this.dataFromArduinoAvaliable = false;
+        notifyAll();
         return this.dataFromArduino;
 
     }
@@ -97,8 +97,8 @@ public class Datahandler {
         }
         notifyAll();
     }
-    
-    public boolean isDataFromArduinoAvailable(){
+
+    public boolean isDataFromArduinoAvailable() {
         return this.dataFromArduinoAvaliable;
     }
 
@@ -139,84 +139,102 @@ public class Datahandler {
     public byte[] getDataFromGui() {
         return this.dataFromGui;
     }
-    
-    public void stopAUV(){
-        
+
+    public void stopAUV() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 0);
+    }
+
+    public void releaseStopAUV() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 0);
     }
 
     public void goFwd() {
-        
+        dataFromGui[0] = this.setBit(dataFromGui[0], 1);
     }
 
-    public void goRew(){
-        
+    public void releaseGoFwd() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 1);
     }
-    
-    public void goLeft(){
-        
+
+    public void goRew() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 2);
     }
-    
+
+    public void releaseGoRew() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 2);
+    }
+
+    public void goLeft() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 3);
+    }
+
+    public void releaseGoLeft() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 3);
+    }
+
     public void goRight() {
-        
+        dataFromGui[0] = this.setBit(dataFromGui[0], 4);
     }
-    
-    public void setLeftMotorSpeed(byte speed) {
-        
-    }
-    
-    public void setRightMotorSpeed(byte speed) {
-        
-    }
-    
-    public void setLeftServo(){
-        
-    }
-    
-    public void resetLeftServo(){
-        
-    }
-    
-    public void setRightServo(){
-        
-    }
-    
-    public void resetRightServo(){
-        
-    }
-    
-    public void AUVmanualMode(){
-        
-    }
-    
-    public void AUVautoMode(){
-        
-    }
-       
-    public void enableAUV() {
 
+    public void releaseGoRight() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
+    }
+
+    public void setLeftMotorSpeed(byte speed) {
+        dataFromGui[1] = speed;
+    }
+
+    public void setRightMotorSpeed(byte speed) {
+        dataFromGui[2] = speed;
+    }
+
+    public void setLeftServo() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 0);
+    }
+
+    public void resetLeftServo() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 0);
+    }
+
+    public void setRightServo() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 1);
+    }
+
+    public void resetRightServo() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 1);
+    }
+
+    public void AUVmanualMode() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 2);
+    }
+
+    public void AUVautoMode() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 2);
+    }
+
+    public void enableAUV() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 3);
     }
 
     public void disableAUV() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 3);
+    }
 
+    public void setSensitivity(byte sensetivity) {
+        dataFromGui[4] = sensetivity;
     }
-    
-    public void setSensitivity(byte sensetivity){
-        
-    }
-    
-    public byte getSensitivity(){
-        return 0;
-    }
-    
-    public byte getRequestCode(){
-        return 0;
-    }
-    
-    public void incrementRequestCode(){
-        
-    }
-    
 
+    public byte getSensitivity() {
+        return dataFromGui[4];
+    }
+
+    public byte getRequestCode() {
+        return dataFromGui[5];
+    }
+
+    public void incrementRequestCode() {
+        dataFromGui[5]++;
+    }
 }
 
 
@@ -233,4 +251,4 @@ Byte 2:[right motor speed]
 Byte 3:[left servo,right servo, auto/manual, start program,...,request feedback]
 Byte 4:[sensitivity]
 Byte 5:[reservert]
-*/
+ */
