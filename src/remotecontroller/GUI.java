@@ -284,12 +284,19 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         });
 
         radioAuto.setText("Auto mode");
+        radioAuto.setEnabled(false);
+        radioAuto.setRolloverEnabled(false);
 
         radioMan.setText("Manual mode");
+        radioMan.setEnabled(false);
+        radioMan.setOpaque(false);
+        radioMan.setRolloverEnabled(false);
 
         radioSysOn.setText("System on");
+        radioSysOn.setEnabled(false);
 
         radioSysOff.setText("System off");
+        radioSysOff.setEnabled(false);
 
         javax.swing.GroupLayout setupPanelLayout = new javax.swing.GroupLayout(setupPanel);
         setupPanel.setLayout(setupPanelLayout);

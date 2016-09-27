@@ -429,21 +429,28 @@
                     <Component class="javax.swing.JRadioButton" name="radioAuto">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Auto mode"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="rolloverEnabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="radioMan">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="Manual mode"/>
+                        <Property name="enabled" type="boolean" value="false"/>
+                        <Property name="opaque" type="boolean" value="false"/>
+                        <Property name="rolloverEnabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="radioSysOn">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="System on"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="radioSysOff">
                       <Properties>
                         <Property name="text" type="java.lang.String" value="System off"/>
+                        <Property name="enabled" type="boolean" value="false"/>
                       </Properties>
                     </Component>
                   </SubComponents>

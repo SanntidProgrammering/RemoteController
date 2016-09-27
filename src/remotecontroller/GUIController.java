@@ -53,13 +53,28 @@ public class GUIController extends TimerTask {
        }
     }
     public void setLeft(boolean value){  
+        if(value){
         System.out.println("Set LEFT");
+       }
+       else{
+           System.out.println("Not LEFT");
+       }
     }
     public void setRev(boolean value){  
-        System.out.println("Set REV");
+        if(value){
+        System.out.println("Set Rev");
+       }
+       else{
+           System.out.println("Not Rev");
+       }
     }
     public void setRight(boolean value){ 
+        if(value){
         System.out.println("Set RIGHT");
+       }
+       else{
+           System.out.println("Not RIGHT");
+       }
     }
     public void setLeftServo(boolean value){  
         System.out.println("Set LEFT SERVO");
