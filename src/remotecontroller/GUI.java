@@ -23,7 +23,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener {
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
  
-    public GUI() {
+    public GUI(Datahandler datahandler) {
         this.controller = new GUIController();
         initComponents();
         this.sens = 50;
