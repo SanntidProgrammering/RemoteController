@@ -26,92 +26,92 @@ public class GUIController extends TimerTask {
     @Override
     public void run(){
         System.out.println("Request data");
-        this.datahandler.incrementRequestCode();
+        //this.datahandler.incrementRequestCode();
     }
     
     public void setFwd(boolean value){ 
        if(value){
         System.out.println("Set FWD");
-        this.datahandler.goFwd();
+        //this.datahandler.goFwd();
        }
        else{
         System.out.println("Not FWD");
-        this.datahandler.releaseGoFwd();
+        //this.datahandler.releaseGoFwd();
        }
     }
     public void setLeft(boolean value){  
         if(value){
         System.out.println("Set LEFT");
-        this.datahandler.goLeft();
+        //this.datahandler.goLeft();
        }
        else{
            System.out.println("Not LEFT");
-           this.datahandler.releaseGoLeft();
+           //this.datahandler.releaseGoLeft();
        }
     }
     public void setRev(boolean value){  
         if(value){
            System.out.println("Set Rev");
-           this.datahandler.goRew();
+           //this.datahandler.goRew();
        }
        else{
            System.out.println("Not Rev");
-           this.datahandler.releaseGoRew();
+           //this.datahandler.releaseGoRew();
        }
     }
     public void setRight(boolean value){ 
         if(value){
         System.out.println("Set RIGHT");
-        this.datahandler.goRight();
+        //this.datahandler.goRight();
        }
        else{
            System.out.println("Not RIGHT");
-           this.datahandler.releaseGoRight();
+           //this.datahandler.releaseGoRight();
        }
     }
     public void setLeftServo(boolean value){ 
         if(value){
             System.out.println("Set LEFT SERVO");
-          this.datahandler.setLeftServo();
+          //this.datahandler.setLeftServo();
         }
         else{
-          this.datahandler.resetLeftServo();
+          //this.datahandler.resetLeftServo();
         }
 
     }
     public void setRightServo(boolean value){  
         if(value){
             System.out.println("Set RIGHT SERVO");
-            this.datahandler.setRightServo();
+            //this.datahandler.setRightServo();
         }
         else{
-          this.datahandler.resetRightServo();
+          //this.datahandler.resetRightServo();
         }
     }
     public void setStart(boolean value){  
         if (value){
             System.out.println("START SYSTEM");
-            this.datahandler.enableAUV();
+            //this.datahandler.enableAUV();
         }
         else if(!value){
             System.out.println("STOP SYSTEM");
-            this.datahandler.disableAUV();
+            //this.datahandler.disableAUV();
         }
     }
     public void setAuto(boolean value){
         if (value){
             System.out.println("AUTO MODE ON");
-            this.datahandler.AUVautoMode();
+            //this.datahandler.AUVautoMode();
         }
         else if(!value){
             System.out.println("MANUAL MODE ON");
-            this.datahandler.AUVmanualMode();
+            //this.datahandler.AUVmanualMode();
         }
       
     }
     public void setSens(int sens){
         System.out.println("New sens = " + sens);
-        this.datahandler.setSensitivity(sens);
+        //this.datahandler.setSensitivity(sens);
     }
     
     
