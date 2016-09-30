@@ -11,96 +11,107 @@ import java.util.TimerTask;
 /**
  *
  * @author mgrib
-
-Byte 0-x: [bit 0, bit 1, bit 2, bit 3, bit 4, bit 5, bit 6, bit 7]
-* 
-Bit 1 = ON/Active
-bit 2 = Off/Not active
-Byte 0:[stopp, fwd, rev, left, right, bit 5, bit 6, bit 7]
-Byte 1:[left motor speed]
-Byte 2:[right motor speed]
-Byte 3:[left servo,right servo, auto/manual, start program,...,request feedback]
-Byte 4:[sensitivity]
-Byte 5:[reservert]
-Receiving protocol:
-* 
-Byte 0: Pixy x value lowbyte
-Byte 1: Pixy x value highbyte
-Byte 2: Pixy y value lowbyte
-Byte 3: Pixy y value highbyte
-Byte 4: Distance sensor
-Byte 5: reserved
-
 */ 
+
+// Datahandler mangla:
+// Set og release til: Request
 
 public class GUIController extends TimerTask {
     
+    private Datahandler datahandler;
     
     public GUIController(){
-        
+    datahandler = new Datahandler();
     }
     @Override
     public void run(){
         System.out.println("Request data");
+        this.datahandler.incrementRequestCode();
     }
     
     public void setFwd(boolean value){ 
        if(value){
         System.out.println("Set FWD");
+        this.datahandler.goFwd();
        }
        else{
-           System.out.println("Not FWD");
+        System.out.println("Not FWD");
+        this.datahandler.releaseGoFwd();
        }
     }
     public void setLeft(boolean value){  
         if(value){
         System.out.println("Set LEFT");
+        this.datahandler.goLeft();
        }
        else{
            System.out.println("Not LEFT");
+           this.datahandler.releaseGoLeft();
        }
     }
     public void setRev(boolean value){  
         if(value){
-        System.out.println("Set Rev");
+           System.out.println("Set Rev");
+           this.datahandler.goRew();
        }
        else{
            System.out.println("Not Rev");
+           this.datahandler.releaseGoRew();
        }
     }
     public void setRight(boolean value){ 
         if(value){
         System.out.println("Set RIGHT");
+        this.datahandler.goRight();
        }
        else{
            System.out.println("Not RIGHT");
+           this.datahandler.releaseGoRight();
        }
     }
-    public void setLeftServo(boolean value){  
-        System.out.println("Set LEFT SERVO");
+    public void setLeftServo(boolean value){ 
+        if(value){
+            System.out.println("Set LEFT SERVO");
+          this.datahandler.setLeftServo();
+        }
+        else{
+          this.datahandler.resetLeftServo();
+        }
+
     }
     public void setRightServo(boolean value){  
-        System.out.println("Set RIGHT SERVO");
+        if(value){
+            System.out.println("Set RIGHT SERVO");
+            this.datahandler.setRightServo();
+        }
+        else{
+          this.datahandler.resetRightServo();
+        }
     }
     public void setStart(boolean value){  
         if (value){
             System.out.println("START SYSTEM");
+            this.datahandler.enableAUV();
         }
         else if(!value){
             System.out.println("STOP SYSTEM");
+            this.datahandler.disableAUV();
         }
     }
     public void setAuto(boolean value){
         if (value){
             System.out.println("AUTO MODE ON");
+            this.datahandler.AUVautoMode();
         }
         else if(!value){
             System.out.println("MANUAL MODE ON");
+            this.datahandler.AUVmanualMode();
         }
       
     }
     public void setSens(int sens){
         System.out.println("New sens = " + sens);
+        this.datahandler.setSensitivity(sens);
     }
     
     

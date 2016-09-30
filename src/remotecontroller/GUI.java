@@ -779,8 +779,26 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         sensSlider.setFocusable(false);
         this.radioMan.setSelected(true);
         this.radioSysOff.setSelected(true);
+        this.colorSetup();
     }
-        private void cameraSetup(){
+    private void colorSetup(){
+        Color color2 = Color.GRAY;
+        Color color = Color.LIGHT_GRAY;
+        this.setBackground(color);
+        this.mainPanel.setBackground(color);
+        this.leftPanel.setBackground(color);
+        this.rightPanel.setBackground(color);
+        this.rightCenPanel.setBackground(color);
+        this.rightLowPanel.setBackground(color);
+        this.rightTopPanel.setBackground(color);
+        this.inputPanel.setBackground(color);
+        this.controlPanel.setBackground(color);
+        this.setupPanel.setBackground(color);
+        this.cameraPanel.setBackground(color);
+        this.jPanel4.setBackground(color);
+    }
+    
+    private void cameraSetup(){
         myThread = new DaemonThread(cameraPanel);
         Thread t = new Thread(myThread);
         t.setDaemon(true);
