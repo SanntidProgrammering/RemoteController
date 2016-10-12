@@ -49,10 +49,12 @@ public class Datahandler {
     private int distanceSensor;
     private byte requestCodeFromArduino;
     private boolean enableAUV;
+    private SendData sendData;
 
     public Datahandler() {
         this.dataFromArduino = new byte[6];
         this.dataFromGui = new byte[6];
+        this.sendData = new SendData();
     }
 
     //*****************************************************************
@@ -195,42 +197,42 @@ public class Datahandler {
     }
 
     public void setLeftServo() {
-        dataFromGui[3] = this.setBit(dataFromGui[0], 0);
+        dataFromGui[3] = this.setBit(dataFromGui[3], 0);
         this.fireStateChanged();
     }
 
     public void resetLeftServo() {
-        dataFromGui[3] = this.releaseBit(dataFromGui[0], 0);
+        dataFromGui[3] = this.releaseBit(dataFromGui[3], 0);
         this.fireStateChanged();
     }
 
     public void setRightServo() {
-        dataFromGui[3] = this.setBit(dataFromGui[0], 1);
+        dataFromGui[3] = this.setBit(dataFromGui[3], 1);
         this.fireStateChanged();
     }
 
     public void resetRightServo() {
-        dataFromGui[3] = this.releaseBit(dataFromGui[0], 1);
+        dataFromGui[3] = this.releaseBit(dataFromGui[3], 1);
         this.fireStateChanged();
     }
 
     public void AUVmanualMode() {
-        dataFromGui[3] = this.releaseBit(dataFromGui[0], 2);
+        dataFromGui[3] = this.releaseBit(dataFromGui[3], 2);
         this.fireStateChanged();
     }
 
     public void AUVautoMode() {
-        dataFromGui[3] = this.setBit(dataFromGui[0], 2);
+        dataFromGui[3] = this.setBit(dataFromGui[3], 2);
         this.fireStateChanged();
     }
 
     public void enableAUV() {
-        dataFromGui[3] = this.setBit(dataFromGui[0], 3);
+        dataFromGui[3] = this.setBit(dataFromGui[3], 3);
         this.fireStateChanged();
     }
 
     public void disableAUV() {
-        dataFromGui[3] = this.releaseBit(dataFromGui[0], 3);
+        dataFromGui[3] = this.releaseBit(dataFromGui[3], 3);
         this.fireStateChanged();
     }
 
@@ -252,9 +254,11 @@ public class Datahandler {
         this.fireStateChanged();
     }
 
-    public synchronized void fireStateChanged() {
-        Main.enumStateEvent = SendEventState.TRUE;
-        notifyAll();
+    public void fireStateChanged() {
+        //Main.enumStateEvent = SendEventState.TRUE;
+        //notifyAll();
+        //System.out.println("Fire state changed");
+        this.sendData.sendDataToSocket(dataFromGui);
 
     }
 

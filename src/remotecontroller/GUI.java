@@ -23,11 +23,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
+    private Timer fTimer;
  
     public GUI() {
-        Timer fTimer = new Timer();
-        this.controller = new GUIController();
-        fTimer.scheduleAtFixedRate(controller, 0, 2000);
+        this.fTimer = new Timer();
+        //this.controller = new GUIController();
+        //fTimer.scheduleAtFixedRate(controller, 0, 2000);
         initComponents();
         this.sens = 50;
         this.setup();
@@ -761,6 +762,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
             }
     }
     
+    public void setHandler(Datahandler datahandler){
+        this.controller = new GUIController();
+        this.controller.setDatahandler(datahandler);
+        this.fTimer.scheduleAtFixedRate(controller, 0, 2000);
+        this.controller.setSens(sens);
+    }
+    
     public void setup(){
         this.sensSlider.setMinimum(0);
         this.sensSlider.setMaximum(100); 
@@ -779,7 +787,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         sensSlider.setFocusable(false);
         this.radioMan.setSelected(true);
         this.radioSysOff.setSelected(true);
-        this.colorSetup();
+        //this.colorSetup();
     }
     private void colorSetup(){
         Color color2 = Color.GRAY;

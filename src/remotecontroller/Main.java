@@ -5,6 +5,7 @@
  */
 package remotecontroller;
 
+import org.opencv.core.Core;
 
 /**
  *
@@ -14,30 +15,33 @@ package remotecontroller;
  */
 public class Main {
 
-    static final String IPADDRESS = "192.168.0.10";
+    static final String IPADDRESS = "192.168.0.100";//"158.38.199.15";  //"192.168.0.103"; //"158.38.199.107";//"10.16.5.58";//"10.16.5.119";//"158.38.199.107";//"192.168.0.10";
     static final int RECEIVEPORT = 5000;
-    static final int SENDPORT = 5001;
-    static SendEventState enumStateEvent;
+    static final int SENDPORT = 9876;
+    static SendEventState enumStateEvent = SendEventState.FALSE;
 
 
 
     public static void main(String[] args){
+        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Datahandler datahandler = new Datahandler();
         datahandler.setThreadStatus(true);
 
-        UDPreceiver udpReceiver;
-        ReceiveDataObservable receiveDataObserver;
+        //UDPreceiver udpReceiver;
+        //ReceiveDataObservable receiveDataObserver;
 
         // create the subject  of receiving data to GUI
-        receiveDataObserver = new ReceiveDataObservable(datahandler);
+        //receiveDataObserver = new ReceiveDataObservable(datahandler);
         // create the UDP thread, puts data into subject
-        udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
-        udpReceiver.start();
+        //udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
+        //udpReceiver.start();
 
-        GUI gui = new GUI(datahandler);
+        GUI gui = new GUI();
+        gui.setHandler(datahandler);
+        gui.setVisible(true);
 
-        SendDataFromGui sendDataFromGui = new SendDataFromGui(datahandler);
-        sendDataFromGui.start();
+        //SendDataFromGui sendDataFromGui = new SendDataFromGui(datahandler);
+        //sendDataFromGui.start();
 
     }
 
