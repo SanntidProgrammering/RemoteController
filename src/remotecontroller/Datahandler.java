@@ -5,9 +5,8 @@
  */
 package remotecontroller;
 
+import java.math.BigInteger;
 import java.util.Arrays;
-import java.util.Observable;
-
 
 /**
  *
@@ -38,93 +37,225 @@ Byte 5: reserved
 
 
  */
-public class Datahandler extends Observable{
+public class Datahandler {
 
-    private byte[] receivedData;
-    private byte[] sendData;
-    private boolean dataReceiveAvaliavle = false;
-    private boolean dataSendAvailable = false;
-
-    private boolean startThreads;
+    private byte[] dataFromArduino;
+    private byte[] dataFromGui;
+    private boolean dataFromArduinoAvaliable = false;
+    private boolean dataFromGuiAvailable = false;
+    private boolean threadStatus;
+    private int pixyXvalue;
+    private int pixyYvalue;
+    private int distanceSensor;
+    private byte requestCodeFromArduino;
+    private boolean enableAUV;
 
     public Datahandler() {
-        this.receivedData = new byte[6];
-        this.sendData = new byte[6];
+        this.dataFromArduino = new byte[6];
+        this.dataFromGui = new byte[6];
     }
 
-    public byte[] getValues(String id) {
-        byte[] returnArray = null;
-
-        if (id.equals("RECEIVE")) {
-            // check if new value is available
-            if(this.getDataReceiveAvaliable()){
-            returnArray = this.receivedData;
-            // reset the new value available flag
-            this.dataReceiveAvaliavle = false;
-            }
-        } else if (id.equals("SEND")) {
-            // check if new value is available
-            if(this.getDataSendAvailable()){
-            returnArray = this.sendData;
-            // reset the new value available flag
-            this.dataSendAvailable = false;
-            }
-        }
-        return returnArray;
-    }
-   
-    public void setValues(String id, byte[] newByteArray) {
-
-        if (id.equals("SEND")) {
-            // check if the old value has been handled first
-            if(!this.getDataSendAvailable()){
-            this.sendData = newByteArray;
-            // set new value available flag
-            dataSendAvailable = true;
-            }
-        } else if (id.equals("RECEIVE")) {
-            // che                 ck if the old value has been handled first
-            if(!this.getDataReceiveAvaliable()){
-            this.receivedData = newByteArray;
-            // set new value available flag
-            dataReceiveAvaliavle = true;
-            }
-        }
-    }
-    
-    public boolean getDataSendAvailable(){
-        return dataSendAvailable;
-    }
-    
-    public boolean getDataReceiveAvaliable(){
-        return dataReceiveAvaliavle;
-    }
-
-    public boolean getThreadStatus() {
-        return startThreads;
-    }
-    
-    public void setRequestBit(){
-        sendData[3] = this.setBit(sendData[3], 7);
-    }
-    public void releaseRequestBit(){
-        sendData[3] = this.releaseBit(sendData[3], 7);
-    }
-    
-    
-    public int hashCodeSendData(){
-        return Arrays.hashCode(sendData);
-    }
-    
-    public int hashCodeReceiveData(){
-        return Arrays.hashCode(receivedData);
-    }
-    
-    private byte setBit(byte b, int bit){
+    //*****************************************************************
+    //********** PRIVATE METHODS AREA**********************************
+    private byte setBit(byte b, int bit) {
         return b |= 1 << bit;
     }
-    private byte releaseBit(byte b, int bit){
+
+    private byte releaseBit(byte b, int bit) {
         return b &= ~(1 << bit);
+    }
+
+    //*****************************************************************
+    //********************** THREAD STATUS METHODS*********************
+    public boolean shouldThreadRun() {
+        return threadStatus;
+    }
+
+    public void setThreadStatus(boolean threadStatus) {
+        this.threadStatus = threadStatus;
+    }
+
+    //*****************************************************************
+    //*************** FROM ARDUINO METHODS*****************************
+    public void handleDataFromArduino(byte[] data) {
+        // check if the array is of the same length and the requestcode has changed
+        if (data.length == this.dataFromArduino.length && data[5] != this.getRequestCodeFromArduino()) {
+            this.dataFromArduino = data;
+            this.setDistanceSensor(data[4]);
+            this.setRequestCodeFromArduino(data[5]);
+            this.setPixyXvalue(new BigInteger(Arrays.copyOfRange(data, 0, 2)).intValue());
+            this.setPixyYvalue(new BigInteger(Arrays.copyOfRange(data, 2, 4)).intValue());
+            this.dataFromArduinoAvaliable = true;
+
+        }
+    }
+
+    public boolean isDataFromArduinoAvailable() {
+        return this.dataFromArduinoAvaliable;
+    }
+
+    public int getPixyXvalue() {
+        return pixyXvalue;
+    }
+
+    public void setPixyXvalue(int pixyXvalue) {
+        this.pixyXvalue = pixyXvalue;
+    }
+
+    public int getPixyYvalue() {
+        return pixyYvalue;
+    }
+
+    public void setPixyYvalue(int pixyYvalue) {
+        this.pixyYvalue = pixyYvalue;
+    }
+
+    public int getDistanceSensor() {
+        return distanceSensor;
+    }
+
+    public void setDistanceSensor(int distanceSensor) {
+        this.distanceSensor = distanceSensor;
+    }
+
+    public byte getRequestCodeFromArduino() {
+        return requestCodeFromArduino;
+    }
+
+    public void setRequestCodeFromArduino(byte requestCodeFromArduino) {
+        this.requestCodeFromArduino = requestCodeFromArduino;
+    }
+
+    //****************************************************************
+    //************** FROM GUI METHODS*********************************
+    public byte[] getDataFromGui() {
+        Main.enumStateEvent = SendEventState.FALSE;
+        return this.dataFromGui;
+
+    }
+
+    public void stopAUV() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 0);
+        this.fireStateChanged();
+    }
+
+    public void releaseStopAUV() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 0);
+        this.fireStateChanged();
+    }
+
+    public void goFwd() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 1);
+        this.fireStateChanged();
+    }
+
+    public void releaseGoFwd() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 1);
+        this.fireStateChanged();
+    }
+
+    public void goRew() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 2);
+        this.fireStateChanged();
+    }
+
+    public void releaseGoRew() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 2);
+        this.fireStateChanged();
+    }
+
+    public void goLeft() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 3);
+        this.fireStateChanged();
+    }
+
+    public void releaseGoLeft() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 3);
+        this.fireStateChanged();
+    }
+
+    public void goRight() {
+        dataFromGui[0] = this.setBit(dataFromGui[0], 4);
+        this.fireStateChanged();
+    }
+
+    public void releaseGoRight() {
+        dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
+        this.fireStateChanged();
+    }
+
+    public void setLeftMotorSpeed(byte speed) {
+        dataFromGui[1] = speed;
+        this.fireStateChanged();
+    }
+
+    public void setRightMotorSpeed(byte speed) {
+        dataFromGui[2] = speed;
+        this.fireStateChanged();
+    }
+
+    public void setLeftServo() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 0);
+        this.fireStateChanged();
+    }
+
+    public void resetLeftServo() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 0);
+        this.fireStateChanged();
+    }
+
+    public void setRightServo() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 1);
+        this.fireStateChanged();
+    }
+
+    public void resetRightServo() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 1);
+        this.fireStateChanged();
+    }
+
+    public void AUVmanualMode() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 2);
+        this.fireStateChanged();
+    }
+
+    public void AUVautoMode() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 2);
+        this.fireStateChanged();
+    }
+
+    public void enableAUV() {
+        dataFromGui[3] = this.setBit(dataFromGui[0], 3);
+        this.fireStateChanged();
+    }
+
+    public void disableAUV() {
+        dataFromGui[3] = this.releaseBit(dataFromGui[0], 3);
+        this.fireStateChanged();
+    }
+
+    public void setSensitivity(byte sensetivity) {
+        dataFromGui[4] = sensetivity;
+        this.fireStateChanged();
+    }
+
+    public byte getSensitivity() {
+        return dataFromGui[4];
+    }
+
+    public byte getRequestCode() {
+        return dataFromGui[5];
+    }
+
+    public void incrementRequestCode() {
+        dataFromGui[5]++;
+        this.fireStateChanged();
+    }
+
+    public synchronized void fireStateChanged() {
+        Main.enumStateEvent = SendEventState.TRUE;
+        notifyAll();
+
     }
 
 }

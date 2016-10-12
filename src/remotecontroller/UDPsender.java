@@ -10,62 +10,26 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
-import java.net.UnknownHostException;
-import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
  *
  * @author mgrib
  */
-public class UDPsender implements Runnable {
-    private InetAddress IPAddress; // 158.38.199.18
+public class UDPsender {
+    //  ip address 158.38.199.18
     private DatagramSocket clientSocket;
-    private Thread t;
-    private Semaphore semaphore;
-    private int port;
-    private Datahandler datahandler;
     /*
     * create new UDP Client
     */
-    public UDPsender(String ipAddress, Semaphore s, int port, Datahandler datahandler) {
-        try {
-            this.IPAddress = InetAddress.getByName(ipAddress);
-            this.semaphore = s;
-            this.port = port;
-            this.datahandler = datahandler;
-        } catch (UnknownHostException ex) {
-            Logger.getLogger(UDPsender.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    public void start(){
-        t = new Thread(this,"UDPSenderThread");
-        t.start();
-    }
-    
-    public void run(){
-        
-        this.connect();
-        while(datahandler.getThreadStatus()){
-            try {
-                // semaphore should block until GUI sets new data and 
-                semaphore.acquire();
-                this.send(this.IPAddress, datahandler.getValues("UDP"),this.port);
-            } catch (InterruptedException ex) {
-                Logger.getLogger(UDPsender.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                semaphore.release();
-            }
-            
-        }
-        clientSocket.close();
+    public UDPsender() {
+           // nothing to do here
     }
     
     /*
-    * connect method
+    * init method
     */
-    private void connect(){
+    private void init(){
         try {
             clientSocket = new DatagramSocket();
         }  catch (SocketException ex) {
@@ -77,16 +41,20 @@ public class UDPsender implements Runnable {
     /* 
     * send byte[] packet to socket 
     */
-    public void send(InetAddress ipAddress, byte[] data, int port){
+    public void send(String ipAddress, byte[] data, int port){
+        this.init();
          try {
+            
             DatagramPacket packet = new DatagramPacket(data, 
                                         data.length, 
-                                        IPAddress,
+                                        InetAddress.getByName(ipAddress),
                                         port);
             clientSocket.send(packet);
         } catch (IOException ex) {
             Logger.getLogger(UDPsender.class.getName()).log(Level.SEVERE, null, ex);
-        } 
+        } finally {
+        clientSocket.close();
+        }
     }
     
     
