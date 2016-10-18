@@ -26,22 +26,19 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     private Timer fTimer;
  
     public GUI() {
-        this.fTimer = new Timer();
-        //this.controller = new GUIController();
-        //fTimer.scheduleAtFixedRate(controller, 0, 2000);
         initComponents();
-        this.sens = 50;
-        this.setup();
-        
+        // Creates a new timer. Used for requesting data from arduino.
+        this.fTimer = new Timer();
+        // Set initial focusable parameters, important for keylistener.
+        this.setupFocusable(); 
+        // Set the sens slider boundaries and initial values.
+        this.setupSensSlider();
+        // Sets inital states/modes. System off and manual mode as default.
+        this.setInitialStates();
+        // Set keylistener to this GUI/Frame.
         addKeyListener(this);
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
-        
-        
-        // GraphicsEnvironment env = 
-        //        GraphicsEnvironment.getLocalGraphicsEnvironment();
-        //this.setMaximizedBounds(env.getMaximumWindowBounds());
-        //this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
+        // Sets different color layout.
+        //this.colorSetup();
     }
 
     /**
@@ -257,11 +254,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
 
         sensLabel.setText("Sensitivity:");
 
-        sensSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sensSliderStateChanged(evt);
-            }
-        });
         sensSlider.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 sensSliderMouseReleased(evt);
@@ -309,7 +301,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, setupPanelLayout.createSequentialGroup()
                         .addComponent(sensLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(sensSlider, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE)
+                        .addComponent(sensSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(sensPercentLabel))
                     .addGroup(setupPanelLayout.createSequentialGroup()
@@ -484,10 +476,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-//    @Override
-//    private void update(){
-//        
-//    }
     
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
         this.fwdButton.setBackground(Color.green);
@@ -611,13 +599,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         this.controller.setSens(this.sens);
         this.sensPercentLabel.setText(""+this.sens+"%");
     }//GEN-LAST:event_sensSliderMouseReleased
-
-    private void sensSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sensSliderStateChanged
-        //this.sens = this.sensSlider.getValue();
-        //this.controller.setSens(this.sens);
-        //this.sensPercentLabel.setText(""+this.sens+"%");
-
-    }//GEN-LAST:event_sensSliderStateChanged
 
    
     
@@ -765,15 +746,23 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     public void setHandler(Datahandler datahandler){
         this.controller = new GUIController();
         this.controller.setDatahandler(datahandler);
-        this.fTimer.scheduleAtFixedRate(controller, 0, 2000);
+        this.setupTimerSchedule(controller, 0, 2000);
+        this.setInitValues();
+    }
+    
+    public void setInitValues(){
         this.controller.setSens(sens);
     }
     
-    public void setup(){
-        this.sensSlider.setMinimum(0);
-        this.sensSlider.setMaximum(100); 
-        this.sensSlider.setValue(this.sens);
-        this.sensPercentLabel.setText(""+this.sens+"%");
+    public void setupTimerSchedule(GUIController controller, int startTime, int runRate){
+        this.fTimer.scheduleAtFixedRate(controller, startTime, runRate);
+    }
+    
+    /*
+    * Sets the focus of all button and sliders. 
+    * Necessary to enable keylistner.
+    */
+    public void setupFocusable(){
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         fwdButton.setFocusable(false);
@@ -785,10 +774,24 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         startToggle.setFocusable(false);
         modeToggleButton.setFocusable(false);
         sensSlider.setFocusable(false);
-        this.radioMan.setSelected(true);
-        this.radioSysOff.setSelected(true);
-        //this.colorSetup();
     }
+    
+    // Initializes the sens slider.
+    public void setupSensSlider(){
+        this.sens = 50;
+        this.sensSlider.setMinimum(0);
+        this.sensSlider.setMaximum(100); 
+        this.sensSlider.setValue(this.sens);
+        this.sensPercentLabel.setText(""+this.sens+"%");
+    }
+    
+    // Sets the inital modes/states of the system.
+    public void setInitialStates(){        
+        this.radioMan.setSelected(true);
+        this.radioSysOff.setSelected(true);        
+    }
+    
+    // Function changes the color of all panels.
     private void colorSetup(){
         Color color2 = Color.GRAY;
         Color color = Color.LIGHT_GRAY;
@@ -813,12 +816,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         myThread.runnable = true;
         t.start();
     }
-        private void stopCamera(){
-           if(myThread != null){
-              myThread.realseSource();
-              //myThread.runnable = false;
-              myThread.setRunnable(false);
-           }
-            
+    
+    private void stopCamera(){
+        if(myThread != null){
+            myThread.realseSource();
+            myThread.setRunnable(false);
         }
+            
+    }
 }
