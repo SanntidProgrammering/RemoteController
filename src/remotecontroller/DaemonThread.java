@@ -34,7 +34,7 @@ class DaemonThread implements Runnable
     
     public DaemonThread(JPanel videoPanel){
     this.jPanel1 = videoPanel;
-    webSource =new VideoCapture(0);         
+    webSource =new VideoCapture(1);         
     }
     
     public void realseSource(){
