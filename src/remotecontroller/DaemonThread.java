@@ -39,8 +39,10 @@ class DaemonThread implements Runnable
     
     public void realseSource(){
         webSource.release();
+        this.jPanel1.setVisible(false);
     }
     public void connectCam(){
+        this.jPanel1.setVisible(true);
         webSource.grab();
     }
     public void setRunnable(boolean value){
