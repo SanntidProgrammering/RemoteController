@@ -59,7 +59,7 @@ public class VideoReceiver implements Runnable {
     private void saveImage(byte[] data)
     {
         try {
-        FileOutputStream fos = new FileOutputStream("image.jpg");
+        FileOutputStream fos = new FileOutputStream("image.bmp");
             try {
                 fos.write(data);
             }

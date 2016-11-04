@@ -12,6 +12,8 @@ import java.awt.event.KeyListener;
 import java.util.Observer;
 import org.opencv.core.Core;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -20,6 +22,7 @@ import java.util.Timer;
 public class GUI extends javax.swing.JFrame implements KeyListener { // implement Observer
 
     private DaemonThread myThread;
+    private Thread t; //added
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
@@ -568,6 +571,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
             this.radioSysOn.setSelected(true);
             this.radioSysOff.setSelected(false);
             this.cameraSetup();
+
         }
         else{
             this.controller.setStart(false);
@@ -810,17 +814,28 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     }
     
     private void cameraSetup(){
+        if (myThread == null){
         myThread = new DaemonThread(cameraPanel);
-        Thread t = new Thread(myThread);
+        //Thread t = new Thread(myThread);
+        t = new Thread(myThread);
         t.setDaemon(true);
         myThread.runnable = true;
         t.start();
+        }
+        else{
+            myThread.setRunnable(true);
+            //t.start();
+        }
     }
+    
     
     private void stopCamera(){
         if(myThread != null){
-            myThread.realseSource();
-            myThread.setRunnable(false);
+                //myThread.realseSource();
+                myThread.setRunnable(false);
+
+
+
         }
             
     }

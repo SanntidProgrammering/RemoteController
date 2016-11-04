@@ -55,6 +55,7 @@ class DaemonThread implements Runnable
     public void setRunnable(boolean value){
         this.runnable = value;
     }
+
     
     @Override
     public  void run()
@@ -70,14 +71,18 @@ class DaemonThread implements Runnable
                     {}
                 }
                 
-		if(runnable == false){
+		if(this.runnable == false){ // if(runnable == false){
+                    
 		    System.out.println("Going to wait()");
-                    try {
-                        this.wait();
-                        } 
-                    catch (InterruptedException ex) {
-                        Logger.getLogger(DaemonThread.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    while(!runnable){
+                        
+                    }
+                    //try {
+                    //    this.wait();
+                    //    } 
+                    //catch (InterruptedException ex) {
+                    //    Logger.getLogger(DaemonThread.class.getName()).log(Level.SEVERE, null, ex);
+                    //    }
 		}
 	    }
 			 
