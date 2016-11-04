@@ -34,7 +34,7 @@ public class VideoReceiver implements Runnable {
     public void run()
     {
         try {
-            serverSocket = new DatagramSocket(9876);
+            serverSocket = new DatagramSocket(8765);
             BufferedImage buff;
             
             byte[] receiveData = new byte[57654];
@@ -43,7 +43,7 @@ public class VideoReceiver implements Runnable {
             {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
-                System.out.println("Receiving");
+                //System.out.println("Receiving");
                 this.scale(receiveData, 640, 480);
 
                 //receiveData = this.scale(receiveData, 640, 480);
@@ -59,7 +59,7 @@ public class VideoReceiver implements Runnable {
     private void saveImage(byte[] data)
     {
         try {
-        FileOutputStream fos = new FileOutputStream("image.bmp");
+        FileOutputStream fos = new FileOutputStream("image.jpg");
             try {
                 fos.write(data);
             }
