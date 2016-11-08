@@ -34,7 +34,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         // Creates a new timer. Used for requesting data from arduino.
         this.controller = controller;
         this.fTimer = new Timer();
-        this.setupTimerSchedule(controller, 0, 2000);
+        this.setupTimerSchedule(controller, 0, 500);
         // Set initial focusable parameters, important for keylistener.
         this.setupFocusable(); 
         // Set the sens slider boundaries and initial values.

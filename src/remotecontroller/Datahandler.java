@@ -49,12 +49,10 @@ public class Datahandler {
     private int distanceSensor;
     private byte requestCodeFromArduino;
     private boolean enableAUV;
-    private SendData sendData;
 
     public Datahandler() {
         this.dataFromArduino = new byte[6];
         this.dataFromGui = new byte[6];
-        this.sendData = new SendData();
     }
 
     //*****************************************************************
@@ -131,114 +129,114 @@ public class Datahandler {
     //****************************************************************
     //************** FROM GUI METHODS*********************************
     public byte[] getDataFromGui() {
-        Main.enumStateEvent = SendEventState.FALSE;
+        //Main.enumStateEvent = SendEventState.FALSE;
         return this.dataFromGui;
 
     }
 
     public void stopAUV() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 0);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void releaseStopAUV() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 0);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void goFwd() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 1);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void releaseGoFwd() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 1);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void goRew() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 2);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void releaseGoRew() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 2);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void goLeft() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 3);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void releaseGoLeft() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 3);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void goRight() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 4);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void releaseGoRight() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void setLeftMotorSpeed(byte speed) {
         dataFromGui[1] = speed;
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void setRightMotorSpeed(byte speed) {
         dataFromGui[2] = speed;
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void setLeftServo() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 0);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void resetLeftServo() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 0);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void setRightServo() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 1);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void resetRightServo() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 1);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void AUVmanualMode() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 2);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void AUVautoMode() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 2);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void enableAUV() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 3);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void disableAUV() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 3);
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public void setSensitivity(byte sensetivity) {
         dataFromGui[4] = sensetivity;
-        this.fireStateChanged();
+        this.sendData();
     }
 
     public byte getSensitivity() {
@@ -251,14 +249,12 @@ public class Datahandler {
 
     public void incrementRequestCode() {
         dataFromGui[5]++;
-        this.fireStateChanged();
+        this.sendData();
     }
 
-    public void fireStateChanged() {
-        //Main.enumStateEvent = SendEventState.TRUE;
-        //notifyAll();
-        //System.out.println("Fire state changed");
-        this.sendData.sendDataToSocket(dataFromGui);
+    public void sendData() {
+        new UDPsender().send(Main.IPADDRESS, dataFromGui, Main.SENDPORT);
+
 
     }
 
