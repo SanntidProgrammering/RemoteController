@@ -23,22 +23,25 @@ import java.util.logging.Logger;
 public class GUI extends javax.swing.JFrame implements KeyListener, Observer { // implement Observer
 
     private DaemonThread myThread;
-    private Thread t; //added
+    private Thread t; 
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
     private Timer fTimer;
  
-    public GUI() {
+    public GUI(GUIController controller) {
         initComponents();
         // Creates a new timer. Used for requesting data from arduino.
+        this.controller = controller;
         this.fTimer = new Timer();
+        this.setupTimerSchedule(controller, 0, 2000);
         // Set initial focusable parameters, important for keylistener.
         this.setupFocusable(); 
         // Set the sens slider boundaries and initial values.
         this.setupSensSlider();
         // Sets inital states/modes. System off and manual mode as default.
         this.setInitialStates();
+        
         this.setup();
         // Set keylistener to this GUI/Frame.
         addKeyListener(this);
@@ -522,10 +525,20 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     public void update(Observable o, Object arg) {
         if (o instanceof ReceiveDataObservable){
            ReceiveDataObservable receive = (ReceiveDataObservable) o;
-           this.distanceLabel.setText("" + receive.getDistance());
-           this.xCoordLabel.setText("" + receive.getErrorAngleX()/100);
-           this.yCoordLabel.setText("" + receive.getErrorAngleY()/100);
-            System.out.println("Fields updated");
+           int distance = receive.getDistance();
+           float eAx = receive.getErrorAngleX()/100;
+           float eAy = receive.getErrorAngleX()/100;
+           
+           this.distanceLabel.setText("" + distance);
+           if (eAx == 255 || eAx == -255){
+               this.xCoordLabel.setText("No object found");
+               this.yCoordLabel.setText("No object found");
+           }
+           else{
+               this.xCoordLabel.setText("" + eAx);
+               this.yCoordLabel.setText("" + eAy);
+               System.out.println("Fields updated");
+           }  
         }
         else{
         System.out.println("Not instance of DH");
@@ -682,46 +695,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             this.rightServo = true;
         }
     }      
-    
-    
-   
-    
-    
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(GUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new GUI().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel cameraPanel;
@@ -832,10 +805,8 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     }
     
     public void setHandler(Datahandler datahandler){
-        this.controller = new GUIController();
-        this.controller.setDatahandler(datahandler);
-        this.setupTimerSchedule(controller, 0, 2000);
-        this.setInitValues();
+        //this.controller = new GUIController(datahandler);
+
     }
     
     public void setInitValues(){
@@ -884,6 +855,8 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         lServoWarn.setEnabled(false);
         rServoWarn.setEnabled(false); 
         slideAuto.setEnabled(true);
+        
+        this.setInitValues();
     }
     
     public void setupTimerSchedule(GUIController controller, int startTime, int runRate){

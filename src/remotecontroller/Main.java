@@ -26,6 +26,8 @@ public class Main {
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Datahandler datahandler = new Datahandler();
         datahandler.setThreadStatus(true);
+        
+        GUIController controller = new GUIController(datahandler);
 
         UDPreceiver udpReceiver;
         ReceiveDataObservable receiveDataObserver;
@@ -36,8 +38,7 @@ public class Main {
         udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
         udpReceiver.start();
 
-        GUI gui = new GUI();
-        gui.setHandler(datahandler);
+        GUI gui = new GUI(controller);
         gui.setVisible(true);
         
         receiveDataObserver.addObserver(gui);

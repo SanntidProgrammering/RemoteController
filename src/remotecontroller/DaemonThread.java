@@ -34,11 +34,10 @@ class DaemonThread implements Runnable
     MatOfByte mem = new MatOfByte();
     private Thread stream;
     private VideoReceiver receiver;
-    
-    JPanel jPanel1;
+    private JPanel videoPanel;
     
     public DaemonThread(JPanel videoPanel){
-    this.jPanel1 = videoPanel;
+    this.videoPanel = videoPanel;
     receiver = new VideoReceiver();
     stream = new Thread(receiver);
     stream.start();
@@ -66,8 +65,8 @@ class DaemonThread implements Runnable
             {
 		BufferedImage buff = (BufferedImage) receiver.getImage();
                 if(buff != null){
-                    Graphics g=jPanel1.getGraphics();
-                    if (g.drawImage(buff, 0, 0, jPanel1.getWidth(), jPanel1.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null))
+                    Graphics g=videoPanel.getGraphics();
+                    if (g.drawImage(buff, 0, 0, videoPanel.getWidth(), videoPanel.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null))
                     {}
                 }
                 

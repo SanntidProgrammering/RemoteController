@@ -26,15 +26,18 @@ public class VideoReceiver implements Runnable {
     
     private DatagramSocket serverSocket;
     private BufferedImage scaledImage = null;
+    private int videoPort;
     
     public VideoReceiver()
     {
+        this.videoPort = 8765;
     }
     
+    @Override
     public void run()
     {
         try {
-            serverSocket = new DatagramSocket(8765);
+            serverSocket = new DatagramSocket(this.videoPort);
             BufferedImage buff;
             
             byte[] receiveData = new byte[57654];

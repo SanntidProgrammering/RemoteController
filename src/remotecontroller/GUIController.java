@@ -20,8 +20,9 @@ public class GUIController extends TimerTask {
     
     private Datahandler datahandler;
     
-    public GUIController(){
-    //datahandler = new Datahandler();
+    public GUIController(Datahandler datahandler){
+    this.datahandler = datahandler;
+    
     }
     @Override
     public void run(){
