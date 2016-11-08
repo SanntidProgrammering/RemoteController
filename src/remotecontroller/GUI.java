@@ -31,9 +31,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
  
     public GUI(GUIController controller) {
         initComponents();
-        // Creates a new timer. Used for requesting data from arduino.
+
         this.controller = controller;
+        
+        // Creates a new timer. Used for requesting data from arduino.
         this.fTimer = new Timer();
+        // Setup timer, schedule request rate
         this.setupTimerSchedule(controller, 0, 500);
         // Set initial focusable parameters, important for keylistener.
         this.setupFocusable(); 
@@ -550,17 +553,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         if(this.startToggle.isSelected()){
             this.controller.setStart(true);
             this.startToggle.setText("Stop system");
-              this.powerIcon.setEnabled(true);
-            //this.radioSysOn.setSelected(true);
-           // this.radioSysOff.setSelected(false);
+            this.powerIcon.setEnabled(true);
             this.cameraSetup();
         }
         else{
             this.controller.setStart(false);
             this.startToggle.setText("Start system");
-              this.powerIcon.setEnabled(false);
-           // this.radioSysOn.setSelected(false);
-           // this.radioSysOff.setSelected(true);
+            this.powerIcon.setEnabled(false);
             this.stopCamera();
         }
     }//GEN-LAST:event_startToggleMouseClicked
@@ -568,7 +567,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private void modeToggleButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseClicked
         if(this.modeToggleButton.isSelected()){
             this.controller.setAuto(true);
-            //this.modeToggleButton.setText("Man mode");
             this.radioAuto.setSelected(true);
             this.radioMan.setSelected(false);
             slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
@@ -576,7 +574,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
         else{
             this.controller.setAuto(false);
-            //this.modeToggleButton.setText("Auto mode");
             this.radioAuto.setSelected(false);
             this.radioMan.setSelected(true);
             slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
