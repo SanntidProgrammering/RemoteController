@@ -57,16 +57,35 @@ public class Datahandler {
 
     //*****************************************************************
     //********** PRIVATE METHODS AREA**********************************
+    /**
+     * Sets a bit in byte. Takes a bit number and a byte in, sets the
+     * bit in the byte. Return the byte.
+     * 
+     * 
+     * @param b Byte that should be changed
+     * @param bit Bit number in byte to be set
+     * @return b The edited Byte
+     */
     private byte setBit(byte b, int bit) {
         return b |= 1 << bit;
     }
-
+    
+    /**
+     * Releases a bit in byte. Takes a bit number and a byte in, releases the
+     * bit in the byte. Return the byte.
+     * 
+     * 
+     * @param b Byte that should be changed
+     * @param bit Bit number in byte to be released
+     * @return b The edited Byte
+     */
     private byte releaseBit(byte b, int bit) {
         return b &= ~(1 << bit);
     }
 
     //*****************************************************************
     //********************** THREAD STATUS METHODS*********************
+    /*
     public boolean shouldThreadRun() {
         return threadStatus;
     }
@@ -74,9 +93,11 @@ public class Datahandler {
     public void setThreadStatus(boolean threadStatus) {
         this.threadStatus = threadStatus;
     }
+    */
 
     //*****************************************************************
     //*************** FROM ARDUINO METHODS*****************************
+    /*
     public void handleDataFromArduino(byte[] data) {
         // check if the array is of the same length and the requestcode has changed
         if (data.length == this.dataFromArduino.length && data[5] != this.getRequestCodeFromArduino()) {
@@ -125,60 +146,92 @@ public class Datahandler {
     public void setRequestCodeFromArduino(byte requestCodeFromArduino) {
         this.requestCodeFromArduino = requestCodeFromArduino;
     }
+    */
 
     //****************************************************************
     //************** FROM GUI METHODS*********************************
+    /**
+     * Returns the byte array consisting of all the parameters coming from 
+     * the GUI. (FWD button state, Syste state, sensitivit and so on). Sending
+     * protocol is defined at the top of the class.
+     * 
+     * @return Byte array consisting of all parameters in protocol to be sent.
+     */
     public byte[] getDataFromGui() {
-        //Main.enumStateEvent = SendEventState.FALSE;
         return this.dataFromGui;
-
     }
 
+    /*
     public void stopAUV() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 0);
         this.sendData();
     }
-
+   
     public void releaseStopAUV() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 0);
         this.sendData();
     }
+    */
 
+    /**
+     * Sets the FWD bit in the send byte Array. 
+     */
     public void goFwd() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 1);
         this.sendData();
     }
 
+    /**
+     * Releases the FWD bit in the send byte Array. 
+     */
     public void releaseGoFwd() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 1);
         this.sendData();
     }
 
+    /**
+     * Sets the REV bit in the send byte Array. 
+     */
     public void goRew() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 2);
         this.sendData();
     }
 
+    /**
+     * Releases the REV bit in the send byte Array. 
+     */
     public void releaseGoRew() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 2);
         this.sendData();
     }
 
+    /**
+     * Sets the LEFT bit in the send byte Array. 
+     */
     public void goLeft() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 3);
         this.sendData();
     }
 
+    /**
+     * Releases the LEFT bit in the send byte Array. 
+     */
     public void releaseGoLeft() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 3);
         this.sendData();
     }
 
+    /**
+     * Sets the RIGHT bit in the send byte Array. 
+     */
     public void goRight() {
         dataFromGui[0] = this.setBit(dataFromGui[0], 4);
         this.sendData();
     }
 
+    /**
+     * Releases the RIGHT bit in the send byte Array. 
+     */
     public void releaseGoRight() {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
         this.sendData();

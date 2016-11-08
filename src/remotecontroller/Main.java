@@ -25,7 +25,7 @@ public class Main {
     public static void main(String[] args){
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
         Datahandler datahandler = new Datahandler();
-        datahandler.setThreadStatus(true);
+        //datahandler.setThreadStatus(true);
         
         GUIController controller = new GUIController(datahandler);
 
