@@ -43,7 +43,6 @@ public class VideoReceiver implements Runnable {
             {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
-                //System.out.println("Receiving");
                 this.scale(receiveData, 640, 480);
 
                 //receiveData = this.scale(receiveData, 640, 480);

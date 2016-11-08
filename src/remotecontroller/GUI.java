@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Observable;
 import java.util.Observer;
 import org.opencv.core.Core;
 import java.util.Timer;
@@ -19,7 +20,7 @@ import java.util.logging.Logger;
  *
  * @author Magnus Gribbestad
  */
-public class GUI extends javax.swing.JFrame implements KeyListener { // implement Observer
+public class GUI extends javax.swing.JFrame implements KeyListener, Observer { // implement Observer
 
     private DaemonThread myThread;
     private Thread t; //added
@@ -479,6 +480,19 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ReceiveDataObservable){
+           ReceiveDataObservable receive = (ReceiveDataObservable) o;
+           this.distanceLabel.setText("" + receive.getDistance());
+           this.xCoordLabel.setText("" + receive.getErrorAngleX()/100);
+           this.yCoordLabel.setText("" + receive.getErrorAngleY()/100);
+            System.out.println("Fields updated");
+        }
+        else{
+        System.out.println("Not instance of DH");
+        }
+    }
     
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
         this.fwdButton.setBackground(Color.green);
@@ -819,7 +833,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         //Thread t = new Thread(myThread);
         t = new Thread(myThread);
         t.setDaemon(true);
-        myThread.runnable = true;
+        myThread.setRunnable(true);
         t.start();
         }
         else{

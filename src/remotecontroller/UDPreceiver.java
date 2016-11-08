@@ -19,10 +19,8 @@ public class UDPreceiver implements Runnable {
     private Thread t;
 
     
-    public UDPreceiver(DataInterface dataInterface, int port){
-        if(dataInterface instanceof ReceiveDataObservable){
-        this.observer = (ReceiveDataObservable) dataInterface;
-        }
+    public UDPreceiver(ReceiveDataObservable receiveDataObs, int port){
+        this.observer = receiveDataObs; 
         this.port = port;
     }
     
