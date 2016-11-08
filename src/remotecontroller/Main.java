@@ -15,7 +15,7 @@ import org.opencv.core.Core;
  */
 public class Main {
 
-    static final String IPADDRESS = "158.38.199.58";  // Jørg"10.16.5.58";
+    static final String IPADDRESS = "10.16.5.164";  // Jørg"10.16.5.58";
     static final int RECEIVEPORT = 5000;
     static final int SENDPORT = 9876;
     static SendEventState enumStateEvent = SendEventState.FALSE;
