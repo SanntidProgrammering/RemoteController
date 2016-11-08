@@ -25,8 +25,8 @@ public class GUIController extends TimerTask {
     }
     @Override
     public void run(){
-        //System.out.println("Request data");
-        //this.datahandler.incrementRequestCode();
+        System.out.println("Request data");
+        this.datahandler.incrementRequestCode();
     }
     
     public void setDatahandler(Datahandler datahandler){

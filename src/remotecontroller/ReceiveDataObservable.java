@@ -5,21 +5,29 @@
  */
 package remotecontroller;
 
+import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Observable;
+import java.util.Observer;
 
 
 /**
  *
  * @author lars-harald
  */
-public class ReceiveDataObservable extends Observable implements DataInterface {
+public class ReceiveDataObservable extends Observable{
 
-
-    private final Datahandler datahandler;
+    private int distanceSensor;
+    private float errorAngleX;
+    private float errorAngleY;
     
-    public ReceiveDataObservable(Datahandler datahandler) {
-        super();
-        this.datahandler = datahandler;
+    public ReceiveDataObservable() {
+        //super();
+    }
+    
+    @Override
+    public synchronized void addObserver(Observer o) {
+        super.addObserver(o); //To change body of generated methods, choose Tools | Templates.
     }
 
     /**
@@ -27,17 +35,36 @@ public class ReceiveDataObservable extends Observable implements DataInterface {
      *
      * @param data
      */
-    @Override
+ 
     public void setData(byte[] data) {
         // check if the array is of the same length and the requestcode has changed
         if (data.length == 6) {
-            this.datahandler.handleDataFromArduino(data);
-            super.setChanged();
-            super.notifyObservers();
+            
+            distanceSensor = data[4];
+            errorAngleX = (new BigInteger(Arrays.copyOfRange(data, 0, 2)).intValue());
+            errorAngleY = (new BigInteger(Arrays.copyOfRange(data, 2, 4)).intValue());
+            
+            setChanged();
+            notifyObservers();
         }
     }
     
-    public boolean shouldChildOfThisRun(){
-        return datahandler.shouldThreadRun();
+    public int getDistance(){
+        return this.distanceSensor;
     }
+    
+    public float getErrorAngleX(){
+        return this.errorAngleX;
+    }
+    
+    public float getErrorAngleY(){
+        return this.errorAngleY;
+    }
+    
+    
+    public boolean shouldChildOfThisRun(){
+        //return datahandler.shouldThreadRun();
+        return true;
+    }
+    
 }

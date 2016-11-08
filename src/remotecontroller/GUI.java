@@ -9,39 +9,41 @@ import java.awt.Color;
 import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.Observable;
 import java.util.Observer;
 import org.opencv.core.Core;
 import java.util.Timer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Magnus Gribbestad
  */
-public class GUI extends javax.swing.JFrame implements KeyListener { // implement Observer
+public class GUI extends javax.swing.JFrame implements KeyListener, Observer { // implement Observer
 
     private DaemonThread myThread;
+    private Thread t; //added
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
     private Timer fTimer;
  
     public GUI() {
-        this.fTimer = new Timer();
-        //this.controller = new GUIController();
-        //fTimer.scheduleAtFixedRate(controller, 0, 2000);
         initComponents();
-        this.sens = 50;
+        // Creates a new timer. Used for requesting data from arduino.
+        this.fTimer = new Timer();
+        // Set initial focusable parameters, important for keylistener.
+        this.setupFocusable(); 
+        // Set the sens slider boundaries and initial values.
+        this.setupSensSlider();
+        // Sets inital states/modes. System off and manual mode as default.
+        this.setInitialStates();
         this.setup();
-        
+        // Set keylistener to this GUI/Frame.
         addKeyListener(this);
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
-        
-        
-        // GraphicsEnvironment env = 
-        //        GraphicsEnvironment.getLocalGraphicsEnvironment();
-        //this.setMaximizedBounds(env.getMaximumWindowBounds());
-        //this.setExtendedState(this.getExtendedState() | this.MAXIMIZED_BOTH);
+        // Sets different color layout.
+        //this.colorSetup();
     }
 
     /**
@@ -98,7 +100,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         cameraPanel.setLayout(cameraPanelLayout);
         cameraPanelLayout.setHorizontalGroup(
             cameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 653, Short.MAX_VALUE)
+            .addGap(0, 717, Short.MAX_VALUE)
         );
         cameraPanelLayout.setVerticalGroup(
             cameraPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -516,6 +518,21 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ReceiveDataObservable){
+           ReceiveDataObservable receive = (ReceiveDataObservable) o;
+           this.distanceLabel.setText("" + receive.getDistance());
+           this.xCoordLabel.setText("" + receive.getErrorAngleX()/100);
+           this.yCoordLabel.setText("" + receive.getErrorAngleY()/100);
+            System.out.println("Fields updated");
+        }
+        else{
+        System.out.println("Not instance of DH");
+        }
+    }
+    
+    
     private void startToggleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseClicked
         if(this.startToggle.isSelected()){
             this.controller.setStart(true);
@@ -575,10 +592,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         this.fwd = false;
     }//GEN-LAST:event_fwdButtonKeyReleased
 
-//    @Override
-//    private void update(){
-//        
-//    }
     
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
         //this.fwdButton.setBackground(Color.green);
@@ -821,10 +834,15 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     public void setHandler(Datahandler datahandler){
         this.controller = new GUIController();
         this.controller.setDatahandler(datahandler);
-        this.fTimer.scheduleAtFixedRate(controller, 0, 2000);
+        this.setupTimerSchedule(controller, 0, 2000);
+        this.setInitValues();
+    }
+    
+    public void setInitValues(){
         this.controller.setSens(sens);
     }
     
+    /*
     public void setup(){
         this.sensSlider.setMinimum(0);
         this.sensSlider.setMaximum(100); 
@@ -853,9 +871,54 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
         this.radioMan.setEnabled(false);
         this.powerIcon.setEnabled(false);
         lServoWarn.setEnabled(false);
-        rServoWarn.setEnabled(false);
-      
+        rServoWarn.setEnabled(false); 
+    } */
+    
+    public void setup(){
+        fwdButton.setEnabled(false);
+        revButton.setEnabled(false);
+        leftButton.setEnabled(false);
+        rightButton.setEnabled(false);
+        this.radioMan.setEnabled(false);
+        this.powerIcon.setEnabled(false);
+        lServoWarn.setEnabled(false);
+        rServoWarn.setEnabled(false); 
+        slideAuto.setEnabled(true);
     }
+    
+    public void setupTimerSchedule(GUIController controller, int startTime, int runRate){
+        this.fTimer.scheduleAtFixedRate(controller, startTime, runRate);
+    }
+    
+    
+    public void setupFocusable(){
+        setFocusable(true);
+        setFocusTraversalKeysEnabled(false);
+        fwdButton.setFocusable(false);
+        revButton.setFocusable(false);
+        leftButton.setFocusable(false);
+        rightButton.setFocusable(false);
+        //leftServoButton.setFocusable(false);
+        //rightServoButton.setFocusable(false);
+        startToggle.setFocusable(false);
+        modeToggleButton.setFocusable(false);
+        sensSlider.setFocusable(false);
+    }
+    
+    public void setupSensSlider(){
+        this.sens = 50;
+        this.sensSlider.setMinimum(0);
+        this.sensSlider.setMaximum(100); 
+        this.sensSlider.setValue(this.sens);
+        this.sensPercentLabel.setText(""+this.sens+"%");
+    }
+    
+    // Sets the inital modes/states of the system.
+    public void setInitialStates(){        
+        this.radioMan.setSelected(true);
+        //this.radioSysOff.setSelected(true);        
+    }
+    
     private void colorSetup(){
         Color color2 = Color.GRAY;
         Color color = Color.LIGHT_GRAY;
@@ -874,18 +937,23 @@ public class GUI extends javax.swing.JFrame implements KeyListener { // implemen
     }
     
     private void cameraSetup(){
-        myThread = new DaemonThread(cameraPanel);
-        Thread t = new Thread(myThread);
-        t.setDaemon(true);
-        myThread.runnable = true;
-        t.start();
+        if (myThread == null){
+           myThread = new DaemonThread(cameraPanel);
+           //Thread t = new Thread(myThread);
+           t = new Thread(myThread);
+           t.setDaemon(true);
+           myThread.setRunnable(true);
+           t.start();
+        }
+        else{
+            myThread.setRunnable(true);
+            //t.start();
+        }
     }
+    
         private void stopCamera(){
            if(myThread != null){
-              myThread.realseSource();
-              //myThread.runnable = false;
               myThread.setRunnable(false);
-           }
-            
+           }            
         }
 }
