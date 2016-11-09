@@ -39,19 +39,19 @@ Byte 5: reserved
  */
 public class Datahandler {
 
-    private byte[] dataFromArduino;
+    //private byte[] dataFromArduino;
     private byte[] dataFromGui;
-    private boolean dataFromArduinoAvaliable = false;
-    private boolean dataFromGuiAvailable = false;
-    private boolean threadStatus;
-    private int pixyXvalue;
-    private int pixyYvalue;
-    private int distanceSensor;
-    private byte requestCodeFromArduino;
-    private boolean enableAUV;
+    //private boolean dataFromArduinoAvaliable = false;
+    //private boolean dataFromGuiAvailable = false;
+    //private boolean threadStatus;
+    //private int pixyXvalue;
+    //private int pixyYvalue;
+    //private int distanceSensor;
+    //private byte requestCodeFromArduino;
+    //private boolean enableAUV;
 
     public Datahandler() {
-        this.dataFromArduino = new byte[6];
+        //this.dataFromArduino = new byte[6];
         this.dataFromGui = new byte[6];
     }
 
@@ -236,7 +236,7 @@ public class Datahandler {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
         this.sendData();
     }
-
+    /*
     public void setLeftMotorSpeed(byte speed) {
         dataFromGui[1] = speed;
         this.sendData();
@@ -246,6 +246,7 @@ public class Datahandler {
         dataFromGui[2] = speed;
         this.sendData();
     }
+    */
 
     public void setLeftServo() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 0);
@@ -307,8 +308,6 @@ public class Datahandler {
 
     public void sendData() {
         new UDPsender().send(Main.IPADDRESS, dataFromGui, Main.SENDPORT);
-
-
     }
 
 }

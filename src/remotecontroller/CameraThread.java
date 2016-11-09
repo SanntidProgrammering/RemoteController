@@ -28,8 +28,8 @@ import org.opencv.highgui.VideoCapture;
 class CameraThread implements Runnable
     {
     protected volatile boolean runnable = false;
-    int count = 0;
-    VideoCapture webSource = null;
+    //int count = 0;
+    //VideoCapture webSource = null;
     Mat frame = new Mat();
     MatOfByte mem = new MatOfByte();
     private Thread stream;
@@ -44,13 +44,14 @@ class CameraThread implements Runnable
     
     //webSource =new VideoCapture(0);         
     }
-    
+    /*
     public void realseSource(){
         //webSource.release();
     }
     public void connectCam(){
         //webSource.grab();
     }
+    */
     public void setRunnable(boolean value){
         this.runnable = value;
     }
