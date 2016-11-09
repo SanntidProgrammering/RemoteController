@@ -25,7 +25,7 @@ import org.opencv.highgui.VideoCapture;
  *
  * @author mgrib
  */
-class DaemonThread implements Runnable
+class CameraThread implements Runnable
     {
     protected volatile boolean runnable = false;
     int count = 0;
@@ -36,7 +36,7 @@ class DaemonThread implements Runnable
     private VideoReceiver receiver;
     private JPanel videoPanel;
     
-    public DaemonThread(JPanel videoPanel){
+    public CameraThread(JPanel videoPanel){
     this.videoPanel = videoPanel;
     receiver = new VideoReceiver();
     stream = new Thread(receiver);

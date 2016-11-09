@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public class GUI extends javax.swing.JFrame implements KeyListener, Observer { // implement Observer
 
-    private DaemonThread myThread;
+    private CameraThread myThread;
     private Thread t; 
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
@@ -908,7 +908,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     
     private void cameraSetup(){
         if (myThread == null){
-           myThread = new DaemonThread(cameraPanel);
+           myThread = new CameraThread(cameraPanel);
            //Thread t = new Thread(myThread);
            t = new Thread(myThread);
            t.setDaemon(true);
