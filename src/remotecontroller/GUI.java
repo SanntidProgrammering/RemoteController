@@ -525,6 +525,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
+    /**
+     * Overrided mathod from observer. Updated the fields of the GUI.
+     * 
+     * @param o Observable object
+     * @param arg Arguments..
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof ReceiveDataObservable){
