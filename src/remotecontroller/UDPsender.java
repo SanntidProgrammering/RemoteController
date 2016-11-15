@@ -18,18 +18,16 @@ import java.util.logging.Logger;
  * @author mgrib
  */
 public class UDPsender {
-    //  ip address 158.38.199.18
     private DatagramSocket clientSocket;
-    /*
-    * create new UDP Client
-    */
+    
+    
     public UDPsender() {
            // nothing to do here
     }
     
-    /*
-    * init method
-    */
+    /**
+     * Initilizes the UDP sender. Creates a Datagram socket.
+     */
     private void init(){
         try {
             clientSocket = new DatagramSocket();
@@ -39,9 +37,14 @@ public class UDPsender {
 
     }
     
-    /* 
-    * send byte[] packet to socket 
-    */
+    /**
+     * Sends a datagram packet with the given data to the given ip adress at 
+     * the given port.
+     * 
+     * @param ipAddress String IP address to send to
+     * @param data Data to be sent, byte array.
+     * @param port Integer Port number
+     */
     public void send(String ipAddress, byte[] data, int port){
         this.init();
          try {

@@ -40,23 +40,22 @@ class CameraThread implements Runnable
     this.videoPanel = videoPanel;
     receiver = new VideoReceiver();
     stream = new Thread(receiver);
-    stream.start();
+    stream.start();      
+    }
     
-    //webSource =new VideoCapture(0);         
-    }
-    /*
-    public void realseSource(){
-        //webSource.release();
-    }
-    public void connectCam(){
-        //webSource.grab();
-    }
-    */
+    /**
+     * Sets the runnable flag to true or false
+     * 
+     * @param value True or False, runnable
+     */
     public void setRunnable(boolean value){
         this.runnable = value;
     }
 
-    
+    /**
+     * Run method. Receives buffered image from VideoReceiver, checks that
+     * bufferedImage is not null. Updates the panel.
+     */
     @Override
     public  void run()
     {
@@ -67,22 +66,12 @@ class CameraThread implements Runnable
 		BufferedImage buff = (BufferedImage) receiver.getImage();
                 if(buff != null){
                     Graphics g=videoPanel.getGraphics();
-                    if (g.drawImage(buff, 0, 0, videoPanel.getWidth(), videoPanel.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null))
-                    {}
-                }
-                
-		if(this.runnable == false){ // if(runnable == false){
-                    
+                    g.drawImage(buff, 0, 0, videoPanel.getWidth(), videoPanel.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null);
+                }                
+		if(this.runnable == false){                    
 		    System.out.println("Going to wait()");
-                    while(!runnable){
-                        
-                    }
-                    //try {
-                    //    this.wait();
-                    //    } 
-                    //catch (InterruptedException ex) {
-                    //    Logger.getLogger(DaemonThread.class.getName()).log(Level.SEVERE, null, ex);
-                    //    }
+                    while(!runnable){                        
+                    }                    
 		}
 	    }
 			 

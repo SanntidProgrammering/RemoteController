@@ -18,17 +18,29 @@ public class UDPreceiver implements Runnable {
     private int port;
     private Thread t;
 
-    
+    /**
+     * Constructor of the UDPreceiver. 
+     * 
+     * @param receiveDataObs ReceiveDataObservable. Updates the GUI.
+     * @param port Port number as integer
+     */
     public UDPreceiver(ReceiveDataObservable receiveDataObs, int port){
         this.observer = receiveDataObs; 
         this.port = port;
     }
     
+    /**
+     * Start the thread
+     */
     public void start(){
         t = new Thread(this,"UDPReceiverThread");
         t.start();
     }
     
+    /**
+     * Run function. Checks if the observer field has an objekt.
+     * Waits for a packet, and sets the data in the ReceiveDataObservable
+     */
     public void run() {
         if(observer != null) {
             try {

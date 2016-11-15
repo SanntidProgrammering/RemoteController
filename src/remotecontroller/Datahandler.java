@@ -13,12 +13,9 @@ import java.util.Arrays;
  * @author mgrib
  */
 
-/*
+/****************************************************************************
 Sending protocol:
 Byte 0-x: [bit 0, bit 1, bit 2, bit 3, bit 4, bit 5, bit 6, bit 7]
-
-Bit 1 = ON/Active
-bit 2 = Off/Not active
 
 Byte 0:[stopp, fwd, rev, left, right, bit 5, bit 6, bit 7]
 Byte 1:[left motor speed]
@@ -26,16 +23,7 @@ Byte 2:[right motor speed]
 Byte 3:[left servo,right servo, auto/manual, start program,...,request feedback]
 Byte 4:[sensitivity]
 Byte 5:[reservert]
-
-Receiving protocol:
-Byte 0: Pixy x value lowbyte
-Byte 1: Pixy x value highbyte
-Byte 2: Pixy y value lowbyte
-Byte 3: Pixy y value highbyte
-Byte 4: Distance sensor
-Byte 5: reserved
-
-
+*****************************************************************************
  */
 public class Datahandler {
 
@@ -248,51 +236,79 @@ public class Datahandler {
     }
     */
 
+    /**
+     * Sets the Left servo bit in the send byte Array. 
+     */
     public void setLeftServo() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 0);
         this.sendData();
     }
-
+    
+    /**
+     * Releases the Left servo bit in the send byte Array. 
+     */
     public void resetLeftServo() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 0);
         this.sendData();
     }
-
+    
+    /**
+     * Sets the Right servo bit in the send byte Array. 
+     */
     public void setRightServo() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 1);
         this.sendData();
     }
-
+    
+    /**
+     * Releases the Right servo bit in the send byte Array. 
+     */
     public void resetRightServo() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 1);
         this.sendData();
     }
-
+    
+    /**
+     * Sets the AUV manual bit in the send byte Array. 
+     */
     public void AUVmanualMode() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 2);
         this.sendData();
     }
-
+    
+    /**
+     * Sets the AUV auto bit in the send byte Array. 
+     */
     public void AUVautoMode() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 2);
         this.sendData();
     }
 
+    /**
+     * Sets the Start system bit in the send byte Array. 
+     */
     public void enableAUV() {
         dataFromGui[3] = this.setBit(dataFromGui[3], 3);
         this.sendData();
     }
-
+    
+    /**
+     * Releases the Start system bit in the send byte Array. 
+     */
     public void disableAUV() {
         dataFromGui[3] = this.releaseBit(dataFromGui[3], 3);
         this.sendData();
     }
-
+    
+    /**
+     * Sets the Sensitivity byte in the send byte Array. 
+     */
     public void setSensitivity(byte sensetivity) {
         dataFromGui[4] = sensetivity;
         this.sendData();
     }
-
+    
+    /*
     public byte getSensitivity() {
         return dataFromGui[4];
     }
@@ -300,12 +316,20 @@ public class Datahandler {
     public byte getRequestCode() {
         return dataFromGui[5];
     }
+    */
 
+    /**
+     * Increments the request code. Request vode is used to request feedback
+     * from the Arduino.
+     */
     public void incrementRequestCode() {
         dataFromGui[5]++;
         this.sendData();
     }
 
+    /**
+     * Creates and sends the data byte array over UDP.
+     */
     public void sendData() {
         new UDPsender().send(Main.IPADDRESS, dataFromGui, Main.SENDPORT);
     }
