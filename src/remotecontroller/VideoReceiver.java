@@ -48,8 +48,6 @@ public class VideoReceiver implements Runnable {
                 serverSocket.receive(receivePacket);
                 this.scale(receiveData, 640, 480);
 
-                //receiveData = this.scale(receiveData, 640, 480);
-                //this.saveImage(receiveData);
             }
         } catch (SocketException ex) {
             Logger.getLogger(UDPreceiver.class.getName()).log(Level.SEVERE, null, ex);
@@ -58,6 +56,11 @@ public class VideoReceiver implements Runnable {
         }
     }
     
+    /**
+     * Saves the Image
+     * 
+     * @param data Byte array
+     */
     private void saveImage(byte[] data)
     {
         try {
@@ -73,6 +76,13 @@ public class VideoReceiver implements Runnable {
         }
     }
     
+    /**
+     * Scales the image
+     * 
+     * @param fileData byte array (Image data)
+     * @param width Integer width of the image
+     * @param height Integer height of the image
+     */
     public void scale(byte[] fileData, int width, int height) {
     	ByteArrayInputStream in = new ByteArrayInputStream(fileData);
         
@@ -104,6 +114,11 @@ public class VideoReceiver implements Runnable {
     	}
     }
     
+    /**
+     * Returns the buffered image
+     * 
+     * @return BufferedImage Scaled and formatted image
+     */
     public BufferedImage getImage()
     {
         return scaledImage;

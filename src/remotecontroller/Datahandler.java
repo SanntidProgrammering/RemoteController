@@ -27,19 +27,11 @@ Byte 5:[reservert]
  */
 public class Datahandler {
 
-    //private byte[] dataFromArduino;
     private byte[] dataFromGui;
-    //private boolean dataFromArduinoAvaliable = false;
-    //private boolean dataFromGuiAvailable = false;
-    //private boolean threadStatus;
-    //private int pixyXvalue;
-    //private int pixyYvalue;
-    //private int distanceSensor;
-    //private byte requestCodeFromArduino;
-    //private boolean enableAUV;
+
 
     public Datahandler() {
-        //this.dataFromArduino = new byte[6];
+
         this.dataFromGui = new byte[6];
     }
 
@@ -71,71 +63,6 @@ public class Datahandler {
         return b &= ~(1 << bit);
     }
 
-    //*****************************************************************
-    //********************** THREAD STATUS METHODS*********************
-    /*
-    public boolean shouldThreadRun() {
-        return threadStatus;
-    }
-
-    public void setThreadStatus(boolean threadStatus) {
-        this.threadStatus = threadStatus;
-    }
-    */
-
-    //*****************************************************************
-    //*************** FROM ARDUINO METHODS*****************************
-    /*
-    public void handleDataFromArduino(byte[] data) {
-        // check if the array is of the same length and the requestcode has changed
-        if (data.length == this.dataFromArduino.length && data[5] != this.getRequestCodeFromArduino()) {
-            this.dataFromArduino = data;
-            this.setDistanceSensor(data[4]);
-            this.setRequestCodeFromArduino(data[5]);
-            this.setPixyXvalue(new BigInteger(Arrays.copyOfRange(data, 0, 2)).intValue());
-            this.setPixyYvalue(new BigInteger(Arrays.copyOfRange(data, 2, 4)).intValue());
-            this.dataFromArduinoAvaliable = true;
-
-        }
-    }
-
-    public boolean isDataFromArduinoAvailable() {
-        return this.dataFromArduinoAvaliable;
-    }
-
-    public int getPixyXvalue() {
-        return pixyXvalue;
-    }
-
-    public void setPixyXvalue(int pixyXvalue) {
-        this.pixyXvalue = pixyXvalue;
-    }
-
-    public int getPixyYvalue() {
-        return pixyYvalue;
-    }
-
-    public void setPixyYvalue(int pixyYvalue) {
-        this.pixyYvalue = pixyYvalue;
-    }
-
-    public int getDistanceSensor() {
-        return distanceSensor;
-    }
-
-    public void setDistanceSensor(int distanceSensor) {
-        this.distanceSensor = distanceSensor;
-    }
-
-    public byte getRequestCodeFromArduino() {
-        return requestCodeFromArduino;
-    }
-
-    public void setRequestCodeFromArduino(byte requestCodeFromArduino) {
-        this.requestCodeFromArduino = requestCodeFromArduino;
-    }
-    */
-
     //****************************************************************
     //************** FROM GUI METHODS*********************************
     /**
@@ -148,18 +75,6 @@ public class Datahandler {
     public byte[] getDataFromGui() {
         return this.dataFromGui;
     }
-
-    /*
-    public void stopAUV() {
-        dataFromGui[0] = this.setBit(dataFromGui[0], 0);
-        this.sendData();
-    }
-   
-    public void releaseStopAUV() {
-        dataFromGui[0] = this.releaseBit(dataFromGui[0], 0);
-        this.sendData();
-    }
-    */
 
     /**
      * Sets the FWD bit in the send byte Array. 
@@ -224,17 +139,6 @@ public class Datahandler {
         dataFromGui[0] = this.releaseBit(dataFromGui[0], 4);
         this.sendData();
     }
-    /*
-    public void setLeftMotorSpeed(byte speed) {
-        dataFromGui[1] = speed;
-        this.sendData();
-    }
-
-    public void setRightMotorSpeed(byte speed) {
-        dataFromGui[2] = speed;
-        this.sendData();
-    }
-    */
 
     /**
      * Sets the Left servo bit in the send byte Array. 
@@ -308,16 +212,6 @@ public class Datahandler {
         this.sendData();
     }
     
-    /*
-    public byte getSensitivity() {
-        return dataFromGui[4];
-    }
-
-    public byte getRequestCode() {
-        return dataFromGui[5];
-    }
-    */
-
     /**
      * Increments the request code. Request vode is used to request feedback
      * from the Arduino.

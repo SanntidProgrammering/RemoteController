@@ -17,8 +17,7 @@ public class Main {
 
     static final String IPADDRESS ="192.168.0.101"; //"10.16.4.27"; //"192.168.0.103";  //Fugl"158.38.199.58";  // Jørg"10.16.5.58";
     static final int RECEIVEPORT = 9877;
-    static final int SENDPORT = 9876; //9876
-    //static SendEventState enumStateEvent = SendEventState.FALSE;
+    static final int SENDPORT = 9876;
 
 
 
@@ -43,8 +42,6 @@ public class Main {
         
         receiveDataObserver.addObserver(gui);
 
-        //SendDataFromGui sendDataFromGui = new SendDataFromGui(datahandler);
-        //sendDataFromGui.start();
 
     }
 

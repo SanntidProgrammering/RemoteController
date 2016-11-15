@@ -537,7 +537,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
            ReceiveDataObservable receive = (ReceiveDataObservable) o;
            int distance = receive.getDistance();
            float eAx = receive.getErrorAngleX()/100;
-           float eAy = receive.getErrorAngleX()/100;
+           float eAy = receive.getErrorAngleY()/100;
            
            this.distanceLabel.setText("" + distance);
            if (eAx == 255 || eAx == -255){
