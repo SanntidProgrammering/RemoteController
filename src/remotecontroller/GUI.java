@@ -13,6 +13,7 @@ import java.util.Observable;
 import java.util.Observer;
 //import org.opencv.core.Core;
 import java.util.Timer;
+import javax.swing.JFrame;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 
@@ -28,6 +29,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
     private Timer fTimer;
+    private JFrame debuggerFrame;
  
     public GUI(GUIController controller) {
         initComponents();
@@ -46,6 +48,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.setInitialStates();
         
         this.setup();
+        this.setupDebugger();
         this.setInitValues();
         // Set keylistener to this GUI/Frame.
         addKeyListener(this);
@@ -62,6 +65,25 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        PIDpanel = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        paramILabel = new javax.swing.JLabel();
+        paramPLabel = new javax.swing.JLabel();
+        paramDLabel = new javax.swing.JLabel();
+        paramssLabel = new javax.swing.JLabel();
+        ssSlider = new javax.swing.JSlider();
+        pSlider = new javax.swing.JSlider();
+        iSlider = new javax.swing.JSlider();
+        dSlider = new javax.swing.JSlider();
+        paramffLabel = new javax.swing.JLabel();
+        ffSlider = new javax.swing.JSlider();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        ffLabel = new javax.swing.JLabel();
+        ssLabel = new javax.swing.JLabel();
+        pidButton = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         mainPanel = new javax.swing.JPanel();
         leftPanel = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
@@ -98,6 +120,152 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         powerIcon = new javax.swing.JLabel();
         slideAuto = new javax.swing.JLabel();
         slideMan = new javax.swing.JLabel();
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PID Adjuster", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 3, 24))); // NOI18N
+
+        paramILabel.setText("0.00");
+
+        paramPLabel.setText("0.00");
+
+        paramDLabel.setText("0.00");
+
+        paramssLabel.setText("0.00");
+
+        ssSlider.setMaximum(250);
+        ssSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ssSliderStateChanged(evt);
+            }
+        });
+
+        pSlider.setMaximum(250);
+        pSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                pSliderStateChanged(evt);
+            }
+        });
+
+        iSlider.setMaximum(250);
+        iSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                iSliderStateChanged(evt);
+            }
+        });
+
+        dSlider.setMaximum(250);
+        dSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                dSliderStateChanged(evt);
+            }
+        });
+
+        paramffLabel.setText("0.00");
+
+        ffSlider.setMaximum(250);
+        ffSlider.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                ffSliderStateChanged(evt);
+            }
+        });
+
+        jLabel6.setText("Proportional:");
+
+        jLabel1.setText("Integral:");
+
+        jLabel5.setText("Derivative:");
+
+        ffLabel.setText("Feed forward:");
+
+        ssLabel.setText("Something:");
+
+        pidButton.setText("Set values:");
+        pidButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                pidButtonMouseReleased(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel5)
+                    .addComponent(ffLabel)
+                    .addComponent(ssLabel))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pidButton, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(pSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(iSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(dSlider, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ffSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ssSlider, javax.swing.GroupLayout.PREFERRED_SIZE, 271, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(paramPLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(paramILabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(paramDLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(paramffLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(paramssLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addContainerGap(65, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(paramPLabel)
+                        .addGap(6, 6, 6)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(iSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(paramILabel))
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(paramDLabel)
+                    .addComponent(dSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ffSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ffLabel)
+                    .addComponent(paramffLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ssSlider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ssLabel)
+                    .addComponent(paramssLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(pidButton)
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout PIDpanelLayout = new javax.swing.GroupLayout(PIDpanel);
+        PIDpanel.setLayout(PIDpanelLayout);
+        PIDpanelLayout.setHorizontalGroup(
+            PIDpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PIDpanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PIDpanelLayout.setVerticalGroup(
+            PIDpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        jLabel2.setText("jLabel2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -667,6 +835,43 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }//GEN-LAST:event_rightButtonKeyPressed
 
+    private void pSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pSliderStateChanged
+        float tmp_value = ((float)this.pSlider.getValue())/10;
+        this.paramPLabel.setText("" + tmp_value);
+    }//GEN-LAST:event_pSliderStateChanged
+
+    private void iSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_iSliderStateChanged
+        float tmp_value = ((float)this.iSlider.getValue())/10;
+        this.paramILabel.setText("" + tmp_value);
+    }//GEN-LAST:event_iSliderStateChanged
+
+    private void dSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dSliderStateChanged
+        float tmp_value = ((float)this.dSlider.getValue())/10;
+        this.paramDLabel.setText("" + tmp_value);
+    }//GEN-LAST:event_dSliderStateChanged
+
+    private void ffSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ffSliderStateChanged
+        float tmp_value = ((float)this.ffSlider.getValue())/10;
+        this.paramffLabel.setText("" + tmp_value);
+    }//GEN-LAST:event_ffSliderStateChanged
+
+    private void ssSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ssSliderStateChanged
+        float tmp_value = ((float)this.ssSlider.getValue())/10;
+        this.paramssLabel.setText("" + tmp_value);
+    }//GEN-LAST:event_ssSliderStateChanged
+
+    private void pidButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pidButtonMouseReleased
+        int[] pidParams = new int[5];
+        pidParams[0] = this.pSlider.getValue();
+        pidParams[1] = this.iSlider.getValue();
+        pidParams[2] = this.dSlider.getValue();
+        pidParams[3] = this.ffSlider.getValue();
+        pidParams[4] = this.ssSlider.getValue();
+        
+        this.controller.setPidParams(pidParams);
+
+    }//GEN-LAST:event_pidButtonMouseReleased
+
     
       private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {                                            
       //  this.leftServoButton.setBackground(null);
@@ -701,21 +906,38 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     }      
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PIDpanel;
     private javax.swing.JPanel cameraPanel;
     private javax.swing.JPanel controlPanel;
+    private javax.swing.JSlider dSlider;
     private javax.swing.JLabel distanceLabel;
     private javax.swing.JLabel distanceNameLabel;
+    private javax.swing.JLabel ffLabel;
+    private javax.swing.JSlider ffSlider;
     private javax.swing.JButton fwdButton;
+    private javax.swing.JSlider iSlider;
     private javax.swing.JPanel inputPanel;
     private javax.swing.JPanel inputPanel1;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JLabel lServoWarn;
     private javax.swing.JButton leftButton;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JPanel mainPanel;
     private javax.swing.JToggleButton modeToggleButton;
+    private javax.swing.JSlider pSlider;
+    private javax.swing.JLabel paramDLabel;
+    private javax.swing.JLabel paramILabel;
+    private javax.swing.JLabel paramPLabel;
+    private javax.swing.JLabel paramffLabel;
+    private javax.swing.JLabel paramssLabel;
+    private javax.swing.JButton pidButton;
     private javax.swing.JLabel powerIcon;
     private javax.swing.JLabel rServoWarn;
     private javax.swing.JRadioButton radioAuto;
@@ -732,6 +954,8 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private javax.swing.JPanel setupPanel;
     private javax.swing.JLabel slideAuto;
     private javax.swing.JLabel slideMan;
+    private javax.swing.JLabel ssLabel;
+    private javax.swing.JSlider ssSlider;
     private javax.swing.JToggleButton startToggle;
     private javax.swing.JLabel xCoordLabel;
     private javax.swing.JLabel xNameLabel;
@@ -773,6 +997,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             }
             if (code == KeyEvent.VK_D) {
                 this.rightServoButtonKeyPressed(e);
+            }
+            if (code == KeyEvent.VK_S) {
+                debuggerFrame.setVisible(true);
             }
     }
 
@@ -892,4 +1119,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
               myThread.setRunnable(false);
            }            
         }
+        
+        private  void setupDebugger(){
+            this.debuggerFrame =  new JFrame();
+            this.debuggerFrame.setSize(550, 275);
+            this.debuggerFrame.add(PIDpanel);
+        }
+    
+        
 }

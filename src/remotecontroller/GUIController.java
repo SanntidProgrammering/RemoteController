@@ -181,6 +181,10 @@ public class GUIController extends TimerTask {
         //System.out.println("New sens = " + sens);
         this.datahandler.setSensitivity((byte) sens);
     }
+
+    void setPidParams(int[] pidParams) {
+        this.datahandler.setPidParams(pidParams);
+    }
   
 }
 

@@ -32,7 +32,7 @@ public class Datahandler {
 
     public Datahandler() {
 
-        this.dataFromGui = new byte[6];
+        this.dataFromGui = new byte[11];
     }
 
     //*****************************************************************
@@ -226,6 +226,13 @@ public class Datahandler {
      */
     public void sendData() {
         new UDPsender().send(Main.IPADDRESS, dataFromGui, Main.SENDPORT);
+    }
+
+    void setPidParams(int[] pidParams) {
+        for (int i=0; i<5; i++){
+           dataFromGui[i+6] = (byte)pidParams[i];
+        }
+        this.sendData();
     }
 
 }
