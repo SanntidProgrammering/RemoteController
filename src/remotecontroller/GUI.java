@@ -6,15 +6,15 @@
 package remotecontroller;
 
 import java.awt.Color;
-import java.awt.GraphicsEnvironment;
+//import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Observable;
 import java.util.Observer;
-import org.opencv.core.Core;
+//import org.opencv.core.Core;
 import java.util.Timer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+//import java.util.logging.Level;
+//import java.util.logging.Logger;
 
 /**
  *
@@ -46,6 +46,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.setInitialStates();
         
         this.setup();
+        this.setInitValues();
         // Set keylistener to this GUI/Frame.
         addKeyListener(this);
         // Sets different color layout.
@@ -242,13 +243,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         distanceNameLabel.setText("Distance:");
 
         xCoordLabel.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
-        xCoordLabel.setText("56,000052565");
+        xCoordLabel.setText("No Object found");
 
         yCoordLabel.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
-        yCoordLabel.setText("34,788864323");
+        yCoordLabel.setText("No Object found");
 
         distanceLabel.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
-        distanceLabel.setText("12,32434344");
+        distanceLabel.setText("No Object found");
 
         javax.swing.GroupLayout inputPanelLayout = new javax.swing.GroupLayout(inputPanel);
         inputPanel.setLayout(inputPanelLayout);
@@ -331,7 +332,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         rightCenPanelLayout.setHorizontalGroup(
             rightCenPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(rightCenPanelLayout.createSequentialGroup()
-                .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(inputPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(inputPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -394,9 +395,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
 
         powerIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/icons/power_on.png"))); // NOI18N
 
-        slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/on_slide.png"))); // NOI18N
+        slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/of_slide.png"))); // NOI18N
 
-        slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/of_slide.png"))); // NOI18N
+        slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/on_slide.png"))); // NOI18N
 
         javax.swing.GroupLayout setupPanelLayout = new javax.swing.GroupLayout(setupPanel);
         setupPanel.setLayout(setupPanelLayout);
@@ -766,9 +767,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             }
             if (code == KeyEvent.VK_D) {
                 this.rightServoButtonKeyPressed(e);
-
             }
-
     }
 
     @Override
@@ -796,52 +795,14 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
               
             }
             if (code == KeyEvent.VK_D) {
-                this.rightServoButtonKeyReleased(e);
-                
+                this.rightServoButtonKeyReleased(e);  
             }
-    }
-    
-    public void setHandler(Datahandler datahandler){
-        //this.controller = new GUIController(datahandler);
-
     }
     
     public void setInitValues(){
         this.controller.setSens(sens);
     }
-    
-    /*
-    public void setup(){
-        this.sensSlider.setMinimum(0);
-        this.sensSlider.setMaximum(100); 
-        this.sensSlider.setValue(this.sens);
-        this.sensPercentLabel.setText(""+this.sens+"%");
-        setFocusable(true);
-        setFocusTraversalKeysEnabled(false);
-        fwdButton.setFocusable(false);
-        revButton.setFocusable(false);
-        leftButton.setFocusable(false);
-        rightButton.setFocusable(false);
-        startToggle.setFocusable(false);
-        modeToggleButton.setFocusable(false);
-        sensSlider.setFocusable(false);
-        this.radioMan.setFocusable(false);
-        this.powerIcon.setFocusable(false);
-      
-        lServoWarn.setFocusable(false);
         
-        slideAuto.setEnabled(true);
-        //slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
-        fwdButton.setEnabled(false);
-        revButton.setEnabled(false);
-        leftButton.setEnabled(false);
-        rightButton.setEnabled(false);
-        this.radioMan.setEnabled(false);
-        this.powerIcon.setEnabled(false);
-        lServoWarn.setEnabled(false);
-        rServoWarn.setEnabled(false); 
-    } */
-    
     public void setup(){
         fwdButton.setEnabled(false);
         revButton.setEnabled(false);
@@ -853,7 +814,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         rServoWarn.setEnabled(false); 
         slideAuto.setEnabled(true);
         
-        this.setInitValues();
+        
     }
     
     public void setupTimerSchedule(GUIController controller, int startTime, int runRate){
@@ -868,8 +829,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         revButton.setFocusable(false);
         leftButton.setFocusable(false);
         rightButton.setFocusable(false);
-        //leftServoButton.setFocusable(false);
-        //rightServoButton.setFocusable(false);
+        this.radioMan.setFocusable(false);
+        this.powerIcon.setFocusable(false);
+        lServoWarn.setFocusable(false);
         startToggle.setFocusable(false);
         modeToggleButton.setFocusable(false);
         sensSlider.setFocusable(false);
@@ -881,12 +843,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.sensSlider.setMaximum(100); 
         this.sensSlider.setValue(this.sens);
         this.sensPercentLabel.setText(""+this.sens+"%");
+        
     }
     
     // Sets the inital modes/states of the system.
     public void setInitialStates(){        
-        this.radioMan.setSelected(true);
-        //this.radioSysOff.setSelected(true);        
+        this.radioMan.setSelected(true);    
     }
     
     private void colorSetup(){
@@ -909,7 +871,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private void cameraSetup(){
         if (myThread == null){
            myThread = new CameraThread(cameraPanel);
-           //Thread t = new Thread(myThread);
            t = new Thread(myThread);
            t.setDaemon(true);
            myThread.setRunnable(true);
@@ -917,7 +878,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
         else{
             myThread.setRunnable(true);
-            //t.start();
         }
     }
     
