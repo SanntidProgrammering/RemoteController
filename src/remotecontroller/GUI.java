@@ -30,10 +30,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private int sens;
     private Timer fTimer;
     private JFrame debuggerFrame;
+    private int[] initPidValues;
  
     public GUI(GUIController controller) {
         initComponents();
-
+        this.initPidValues = new int[] {10, 10, 0, 0, 100};
+        //this.initPidValues = ;
         this.controller = controller;
         
         // Creates a new timer. Used for requesting data from arduino.
@@ -138,21 +140,21 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             }
         });
 
-        pSlider.setMaximum(250);
+        pSlider.setMaximum(25);
         pSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 pSliderStateChanged(evt);
             }
         });
 
-        iSlider.setMaximum(250);
+        iSlider.setMaximum(25);
         iSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 iSliderStateChanged(evt);
             }
         });
 
-        dSlider.setMaximum(250);
+        dSlider.setMaximum(25);
         dSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 dSliderStateChanged(evt);
@@ -161,7 +163,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
 
         paramffLabel.setText("0.00");
 
-        ffSlider.setMaximum(250);
+        ffSlider.setMaximum(25);
         ffSlider.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 ffSliderStateChanged(evt);
@@ -176,7 +178,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
 
         ffLabel.setText("Feed forward:");
 
-        ssLabel.setText("Something:");
+        ssLabel.setText("Ramp rate:");
 
         pidButton.setText("Set values:");
         pidButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1000,6 +1002,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             }
             if (code == KeyEvent.VK_S) {
                 debuggerFrame.setVisible(true);
+                
             }
     }
 
@@ -1124,7 +1127,17 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             this.debuggerFrame =  new JFrame();
             this.debuggerFrame.setSize(550, 275);
             this.debuggerFrame.add(PIDpanel);
+            
+            this.setInitialPIDValues(this.initPidValues);
         }
+
+    private void setInitialPIDValues(int[] pidValues) {
+        this.pSlider.setValue(pidValues[0]);
+        this.iSlider.setValue(pidValues[1]);
+        this.dSlider.setValue(pidValues[2]);
+        this.ffSlider.setValue(pidValues[3]);
+        this.ssSlider.setValue(pidValues[4]);
+    }
     
         
 }

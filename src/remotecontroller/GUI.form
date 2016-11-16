@@ -143,7 +143,7 @@
             </Component>
             <Component class="javax.swing.JSlider" name="pSlider">
               <Properties>
-                <Property name="maximum" type="int" value="250"/>
+                <Property name="maximum" type="int" value="25"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="pSliderStateChanged"/>
@@ -151,7 +151,7 @@
             </Component>
             <Component class="javax.swing.JSlider" name="iSlider">
               <Properties>
-                <Property name="maximum" type="int" value="250"/>
+                <Property name="maximum" type="int" value="25"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="iSliderStateChanged"/>
@@ -159,7 +159,7 @@
             </Component>
             <Component class="javax.swing.JSlider" name="dSlider">
               <Properties>
-                <Property name="maximum" type="int" value="250"/>
+                <Property name="maximum" type="int" value="25"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="dSliderStateChanged"/>
@@ -172,7 +172,7 @@
             </Component>
             <Component class="javax.swing.JSlider" name="ffSlider">
               <Properties>
-                <Property name="maximum" type="int" value="250"/>
+                <Property name="maximum" type="int" value="25"/>
               </Properties>
               <Events>
                 <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="ffSliderStateChanged"/>
@@ -200,7 +200,7 @@
             </Component>
             <Component class="javax.swing.JLabel" name="ssLabel">
               <Properties>
-                <Property name="text" type="java.lang.String" value="Something:"/>
+                <Property name="text" type="java.lang.String" value="Ramp rate:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="pidButton">
