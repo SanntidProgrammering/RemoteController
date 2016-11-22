@@ -121,11 +121,11 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         sensPercentLabel = new javax.swing.JLabel();
         modeToggleButton = new javax.swing.JToggleButton();
         startToggle = new javax.swing.JToggleButton();
-        radioAuto = new javax.swing.JRadioButton();
-        radioMan = new javax.swing.JRadioButton();
         powerIcon = new javax.swing.JLabel();
         slideAuto = new javax.swing.JLabel();
         slideMan = new javax.swing.JLabel();
+        autoModeLabel = new javax.swing.JLabel();
+        manualModeLabel = new javax.swing.JLabel();
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "PID Adjuster", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP, new java.awt.Font("Tahoma", 3, 24))); // NOI18N
 
@@ -562,22 +562,17 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             }
         });
 
-        radioAuto.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
-        radioAuto.setText("Auto mode");
-        radioAuto.setEnabled(false);
-        radioAuto.setRolloverEnabled(false);
-
-        radioMan.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
-        radioMan.setText("Manual mode");
-        radioMan.setEnabled(false);
-        radioMan.setOpaque(false);
-        radioMan.setRolloverEnabled(false);
-
         powerIcon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/icons/power_on.png"))); // NOI18N
 
         slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/of_slide.png"))); // NOI18N
 
         slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/on_slide.png"))); // NOI18N
+
+        autoModeLabel.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 14)); // NOI18N
+        autoModeLabel.setText("Auto mode:");
+
+        manualModeLabel.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 14)); // NOI18N
+        manualModeLabel.setText("Manual mode:");
 
         javax.swing.GroupLayout setupPanelLayout = new javax.swing.GroupLayout(setupPanel);
         setupPanel.setLayout(setupPanelLayout);
@@ -599,12 +594,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
                                 .addGap(18, 18, 18)
                                 .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addGroup(setupPanelLayout.createSequentialGroup()
-                                        .addComponent(radioMan)
-                                        .addGap(18, 18, 18)
+                                        .addComponent(manualModeLabel)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(slideMan))
                                     .addGroup(setupPanelLayout.createSequentialGroup()
-                                        .addComponent(radioAuto)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(autoModeLabel)
+                                        .addGap(56, 56, 56)
                                         .addComponent(slideAuto)))
                                 .addGap(0, 0, Short.MAX_VALUE)))
                         .addContainerGap())
@@ -629,16 +624,18 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
                         .addComponent(sensLabel)))
                 .addGap(18, 18, 18)
                 .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(setupPanelLayout.createSequentialGroup()
                         .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radioAuto)
-                            .addComponent(slideAuto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(slideAuto, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
+                            .addComponent(autoModeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(setupPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(radioMan)
-                            .addComponent(slideMan, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(8, 8, 8))
+                            .addComponent(slideMan, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(manualModeLabel))
+                        .addGap(17, 17, 17))
+                    .addGroup(setupPanelLayout.createSequentialGroup()
+                        .addComponent(modeToggleButton, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(8, 8, 8))))
         );
 
         javax.swing.GroupLayout rightTopPanelLayout = new javax.swing.GroupLayout(rightTopPanel);
@@ -882,15 +879,15 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private void modeToggleButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseReleased
         if(this.modeToggleButton.isSelected()){
             this.controller.setAuto(true);
-            this.radioAuto.setSelected(true);
-            this.radioMan.setSelected(false);
+            //this.radioAuto.setSelected(true);
+            //this.radioMan.setSelected(false);
             slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
             slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
         }
         else{
             this.controller.setAuto(false);
-            this.radioAuto.setSelected(false);
-            this.radioMan.setSelected(true);
+            //this.radioAuto.setSelected(false);
+            //this.radioMan.setSelected(true);
             slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
             slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
 
@@ -932,6 +929,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PIDpanel;
+    private javax.swing.JLabel autoModeLabel;
     private javax.swing.JPanel cameraPanel;
     private javax.swing.JPanel controlPanel;
     private javax.swing.JSlider dSlider;
@@ -955,6 +953,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private javax.swing.JButton leftButton;
     private javax.swing.JPanel leftPanel;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JLabel manualModeLabel;
     private javax.swing.JToggleButton modeToggleButton;
     private javax.swing.JSlider pSlider;
     private javax.swing.JLabel paramDLabel;
@@ -965,8 +964,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private javax.swing.JButton pidButton;
     private javax.swing.JLabel powerIcon;
     private javax.swing.JLabel rServoWarn;
-    private javax.swing.JRadioButton radioAuto;
-    private javax.swing.JRadioButton radioMan;
     private javax.swing.JButton revButton;
     private javax.swing.JButton rightButton;
     private javax.swing.JPanel rightCenPanel;
@@ -1067,7 +1064,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         revButton.setEnabled(false);
         leftButton.setEnabled(false);
         rightButton.setEnabled(false);
-        this.radioMan.setEnabled(false);
+        //this.radioMan.setEnabled(false);
         this.powerIcon.setEnabled(false);
         lServoWarn.setEnabled(false);
         rServoWarn.setEnabled(false); 
@@ -1088,7 +1085,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         revButton.setFocusable(false);
         leftButton.setFocusable(false);
         rightButton.setFocusable(false);
-        this.radioMan.setFocusable(false);
+        //this.radioMan.setFocusable(false);
         this.powerIcon.setFocusable(false);
         lServoWarn.setFocusable(false);
         startToggle.setFocusable(false);
@@ -1107,7 +1104,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     
     // Sets the inital modes/states of the system.
     public void setInitialStates(){        
-        this.radioMan.setSelected(true);    
+        //this.radioMan.setSelected(true);    
     }
     
     private void colorSetup(){

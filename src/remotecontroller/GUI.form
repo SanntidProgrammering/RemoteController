@@ -752,13 +752,13 @@
                                               <EmptySpace type="separate" max="-2" attributes="0"/>
                                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
                                                   <Group type="102" attributes="0">
-                                                      <Component id="radioMan" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                                                      <Component id="manualModeLabel" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace max="32767" attributes="0"/>
                                                       <Component id="slideMan" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                                   <Group type="102" attributes="0">
-                                                      <Component id="radioAuto" min="-2" max="-2" attributes="0"/>
-                                                      <EmptySpace max="32767" attributes="0"/>
+                                                      <Component id="autoModeLabel" min="-2" max="-2" attributes="0"/>
+                                                      <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
                                                       <Component id="slideAuto" min="-2" max="-2" attributes="0"/>
                                                   </Group>
                                               </Group>
@@ -795,20 +795,23 @@
                               </Group>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="modeToggleButton" alignment="0" min="-2" pref="50" max="-2" attributes="0"/>
-                                  <Group type="102" alignment="0" attributes="0">
+                                  <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="radioAuto" min="-2" max="-2" attributes="0"/>
-                                          <Component id="slideAuto" max="32767" attributes="0"/>
+                                          <Component id="slideAuto" pref="29" max="32767" attributes="0"/>
+                                          <Component id="autoModeLabel" max="32767" attributes="0"/>
                                       </Group>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Component id="radioMan" min="-2" max="-2" attributes="0"/>
                                           <Component id="slideMan" min="-2" pref="20" max="-2" attributes="0"/>
+                                          <Component id="manualModeLabel" min="-2" max="-2" attributes="0"/>
                                       </Group>
+                                      <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
+                                  </Group>
+                                  <Group type="102" attributes="0">
+                                      <Component id="modeToggleButton" min="-2" pref="50" max="-2" attributes="0"/>
+                                      <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
-                              <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                     </DimensionLayout>
@@ -860,27 +863,6 @@
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseReleased"/>
                       </Events>
                     </Component>
-                    <Component class="javax.swing.JRadioButton" name="radioAuto">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Swis721 LtEx BT" size="13" style="0"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Auto mode"/>
-                        <Property name="enabled" type="boolean" value="false"/>
-                        <Property name="rolloverEnabled" type="boolean" value="false"/>
-                      </Properties>
-                    </Component>
-                    <Component class="javax.swing.JRadioButton" name="radioMan">
-                      <Properties>
-                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-                          <Font name="Swis721 LtEx BT" size="13" style="0"/>
-                        </Property>
-                        <Property name="text" type="java.lang.String" value="Manual mode"/>
-                        <Property name="enabled" type="boolean" value="false"/>
-                        <Property name="opaque" type="boolean" value="false"/>
-                        <Property name="rolloverEnabled" type="boolean" value="false"/>
-                      </Properties>
-                    </Component>
                     <Component class="javax.swing.JLabel" name="powerIcon">
                       <Properties>
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
@@ -900,6 +882,22 @@
                         <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                           <Image iconType="3" name="/remotecontroller/on_slide.png"/>
                         </Property>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="autoModeLabel">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Swis721 LtEx BT" size="14" style="0"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Auto mode:"/>
+                      </Properties>
+                    </Component>
+                    <Component class="javax.swing.JLabel" name="manualModeLabel">
+                      <Properties>
+                        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                          <Font name="Swis721 LtEx BT" size="14" style="0"/>
+                        </Property>
+                        <Property name="text" type="java.lang.String" value="Manual mode:"/>
                       </Properties>
                     </Component>
                   </SubComponents>
