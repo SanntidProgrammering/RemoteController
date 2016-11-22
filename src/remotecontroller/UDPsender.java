@@ -22,7 +22,6 @@ public class UDPsender {
     
     
     public UDPsender() {
-           // nothing to do here
     }
     
     /**

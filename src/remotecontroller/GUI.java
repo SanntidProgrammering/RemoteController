@@ -7,57 +7,48 @@ package remotecontroller;
 
 import java.awt.Color;
 import java.awt.Graphics;
-//import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
-//import org.opencv.core.Core;
 import java.util.Timer;
 import javax.swing.JFrame;
-//import java.util.logging.Level;
-//import java.util.logging.Logger;
 
 /**
- *
+ * GUI class is the graphical userinterface for controlling autonom car.
+ * Manual mode is made with the idea that the keyboard is used to drive the car.
+ *    - Build with Video panel for streamin video
+ *    - Setup panel with toggle for on/off, mode and sens (percentage motorspeed)
+ *    - Input panel with values refering to object (distance and error angels)
+ *    - Servo panel with indication of servo state
+ *    - Control panel with control indication for manual driving
+ * 
  * @author Magnus Gribbestad
  */
 public class GUI extends javax.swing.JFrame implements KeyListener, Observer { // implement Observer
 
-    //private CameraThread myThread;
-    //private Thread t; 
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
     private Timer fTimer;
     private JFrame debuggerFrame;
     private int[] initPidValues;
-    private boolean systemOn;
+    private boolean systemOn = false;
  
     public GUI() {
         initComponents();
+        // Sets initial PID parameters
         this.initPidValues = new int[] {13, 3, 8, 0, 100};
-        this.systemOn = false;
-        //this.initPidValues = ;
-        //this.controller = controller;
-        this.controller = new GUIController();
-        
+        // Creates and sets the controller
+        this.controller = new GUIController(); 
         // Creates a new timer. Used for requesting data from arduino.
         this.fTimer = new Timer();
-        // Setup timer, schedule request rate
-        this.setupTimerSchedule(controller, 0, 500);
-        // Set initial focusable parameters, important for keylistener.
-        this.setupFocusable(); 
-        // Set the sens slider boundaries and initial values.
-        this.setupSensSlider();
-
-        
-        this.setup();
-        this.setupDebugger();
-        this.setInitValues();
+        // Sets up the User interface. 
+        this.setupUI();
         // Set keylistener to this GUI/Frame.
         addKeyListener(this);
+        
         // Sets different color layout.
         //this.colorSetup();
     }
@@ -526,11 +517,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         sensLabel.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
         sensLabel.setText("Sensitivity:");
 
-        sensSlider.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                sensSliderStateChanged(evt);
-            }
-        });
         sensSlider.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 sensSliderMouseReleased(evt);
@@ -543,9 +529,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         modeToggleButton.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
         modeToggleButton.setText("Change mode");
         modeToggleButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                modeToggleButtonMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 modeToggleButtonMouseReleased(evt);
             }
@@ -554,9 +537,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         startToggle.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
         startToggle.setText("Start system");
         startToggle.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                startToggleMouseClicked(evt);
-            }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
                 startToggleMouseReleased(evt);
             }
@@ -702,71 +682,40 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    
-    
-    
-    private void startToggleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseClicked
-        /*
-        if(this.startToggle.isSelected()){
-            this.controller.setStart(true);
-            this.startToggle.setText("Stop system");
-            this.powerIcon.setEnabled(true);
-            this.systemOn = true;
-            //this.cameraSetup();
-        }
-        else{
-            this.controller.setStart(false);
-            this.startToggle.setText("Start system");
-            this.powerIcon.setEnabled(false);
-            this.systemOn = false;
-            //this.stopCamera();
-        }
-        */
-    }//GEN-LAST:event_startToggleMouseClicked
-
-    private void modeToggleButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseClicked
-        /*
-        if(this.modeToggleButton.isSelected()){
-            this.controller.setAuto(true);
-            this.radioAuto.setSelected(true);
-            this.radioMan.setSelected(false);
-            slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
-            slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
-        }
-        else{
-            this.controller.setAuto(false);
-            this.radioAuto.setSelected(false);
-            this.radioMan.setSelected(true);
-            slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
-            slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
-
-        }
-        */
-    }//GEN-LAST:event_modeToggleButtonMouseClicked
-
+    /**
+     * Sets up the user interface. Calls several setup function to initialize
+     * the user interface. 
+     */
+    private void setupUI(){
+        this.setupTimerSchedule(controller, 0, 500);
+        this.setupFocusable(); 
+        this.setupSensSlider();
+        this.setupInitEnable();
+        this.setupDebugger();
+    }
+     
+    /**
+     * Sets the sense value when mouse released from the sens slider.
+     */
     private void sensSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sensSliderMouseReleased
         this.sens = this.sensSlider.getValue();
         this.controller.setSens(this.sens);
         this.sensPercentLabel.setText(""+this.sens+"%");
     }//GEN-LAST:event_sensSliderMouseReleased
 
-    private void sensSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_sensSliderStateChanged
-        //this.sens = this.sensSlider.getValue();
-        //this.controller.setSens(this.sens);
-        //this.sensPercentLabel.setText(""+this.sens+"%");
-
-    }//GEN-LAST:event_sensSliderStateChanged
-
+    /**
+     * Sets the fwd command to false
+     */
     private void fwdButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyReleased
-        //this.fwdButton.setBackground(null);
         this.fwdButton.setEnabled(false);
         this.controller.setFwd(false);
         this.fwd = false;
     }//GEN-LAST:event_fwdButtonKeyReleased
 
-    
+    /**
+     * Sets the fwd command to true  if false.
+     */
     private void fwdButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyPressed
-        //this.fwdButton.setBackground(Color.green);
         this.fwdButton.setEnabled(true);
         if(!this.fwd){
             this.controller.setFwd(true);
@@ -774,15 +723,19 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }//GEN-LAST:event_fwdButtonKeyPressed
 
+    /**
+     * Sets the rev command to false
+     */
     private void revButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyReleased
-        //this.revButton.setBackground(null);
         this.revButton.setEnabled(false);
         this.controller.setRev(false);
         this.rev = false;
     }//GEN-LAST:event_revButtonKeyReleased
 
+    /**
+     * Sets the rev command to true  if false.
+     */
     private void revButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_revButtonKeyPressed
-        //this.revButton.setBackground(Color.green);
         this.revButton.setEnabled(true);
         if(!this.rev){
             this.controller.setRev(true);
@@ -790,15 +743,19 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }//GEN-LAST:event_revButtonKeyPressed
 
+    /**
+     * Sets the left command to false
+     */
     private void leftButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyReleased
-        //this.leftButton.setBackground(null);
         this.leftButton.setEnabled(false);
         this.controller.setLeft(false);
         this.left = false;
     }//GEN-LAST:event_leftButtonKeyReleased
 
+    /**
+     * Sets the left command to true if false.
+     */
     private void leftButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_leftButtonKeyPressed
-        //this.leftButton.setBackground(Color.green);
         this.leftButton.setEnabled(true);
         if(!this.left){
             this.controller.setLeft(true);
@@ -806,15 +763,20 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }//GEN-LAST:event_leftButtonKeyPressed
 
+    /**
+     * Sets the right command to false
+     */
     private void rightButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyReleased
-        //this.rightButton.setBackground(null);
         this.rightButton.setEnabled(false);
         this.controller.setRight(false);
         this.right = false;
     }//GEN-LAST:event_rightButtonKeyReleased
 
+    /**
+     * Sets the right command to true if false.
+     */
     private void rightButtonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_rightButtonKeyPressed
-        // this.rightButton.setBackground(Color.green);
+
         this.rightButton.setEnabled(true);
         if(!this.right){
             this.controller.setRight(true);
@@ -822,31 +784,49 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }//GEN-LAST:event_rightButtonKeyPressed
 
+    /** DEVELOPER FUNCTION - PID ADJUSTER
+     * Sets the proportional value in the PID values.
+     */
     private void pSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_pSliderStateChanged
         float tmp_value = ((float)this.pSlider.getValue())/10;
         this.paramPLabel.setText("" + tmp_value);
     }//GEN-LAST:event_pSliderStateChanged
 
+    /** DEVELOPER FUNCTION - PID ADJUSTER
+     * Sets the integral value in the PID values.
+     */
     private void iSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_iSliderStateChanged
         float tmp_value = ((float)this.iSlider.getValue())/10;
         this.paramILabel.setText("" + tmp_value);
     }//GEN-LAST:event_iSliderStateChanged
 
+    /** DEVELOPER FUNCTION - PID ADJUSTER
+     * Sets the derivative value in the PID values.
+     */
     private void dSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_dSliderStateChanged
         float tmp_value = ((float)this.dSlider.getValue())/10;
         this.paramDLabel.setText("" + tmp_value);
     }//GEN-LAST:event_dSliderStateChanged
 
+    /** DEVELOPER FUNCTION - PID ADJUSTER
+     * Sets the feed forward value in the PID values.
+     */
     private void ffSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ffSliderStateChanged
         float tmp_value = ((float)this.ffSlider.getValue())/10;
         this.paramffLabel.setText("" + tmp_value);
     }//GEN-LAST:event_ffSliderStateChanged
 
+    /** DEVELOPER FUNCTION - PID ADJUSTER
+     * Sets the ramp rate value in the PID values.
+     */
     private void ssSliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_ssSliderStateChanged
         float tmp_value = ((float)this.ssSlider.getValue())/10;
         this.paramssLabel.setText("" + tmp_value);
     }//GEN-LAST:event_ssSliderStateChanged
 
+    /** DEVELOPER FUNCTION - PID ADJUSTER
+     * Sets the PID values from all the sliders.
+     */
     private void pidButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pidButtonMouseReleased
         int[] pidParams = new int[5];
         pidParams[0] = this.pSlider.getValue();
@@ -859,51 +839,57 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
 
     }//GEN-LAST:event_pidButtonMouseReleased
 
+    /**
+     * Toggles the system (updates SystemOn visualization)
+     * If system is on: SystemOn field is true and the value is set
+     * If system is off: SystemOn field is false and the value is set
+     */
     private void startToggleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseReleased
         if(this.startToggle.isSelected()){
             this.controller.setStart(true);
             this.startToggle.setText("Stop system");
             this.powerIcon.setEnabled(true);
             this.systemOn = true;
-            //this.cameraSetup();
         }
         else{
             this.controller.setStart(false);
             this.startToggle.setText("Start system");
             this.powerIcon.setEnabled(false);
             this.systemOn = false;
-            //this.stopCamera();
         }
     }//GEN-LAST:event_startToggleMouseReleased
 
+    /**
+     * Toggles the mode (updates mode visualization)
+     * If auto is on: Mode is set in controller (true)
+     * If system is off: Mode is set in controller (false)
+     */
     private void modeToggleButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseReleased
         if(this.modeToggleButton.isSelected()){
             this.controller.setAuto(true);
-            //this.radioAuto.setSelected(true);
-            //this.radioMan.setSelected(false);
             slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
             slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
         }
         else{
             this.controller.setAuto(false);
-            //this.radioAuto.setSelected(false);
-            //this.radioMan.setSelected(true);
             slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
             slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
-
         }
     }//GEN-LAST:event_modeToggleButtonMouseReleased
 
-    
-      private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {                                            
-      //  this.leftServoButton.setBackground(null);
+    /**
+     * Sets the left servo command to false
+     */
+    private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {                                            
         this.lServoWarn.setEnabled(false);
         this.controller.setLeftServo(false);
         this.leftServo = false;
     }                                           
 
+    /**
+     * Sets the left servo command to true if false.
+     */
     private void leftServoButtonKeyPressed(java.awt.event.KeyEvent evt) {                                           
-      //  this.leftServoButton.setBackground(Color.green);
         this.lServoWarn.setEnabled(true);
         if(!this.leftServo){
             this.controller.setLeftServo(true);
@@ -911,15 +897,19 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }       
     
-      private void rightServoButtonKeyReleased(java.awt.event.KeyEvent evt) {                                             
-       // this.rightServoButton.setBackground(null);
+    /**
+     * Sets the right servo command to false
+     */ 
+    private void rightServoButtonKeyReleased(java.awt.event.KeyEvent evt) {                                             
         this.rServoWarn.setEnabled(false);
         this.controller.setRightServo(false);
         this.rightServo = false;
     }                                            
 
+    /**
+     * Sets the right servo command to true if false.
+     */
     private void rightServoButtonKeyPressed(java.awt.event.KeyEvent evt) {                                            
-       // this.rightServoButton.setBackground(Color.green);
         this.rServoWarn.setEnabled(true);
         if(!this.rightServo){
             this.controller.setRightServo(true);
@@ -990,94 +980,97 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Reads the code of the pressed key, and used this to determine
+     * further event
+     * 
+     * @param e Event from key pressed on keyboard
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
             if (code == KeyEvent.VK_DOWN) {
-       
                 this.revButtonKeyPressed(e);
-             
             }
             if (code == KeyEvent.VK_UP) {
-    
                 this.fwdButtonKeyPressed(e);
-     
             }
             if (code == KeyEvent.VK_LEFT) {
                 this.leftButtonKeyPressed(e);
-    
             }
             if (code == KeyEvent.VK_RIGHT) {
                 this.rightButtonKeyPressed(e);
-
             }
             if (code == KeyEvent.VK_A) {
                 this.leftServoButtonKeyPressed(e);
-
- 
             }
             if (code == KeyEvent.VK_D) {
                 this.rightServoButtonKeyPressed(e);
             }
             if (code == KeyEvent.VK_S) {
-                debuggerFrame.setVisible(true);
-                
+                debuggerFrame.setVisible(true);  
             }
     }
 
+    /**
+     * Reads the code of the released key, and used the code to determine
+     * further event. 
+     * 
+     * @param e Event from key pressed on keyboard
+     */
     @Override
     public void keyReleased(KeyEvent e) {
          int code = e.getKeyCode();
 
             if (code == KeyEvent.VK_DOWN) {
-                this.revButtonKeyReleased(e);
-                
+                this.revButtonKeyReleased(e);  
             }
             if (code == KeyEvent.VK_UP) {
-                this.fwdButtonKeyReleased(e);
-                
+                this.fwdButtonKeyReleased(e);    
             }
             if (code == KeyEvent.VK_LEFT) {
-                this.leftButtonKeyReleased(e);
-                
+                this.leftButtonKeyReleased(e); 
             }
             if (code == KeyEvent.VK_RIGHT) {
-                this.rightButtonKeyReleased(e);
-                
+                this.rightButtonKeyReleased(e);   
             }
             if (code == KeyEvent.VK_A) {
-                this.leftServoButtonKeyReleased(e);
-              
+                this.leftServoButtonKeyReleased(e);  
             }
             if (code == KeyEvent.VK_D) {
                 this.rightServoButtonKeyReleased(e);  
             }
     }
-    
-    public void setInitValues(){
-        this.controller.setSens(sens);
-    }
-        
-    public void setup(){
+     
+    /**
+     * Setsup the initial states of components. If buttons are enabled or not.
+     */
+    public void setupInitEnable(){
         fwdButton.setEnabled(false);
         revButton.setEnabled(false);
         leftButton.setEnabled(false);
         rightButton.setEnabled(false);
-        //this.radioMan.setEnabled(false);
         this.powerIcon.setEnabled(false);
         lServoWarn.setEnabled(false);
         rServoWarn.setEnabled(false); 
-        slideAuto.setEnabled(true);
-        
-        
+        slideAuto.setEnabled(true);    
     }
     
+    /**
+     * Sets up timer scheduler
+     * 
+     * @param controller GUIController 
+     * @param startTime Int when Timer schedule starts
+     * @param runRate Int How often the timer should schedule
+     */
     public void setupTimerSchedule(GUIController controller, int startTime, int runRate){
         this.fTimer.scheduleAtFixedRate(controller, startTime, runRate);
     }
     
-    
+    /**
+     * Sets component focusable to false. This is to be able to use keylistner.
+     */
     public void setupFocusable(){
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
@@ -1085,7 +1078,6 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         revButton.setFocusable(false);
         leftButton.setFocusable(false);
         rightButton.setFocusable(false);
-        //this.radioMan.setFocusable(false);
         this.powerIcon.setFocusable(false);
         lServoWarn.setFocusable(false);
         startToggle.setFocusable(false);
@@ -1093,16 +1085,22 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         sensSlider.setFocusable(false);
     }
     
+    /**
+     * Initializes sens slider.
+     */
     public void setupSensSlider(){
         this.sens = 50;
         this.sensSlider.setMinimum(0);
         this.sensSlider.setMaximum(100); 
         this.sensSlider.setValue(this.sens);
         this.sensPercentLabel.setText(""+this.sens+"%");
+        this.controller.setSens(sens);
         
     }
 
-    
+    /**
+     * Color setup function. Changes the overall color of the GUI.
+     */
     private void colorSetup(){
         Color color2 = Color.GRAY;
         Color color = Color.LIGHT_GRAY;
@@ -1118,8 +1116,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.setupPanel.setBackground(color);
         this.cameraPanel.setBackground(color);
         this.jPanel4.setBackground(color);
+        this.sensSlider.setBackground(color);  
     }
         
+    /**
+     * Creates the debuffer frame for PID adjusting
+     */
     private  void setupDebugger(){
         this.debuggerFrame =  new JFrame();
         this.debuggerFrame.setSize(550, 275);
@@ -1127,7 +1129,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             
         this.setInitialPIDValues(this.initPidValues);
         }
-
+    
+    /**
+     * Sets the initial PID parameters.
+     * 
+     * @param pidValues Int[] with pid values [P, I, D, Feed fwd, RampRate]
+     */
     private void setInitialPIDValues(int[] pidValues) {
         this.pSlider.setValue(pidValues[0]);
         this.iSlider.setValue(pidValues[1]);
@@ -1138,6 +1145,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.controller.setPidParams(this.initPidValues);
     }
     
+    /**
+     * Overrided method for Observer. Method used for observer pattern.
+     * Fetches updated data or video and calls specified update function.
+     * 
+     * @param o Observable object (ReceiveDataObservable or ReceiveVideoOvservable)
+     */
     @Override
     public void update(Observable o, Object arg) {
         if (o instanceof ReceiveDataObservable){
@@ -1158,6 +1171,14 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         }
     }
     
+    /**
+     * Handels incoming data and updated GUI with value or No object found if 
+     * value is outside limits.
+     * 
+     * @param distance Int distance from object
+     * @param eAx float ErrorAngle in X-direction
+     * @param eAy float ErrorAngle in Y-direction
+     */
     public void handleIncomingData(int distance, float eAx, float eAy){
             
            if (eAx == 255 || eAx == -255){
@@ -1177,6 +1198,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
                this.distanceLabel.setText("" + distance);
            }
     }
+    
+    /**
+     * Handels incoming video frames and paints video graphic panel
+     * with the bufferedImage. If system is off panel will be repainted.
+     * 
+     * @param buff BufferedImage 
+     */
     public void handleIncomingVideo(BufferedImage buff){
         if(buff != null && systemOn){
             Graphics g=this.cameraPanel.getGraphics();

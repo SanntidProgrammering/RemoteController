@@ -183,6 +183,11 @@ public class GUIController extends TimerTask {
         this.datahandler.setSensitivity((byte) sens);
     }
 
+    /**
+     * Sets the PID parameters in the datahandler.
+     * 
+     * @param pidParams Int[] PID parameters [P, I, D, feed fwd, ramp rate]
+     */
     void setPidParams(int[] pidParams) {
         this.datahandler.setPidParams(pidParams);
     }

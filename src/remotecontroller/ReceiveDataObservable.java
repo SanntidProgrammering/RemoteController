@@ -12,8 +12,9 @@ import java.util.Observer;
 
 
 /**
- *
- * @author lars-harald
+ * Observable object for object data (distance and error angels)
+ * 
+ * @author Magnus Gribbestad
  */
 public class ReceiveDataObservable extends Observable{
 
@@ -22,7 +23,6 @@ public class ReceiveDataObservable extends Observable{
     private float errorAngleY;
     
     public ReceiveDataObservable() {
-        //super();
     }
     
     /**
@@ -82,7 +82,6 @@ public class ReceiveDataObservable extends Observable{
     
     
     public boolean shouldChildOfThisRun(){
-        //return datahandler.shouldThreadRun();
         return true;
     }
     

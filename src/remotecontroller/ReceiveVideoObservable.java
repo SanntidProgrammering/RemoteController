@@ -10,18 +10,28 @@ import java.util.Observable;
 import java.util.Observer;
 
 /**
- *
- * @author mgrib
+ * Observable object for video frames
+ * 
+ * @author Magnus Gribbestad
  */
 public class ReceiveVideoObservable extends Observable {
     private BufferedImage buff;
     
-
+    /**
+     * Overrided method for adding observer.
+     * 
+     * @param o Observer
+     */
     @Override
     public synchronized void addObserver(Observer o) {
         super.addObserver(o); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * Sets the bufferedImage field and notifies observers.
+     * 
+     * @param buff BufferdImage
+     */
     public void setFrame(BufferedImage buff) {
             this.buff = buff;
             
@@ -29,9 +39,12 @@ public class ReceiveVideoObservable extends Observable {
             notifyObservers();
     }
 
-
+    /**
+     * Return the last updated BufferdImage
+     * 
+     * @return BufferedImage 
+     */
     public BufferedImage getBuff(){
-    
         return this.buff;
     }
 

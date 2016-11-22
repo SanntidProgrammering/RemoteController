@@ -25,31 +25,30 @@ public class Main {
 
     public static void main(String[] args){
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        //Datahandler datahandler = new Datahandler();
-        //datahandler.setThreadStatus(true);
-        
-        //GUIController controller = new GUIController();
 
         UDPreceiver udpReceiver;
         ReceiveDataObservable receiveDataObservable;
         ReceiveVideoObservable receiveVideoObservable;
         VideoReceiver videoReceiver;
         
-
-        // create the subject  of receiving data to GUI
+        // Create the subject  of receiving data to GUI
         receiveDataObservable = new ReceiveDataObservable();
+        // Create the object of receiving video to GUI
         receiveVideoObservable = new ReceiveVideoObservable();
-        // create the UDP thread, puts data into subject
+        // Create the UDP thread, puts data into subject
         udpReceiver = new UDPreceiver(receiveDataObservable,RECEIVEPORT);
         udpReceiver.start();
+        // Creates the UDP receiver for video streaming
         videoReceiver = new VideoReceiver(receiveVideoObservable, VIDEOPORT);
         videoReceiver.start();
 
-        GUI gui = new GUI();
-        gui.setVisible(true);
+       
+        GUI gui = new GUI();  // Creates the GUI
+        gui.setVisible(true); // Sets the GUI visible
         
-        receiveDataObservable.addObserver(gui);
-        receiveVideoObservable.addObserver(gui);
+        // Using observer pattern for updating GUI
+        receiveDataObservable.addObserver(gui);  // Adds the GUI as observer
+        receiveVideoObservable.addObserver(gui); // Adds the GUI as observer
 
 
     }

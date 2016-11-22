@@ -19,8 +19,9 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 
 /**
- *
- * @author mgrib
+ * Videoreceiver class is a UDP receiver for video frames. Used for streaming.
+ * 
+ * @author Magnus Gribbestad
  */
 public class VideoReceiver implements Runnable {
     
@@ -30,17 +31,30 @@ public class VideoReceiver implements Runnable {
     private ReceiveVideoObservable observable;
     private Thread t;
     
+    /**
+     * Constructor for creating VideoReceiver objeckt
+     * 
+     * @param observable ReceiveVideoObservable object
+     * @param port Int Receiving port
+     */
     public VideoReceiver(ReceiveVideoObservable observable, int port){
         this.observable = observable;
         this.videoPort = port;
     }
     
+    /**
+     * Start a thread
+     */
     public void start(){
         t = new Thread(this,"VideoReceiverThread");
         t.start();
     }
     
-    
+    /**
+     * Runs the thread.
+     * Waiting for receiving frame, makes input stream to buffered image.
+     * Sets the frame in the observable object.
+     */
     @Override
     public void run()
     {
@@ -54,12 +68,10 @@ public class VideoReceiver implements Runnable {
             {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
-                //this.scale(receiveData, 640, 480);
                 ByteArrayInputStream in = new ByteArrayInputStream(receiveData);
-                //BufferedImage img = ImageIO.read(in);
                 scaledImage = ImageIO.read(in);
                 if(this.observable != null){
-                this.observable.setFrame(this.getImage());
+                    this.observable.setFrame(this.getImage());
                 }
             }
         } catch (SocketException ex) {
@@ -69,40 +81,11 @@ public class VideoReceiver implements Runnable {
         }
     }
   
-    /*
-    public void scale(byte[] fileData, int width, int height) {
-    	ByteArrayInputStream in = new ByteArrayInputStream(fileData);
-        
-    	try {
-    		BufferedImage img = ImageIO.read(in);
-                
-    		if(height == 0) {
-    			height = (width * img.getHeight())/ img.getWidth(); 
-    		}
-    		if(width == 0) {
-    			width = (height * img.getWidth())/ img.getHeight();
-    		}
-                
-                Image toolkitImage = img.getScaledInstance(width, height, 
-                Image.SCALE_SMOOTH);
-
-                 // width and height are of the toolkit image
-                BufferedImage newImage = new BufferedImage(width, height, 
-                BufferedImage.TYPE_INT_ARGB);
-                Graphics g = newImage.getGraphics();
-                g.drawImage(toolkitImage, 0, 0, null);
-                g.dispose();
-                
-                scaledImage = newImage;
-
-
-    		
-    	} catch (IOException e) {
-    		
-    	}
-    }
-*/
-    
+    /**
+     * Returns the BufferedImage from the scaledImage field.
+     * 
+     * @return BufferedImage
+     */
     public BufferedImage getImage()
     {
         return scaledImage;

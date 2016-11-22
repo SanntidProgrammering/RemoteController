@@ -827,7 +827,6 @@
                     </Component>
                     <Component class="javax.swing.JSlider" name="sensSlider">
                       <Events>
-                        <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="sensSliderStateChanged"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="sensSliderMouseReleased"/>
                       </Events>
                     </Component>
@@ -847,7 +846,6 @@
                         <Property name="text" type="java.lang.String" value="Change mode"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="modeToggleButtonMouseClicked"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="modeToggleButtonMouseReleased"/>
                       </Events>
                     </Component>
@@ -859,7 +857,6 @@
                         <Property name="text" type="java.lang.String" value="Start system"/>
                       </Properties>
                       <Events>
-                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseClicked"/>
                         <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseReleased"/>
                       </Events>
                     </Component>
