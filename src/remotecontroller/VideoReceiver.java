@@ -69,7 +69,7 @@ public class VideoReceiver implements Runnable {
         }
     }
   
-    
+    /*
     public void scale(byte[] fileData, int width, int height) {
     	ByteArrayInputStream in = new ByteArrayInputStream(fileData);
         
@@ -101,6 +101,7 @@ public class VideoReceiver implements Runnable {
     		
     	}
     }
+*/
     
     public BufferedImage getImage()
     {

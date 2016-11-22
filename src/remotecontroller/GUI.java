@@ -25,8 +25,8 @@ import javax.swing.JFrame;
  */
 public class GUI extends javax.swing.JFrame implements KeyListener, Observer { // implement Observer
 
-    private CameraThread myThread;
-    private Thread t; 
+    //private CameraThread myThread;
+    //private Thread t; 
     private GUIController controller;
     private boolean fwd,left,rev,right,leftServo,rightServo;
     private int sens;
@@ -1081,32 +1081,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.cameraPanel.setBackground(color);
         this.jPanel4.setBackground(color);
     }
-    
-    private void cameraSetup(){
-        if (myThread == null){
-           myThread = new CameraThread(cameraPanel);
-           t = new Thread(myThread);
-           t.setDaemon(true);
-           myThread.setRunnable(true);
-           t.start();
-        }
-        else{
-            myThread.setRunnable(true);
-        }
-    }
-    
-        private void stopCamera(){
-           if(myThread != null){
-              myThread.setRunnable(false);
-           }            
-        }
         
-        private  void setupDebugger(){
-            this.debuggerFrame =  new JFrame();
-            this.debuggerFrame.setSize(550, 275);
-            this.debuggerFrame.add(PIDpanel);
+    private  void setupDebugger(){
+        this.debuggerFrame =  new JFrame();
+        this.debuggerFrame.setSize(550, 275);
+        this.debuggerFrame.add(PIDpanel);
             
-            this.setInitialPIDValues(this.initPidValues);
+        this.setInitialPIDValues(this.initPidValues);
         }
 
     private void setInitialPIDValues(int[] pidValues) {
@@ -1160,9 +1141,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     }
     public void handleIncomingVideo(BufferedImage buff){
         if(buff != null && systemOn){
-                    Graphics g=this.cameraPanel.getGraphics();
-                    g.drawImage(buff, 0, 0, this.cameraPanel.getWidth(), this.cameraPanel.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null);
-                }
+            Graphics g=this.cameraPanel.getGraphics();
+            g.drawImage(buff, 0, 0, this.cameraPanel.getWidth(), this.cameraPanel.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null);
+        }
+        else if (this.systemOn == false){
+            this.cameraPanel.repaint();
+        }
     }
     
         
