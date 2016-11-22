@@ -845,6 +845,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="modeToggleButtonMouseClicked"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="modeToggleButtonMouseReleased"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JToggleButton" name="startToggle">
@@ -856,6 +857,7 @@
                       </Properties>
                       <Events>
                         <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseClicked"/>
+                        <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startToggleMouseReleased"/>
                       </Events>
                     </Component>
                     <Component class="javax.swing.JRadioButton" name="radioAuto">

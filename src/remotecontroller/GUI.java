@@ -546,6 +546,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 modeToggleButtonMouseClicked(evt);
             }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                modeToggleButtonMouseReleased(evt);
+            }
         });
 
         startToggle.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
@@ -553,6 +556,9 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         startToggle.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 startToggleMouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                startToggleMouseReleased(evt);
             }
         });
 
@@ -703,6 +709,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     
     
     private void startToggleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseClicked
+        /*
         if(this.startToggle.isSelected()){
             this.controller.setStart(true);
             this.startToggle.setText("Stop system");
@@ -717,9 +724,11 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             this.systemOn = false;
             //this.stopCamera();
         }
+        */
     }//GEN-LAST:event_startToggleMouseClicked
 
     private void modeToggleButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseClicked
+        /*
         if(this.modeToggleButton.isSelected()){
             this.controller.setAuto(true);
             this.radioAuto.setSelected(true);
@@ -735,6 +744,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
 
         }
+        */
     }//GEN-LAST:event_modeToggleButtonMouseClicked
 
     private void sensSliderMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_sensSliderMouseReleased
@@ -851,6 +861,41 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.controller.setPidParams(pidParams);
 
     }//GEN-LAST:event_pidButtonMouseReleased
+
+    private void startToggleMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseReleased
+        if(this.startToggle.isSelected()){
+            this.controller.setStart(true);
+            this.startToggle.setText("Stop system");
+            this.powerIcon.setEnabled(true);
+            this.systemOn = true;
+            //this.cameraSetup();
+        }
+        else{
+            this.controller.setStart(false);
+            this.startToggle.setText("Start system");
+            this.powerIcon.setEnabled(false);
+            this.systemOn = false;
+            //this.stopCamera();
+        }
+    }//GEN-LAST:event_startToggleMouseReleased
+
+    private void modeToggleButtonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_modeToggleButtonMouseReleased
+        if(this.modeToggleButton.isSelected()){
+            this.controller.setAuto(true);
+            this.radioAuto.setSelected(true);
+            this.radioMan.setSelected(false);
+            slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
+            slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
+        }
+        else{
+            this.controller.setAuto(false);
+            this.radioAuto.setSelected(false);
+            this.radioMan.setSelected(true);
+            slideAuto.setIcon(new javax.swing.ImageIcon(getClass().getResource("of_slide.png")));
+            slideMan.setIcon(new javax.swing.ImageIcon(getClass().getResource("on_slide.png")));
+
+        }
+    }//GEN-LAST:event_modeToggleButtonMouseReleased
 
     
       private void leftServoButtonKeyReleased(java.awt.event.KeyEvent evt) {                                            
