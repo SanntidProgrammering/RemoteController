@@ -27,11 +27,19 @@ public class VideoReceiver implements Runnable {
     private DatagramSocket serverSocket;
     private BufferedImage scaledImage = null;
     private int videoPort;
+    private ReceiveVideoObservable observable;
+    private Thread t;
     
-    public VideoReceiver()
-    {
-        this.videoPort = 8765;
+    public VideoReceiver(ReceiveVideoObservable observable, int port){
+        this.observable = observable;
+        this.videoPort = port;
     }
+    
+    public void start(){
+        t = new Thread(this,"VideoReceiverThread");
+        t.start();
+    }
+    
     
     @Override
     public void run()
@@ -47,7 +55,9 @@ public class VideoReceiver implements Runnable {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
                 this.scale(receiveData, 640, 480);
-
+                if(this.observable != null){
+                this.observable.setFrame(this.getImage());
+                }
             }
         } catch (SocketException ex) {
             Logger.getLogger(UDPreceiver.class.getName()).log(Level.SEVERE, null, ex);
@@ -55,34 +65,8 @@ public class VideoReceiver implements Runnable {
             Logger.getLogger(UDPreceiver.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+  
     
-    /**
-     * Saves the Image
-     * 
-     * @param data Byte array
-     */
-    private void saveImage(byte[] data)
-    {
-        try {
-        FileOutputStream fos = new FileOutputStream("image.bmp");
-            try {
-                fos.write(data);
-            }
-            finally {
-                fos.close();
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(UDPreceiver.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    /**
-     * Scales the image
-     * 
-     * @param fileData byte array (Image data)
-     * @param width Integer width of the image
-     * @param height Integer height of the image
-     */
     public void scale(byte[] fileData, int width, int height) {
     	ByteArrayInputStream in = new ByteArrayInputStream(fileData);
         
@@ -114,11 +98,6 @@ public class VideoReceiver implements Runnable {
     	}
     }
     
-    /**
-     * Returns the buffered image
-     * 
-     * @return BufferedImage Scaled and formatted image
-     */
     public BufferedImage getImage()
     {
         return scaledImage;

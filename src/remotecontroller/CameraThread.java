@@ -38,7 +38,7 @@ class CameraThread implements Runnable
     
     public CameraThread(JPanel videoPanel){
     this.videoPanel = videoPanel;
-    receiver = new VideoReceiver();
+    //receiver = new VideoReceiver();
     stream = new Thread(receiver);
     stream.start();      
     }

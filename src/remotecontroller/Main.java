@@ -15,9 +15,11 @@ import org.opencv.core.Core;
  */
 public class Main {
 
-    static final String IPADDRESS ="192.168.0.101"; //"10.16.4.27"; //"192.168.0.103";  //Fugl"158.38.199.58";  // Jørg"10.16.5.58";
+    static final String IPADDRESS ="192.168.0.101"; //"192.168.0.101"; //"10.16.4.27"; //"192.168.0.103";  //Fugl"158.38.199.58";  // Jørg"10.16.5.58";
     static final int RECEIVEPORT = 9877;
-    static final int SENDPORT = 9876;
+    static final int SENDPORT = 9876; //9876
+    static final int VIDEOPORT = 8765;
+    //static SendEventState enumStateEvent = SendEventState.FALSE;
 
 
 
@@ -29,19 +31,28 @@ public class Main {
         GUIController controller = new GUIController(datahandler);
 
         UDPreceiver udpReceiver;
-        ReceiveDataObservable receiveDataObserver;
+        ReceiveDataObservable receiveDataObservable;
+        ReceiveVideoObservable receiveVideoObservable;
+        VideoReceiver videoReceiver;
+        
 
         // create the subject  of receiving data to GUI
-        receiveDataObserver = new ReceiveDataObservable();
+        receiveDataObservable = new ReceiveDataObservable();
+        receiveVideoObservable = new ReceiveVideoObservable();
         // create the UDP thread, puts data into subject
-        udpReceiver = new UDPreceiver(receiveDataObserver,RECEIVEPORT);
+        udpReceiver = new UDPreceiver(receiveDataObservable,RECEIVEPORT);
         udpReceiver.start();
+        videoReceiver = new VideoReceiver(receiveVideoObservable, VIDEOPORT);
+        videoReceiver.start();
 
         GUI gui = new GUI(controller);
         gui.setVisible(true);
         
-        receiveDataObserver.addObserver(gui);
+        receiveDataObservable.addObserver(gui);
+        receiveVideoObservable.addObserver(gui);
 
 
     }
+
+
 }

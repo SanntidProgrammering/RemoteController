@@ -6,9 +6,11 @@
 package remotecontroller;
 
 import java.awt.Color;
+import java.awt.Graphics;
 //import java.awt.GraphicsEnvironment;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 //import org.opencv.core.Core;
@@ -31,10 +33,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private Timer fTimer;
     private JFrame debuggerFrame;
     private int[] initPidValues;
+    private boolean systemOn;
  
     public GUI(GUIController controller) {
         initComponents();
         this.initPidValues = new int[] {10, 10, 0, 0, 100};
+        this.systemOn = false;
         //this.initPidValues = ;
         this.controller = controller;
         
@@ -695,35 +699,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         pack();
     }// </editor-fold>//GEN-END:initComponents
     
-    /**
-     * Overrided mathod from observer. Updated the fields of the GUI.
-     * 
-     * @param o Observable object
-     * @param arg Arguments..
-     */
-    @Override
-    public void update(Observable o, Object arg) {
-        if (o instanceof ReceiveDataObservable){
-           ReceiveDataObservable receive = (ReceiveDataObservable) o;
-           int distance = receive.getDistance();
-           float eAx = receive.getErrorAngleX()/100;
-           float eAy = receive.getErrorAngleY()/100;
-           
-           this.distanceLabel.setText("" + distance);
-           if (eAx == 255 || eAx == -255){
-               this.xCoordLabel.setText("No object found");
-               this.yCoordLabel.setText("No object found");
-           }
-           else{
-               this.xCoordLabel.setText("" + eAx);
-               this.yCoordLabel.setText("" + eAy);
-               System.out.println("Fields updated");
-           }  
-        }
-        else{
-        System.out.println("Not instance of DH");
-        }
-    }
+    
     
     
     private void startToggleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_startToggleMouseClicked
@@ -731,13 +707,15 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
             this.controller.setStart(true);
             this.startToggle.setText("Stop system");
             this.powerIcon.setEnabled(true);
-            this.cameraSetup();
+            this.systemOn = true;
+            //this.cameraSetup();
         }
         else{
             this.controller.setStart(false);
             this.startToggle.setText("Start system");
             this.powerIcon.setEnabled(false);
-            this.stopCamera();
+            this.systemOn = false;
+            //this.stopCamera();
         }
     }//GEN-LAST:event_startToggleMouseClicked
 
@@ -1137,6 +1115,52 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.dSlider.setValue(pidValues[2]);
         this.ffSlider.setValue(pidValues[3]);
         this.ssSlider.setValue(pidValues[4]);
+    }
+    
+    @Override
+    public void update(Observable o, Object arg) {
+        if (o instanceof ReceiveDataObservable){
+           ReceiveDataObservable receive = (ReceiveDataObservable) o;
+           int distance = receive.getDistance();
+           float eAx = receive.getErrorAngleX()/100;
+           float eAy = receive.getErrorAngleY()/100;
+           
+           this.handleIncomingData(distance, eAx, eAy);  
+        }
+        else if (o instanceof ReceiveVideoObservable){
+            BufferedImage buff = ((ReceiveVideoObservable) o).getBuff();
+            this.handleIncomingVideo(buff);
+            
+        }
+        else{
+        System.out.println("Not instance of DH");
+        }
+    }
+    
+    public void handleIncomingData(int distance, float eAx, float eAy){
+            
+           if (eAx == 255 || eAx == -255){
+               this.xCoordLabel.setText("No object found");
+               this.yCoordLabel.setText("No object found");
+           }
+           else{
+               this.xCoordLabel.setText("" + eAx);
+               this.yCoordLabel.setText("" + eAy);
+               System.out.println("Fields updated");
+           }
+           
+           if (distance >= 30){
+               this.distanceLabel.setText("No object found");
+           }
+           else{
+               this.distanceLabel.setText("" + distance);
+           }
+    }
+    public void handleIncomingVideo(BufferedImage buff){
+        if(buff != null && systemOn){
+                    Graphics g=this.cameraPanel.getGraphics();
+                    g.drawImage(buff, 0, 0, this.cameraPanel.getWidth(), this.cameraPanel.getHeight() -150 , 0, 0, buff.getWidth(), buff.getHeight(), null);
+                }
     }
     
         
