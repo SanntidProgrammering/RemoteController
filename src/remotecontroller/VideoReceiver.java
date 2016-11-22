@@ -54,7 +54,10 @@ public class VideoReceiver implements Runnable {
             {
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 serverSocket.receive(receivePacket);
-                this.scale(receiveData, 640, 480);
+                //this.scale(receiveData, 640, 480);
+                ByteArrayInputStream in = new ByteArrayInputStream(receiveData);
+                //BufferedImage img = ImageIO.read(in);
+                scaledImage = ImageIO.read(in);
                 if(this.observable != null){
                 this.observable.setFrame(this.getImage());
                 }
@@ -72,6 +75,7 @@ public class VideoReceiver implements Runnable {
         
     	try {
     		BufferedImage img = ImageIO.read(in);
+                
     		if(height == 0) {
     			height = (width * img.getHeight())/ img.getWidth(); 
     		}

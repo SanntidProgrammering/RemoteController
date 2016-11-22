@@ -37,7 +37,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
  
     public GUI(GUIController controller) {
         initComponents();
-        this.initPidValues = new int[] {10, 10, 0, 0, 100};
+        this.initPidValues = new int[] {13, 3, 8, 0, 100};
         this.systemOn = false;
         //this.initPidValues = ;
         this.controller = controller;
@@ -1115,6 +1115,8 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.dSlider.setValue(pidValues[2]);
         this.ffSlider.setValue(pidValues[3]);
         this.ssSlider.setValue(pidValues[4]);
+        
+        this.controller.setPidParams(this.initPidValues);
     }
     
     @Override
