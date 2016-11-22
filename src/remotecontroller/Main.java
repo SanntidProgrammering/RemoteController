@@ -25,10 +25,10 @@ public class Main {
 
     public static void main(String[] args){
         System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-        Datahandler datahandler = new Datahandler();
+        //Datahandler datahandler = new Datahandler();
         //datahandler.setThreadStatus(true);
         
-        GUIController controller = new GUIController(datahandler);
+        //GUIController controller = new GUIController();
 
         UDPreceiver udpReceiver;
         ReceiveDataObservable receiveDataObservable;
@@ -45,7 +45,7 @@ public class Main {
         videoReceiver = new VideoReceiver(receiveVideoObservable, VIDEOPORT);
         videoReceiver.start();
 
-        GUI gui = new GUI(controller);
+        GUI gui = new GUI();
         gui.setVisible(true);
         
         receiveDataObservable.addObserver(gui);

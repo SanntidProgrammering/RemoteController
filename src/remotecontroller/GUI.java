@@ -35,12 +35,13 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
     private int[] initPidValues;
     private boolean systemOn;
  
-    public GUI(GUIController controller) {
+    public GUI() {
         initComponents();
         this.initPidValues = new int[] {13, 3, 8, 0, 100};
         this.systemOn = false;
         //this.initPidValues = ;
-        this.controller = controller;
+        //this.controller = controller;
+        this.controller = new GUIController();
         
         // Creates a new timer. Used for requesting data from arduino.
         this.fTimer = new Timer();
@@ -50,8 +51,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.setupFocusable(); 
         // Set the sens slider boundaries and initial values.
         this.setupSensSlider();
-        // Sets inital states/modes. System off and manual mode as default.
-        this.setInitialStates();
+
         
         this.setup();
         this.setupDebugger();
@@ -1101,11 +1101,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
         this.sensPercentLabel.setText(""+this.sens+"%");
         
     }
-    
-    // Sets the inital modes/states of the system.
-    public void setInitialStates(){        
-        //this.radioMan.setSelected(true);    
-    }
+
     
     private void colorSetup(){
         Color color2 = Color.GRAY;

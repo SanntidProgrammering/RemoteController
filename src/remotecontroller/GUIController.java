@@ -26,9 +26,10 @@ public class GUIController extends TimerTask {
      * 
      * @param datahandler Sets the datahandler
      */
-    public GUIController(Datahandler datahandler){   
+    public GUIController(){   
 
-        this.datahandler = datahandler;    
+        //this.datahandler = datahandler; 
+        this.datahandler = new Datahandler();
     }
     
     
