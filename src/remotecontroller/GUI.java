@@ -707,8 +707,12 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
      * Sets the fwd command to false
      */
     private void fwdButtonKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_fwdButtonKeyReleased
+        long timestamp = System.nanoTime();
         this.fwdButton.setEnabled(false);
+        this.controller.setTimeStamp(timestamp);
         this.controller.setFwd(false);
+        System.out.println(timestamp);
+        
         this.fwd = false;
     }//GEN-LAST:event_fwdButtonKeyReleased
 

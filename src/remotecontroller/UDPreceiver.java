@@ -50,6 +50,9 @@ public class UDPreceiver implements Runnable {
                 while(observer.shouldChildOfThisRun()){
                     receiveSocket.receive(receivePacket);
                     observer.setData(receivePacket.getData());
+                    if(receivePacket.getData()[5] == -99){
+                        System.out.println(System.nanoTime());
+                    }
                 }
             } catch (IOException e) {
                 System.out.println(e);

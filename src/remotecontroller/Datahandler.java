@@ -28,6 +28,8 @@ Byte 5:[reservert]
 public class Datahandler {
 
     private byte[] dataFromGui;
+    private long timestamp;
+    private boolean trackfeedback;
 
 
     public Datahandler() {
@@ -65,6 +67,21 @@ public class Datahandler {
 
     //****************************************************************
     //************** FROM GUI METHODS*********************************
+    public void setATimeStamp(long time){
+        this.timestamp = time;
+        this.trackfeedback = true;
+        
+    }
+    public boolean isTrackFeedbackActive(){
+        return this.trackfeedback;
+    }
+    
+    
+    
+    
+    
+    
+    
     /**
      * Returns the byte array consisting of all the parameters coming from 
      * the GUI. (FWD button state, Syste state, sensitivit and so on). Sending
@@ -219,6 +236,10 @@ public class Datahandler {
     public void incrementRequestCode() {
         dataFromGui[5]++;
         this.sendData();
+    }
+    
+    public void setRequestCode(byte i){
+        dataFromGui[5] = i;
     }
 
     /**
