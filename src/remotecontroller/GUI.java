@@ -455,10 +455,10 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
 
         jLabel3.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
         jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel3.setText("Hit:");
+        jLabel3.setText("Catch:");
 
         jLabel4.setFont(new java.awt.Font("Swis721 LtEx BT", 0, 13)); // NOI18N
-        jLabel4.setText("Catch:");
+        jLabel4.setText("Hit:");
 
         rServoWarn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/remotecontroller/icons/warning_icon.png"))); // NOI18N
 
