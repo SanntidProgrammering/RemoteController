@@ -1180,7 +1180,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
      * @param eAy float ErrorAngle in Y-direction
      */
     public void handleIncomingData(int distance, float eAx, float eAy){
-            
+           
            if (eAx == 255 || eAx == -255){
                this.xCoordLabel.setText("No object found");
                this.yCoordLabel.setText("No object found");
@@ -1188,7 +1188,7 @@ public class GUI extends javax.swing.JFrame implements KeyListener, Observer { /
            else{
                this.xCoordLabel.setText("" + eAx);
                this.yCoordLabel.setText("" + eAy);
-               System.out.println("Fields updated");
+               //System.out.println("Fields updated");
            }
            
            if (distance >= 30){
